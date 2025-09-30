@@ -19,13 +19,13 @@ export const PredictionCard3 = ({ onLock, isLocked, onUnlock, onPulse }: Predict
   };
 
   return (
-    <div className="glass-intense elevation-8 rounded-3xl p-8 min-w-[320px] flex-1">
-      <div className="flex items-start justify-between mb-6">
-        <h3 className="font-display font-semibold text-xl">Pulse Moment</h3>
+    <div className="backdrop-blur-2xl bg-white/[0.03] border border-white/[0.08] rounded-3xl p-8 min-w-[320px] flex-1 hover:bg-white/[0.04] transition-colors">
+      <div className="flex items-start justify-between mb-8">
+        <h3 className="font-display font-semibold text-xl tracking-tight">Pulse Moment</h3>
         {isLocked && (
-          <div className="flex items-center gap-2 text-primary text-sm">
-            <Lock className="w-4 h-4" />
-            <span>LOCKED IN</span>
+          <div className="flex items-center gap-1.5 text-primary text-xs font-medium uppercase tracking-wider">
+            <Lock className="w-3.5 h-3.5" />
+            <span>Locked</span>
           </div>
         )}
       </div>

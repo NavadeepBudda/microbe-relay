@@ -37,32 +37,32 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
       />
 
       {/* Drawer */}
-      <div className="fixed inset-x-0 bottom-0 z-50 max-h-[90vh] animate-slide-up">
-        <div className="container mx-auto px-4 pb-8">
-          <div className="glass-intense elevation-16 rounded-t-3xl p-8 max-w-7xl mx-auto">
+      <div className="fixed inset-x-0 bottom-0 z-50 max-h-[92vh] animate-slide-up">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 pb-8">
+          <div className="backdrop-blur-2xl bg-background/95 border border-border/10 rounded-t-[32px] p-10 shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="font-display font-bold text-3xl mb-2">
+            <div className="flex items-start justify-between mb-10">
+              <div className="max-w-2xl">
+                <h2 className="font-display font-bold text-4xl mb-3 tracking-tight">
                   Make your predictions
                 </h2>
-                <p className="text-muted-foreground">
-                  We'll check back after the dive. Lock in all three cards to continue.
+                <p className="text-muted-foreground text-lg">
+                  Lock in all three before diving. We'll revisit these after the lab.
                 </p>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="hover:bg-white/10"
+                className="hover:bg-white/5 rounded-full h-10 w-10"
                 aria-label="Close drawer"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </Button>
             </div>
 
             {/* Cards */}
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-8">
+            <div className="grid lg:grid-cols-3 gap-6 mb-10">
               <PredictionCard1
                 onLock={setCard1Data}
                 isLocked={!!card1Data}
@@ -82,12 +82,12 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
             </div>
 
             {/* Progress */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${card1Data ? 'bg-primary' : 'bg-muted'}`} />
-                <div className={`w-2 h-2 rounded-full ${card2Data ? 'bg-primary' : 'bg-muted'}`} />
-                <div className={`w-2 h-2 rounded-full ${card3Data ? 'bg-primary' : 'bg-muted'}`} />
-                <span className="text-sm text-muted-foreground ml-2">
+            <div className="flex items-center justify-between pt-6 border-t border-border/10">
+              <div className="flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full transition-colors ${card1Data ? 'bg-primary' : 'bg-muted'}`} />
+                <div className={`w-2 h-2 rounded-full transition-colors ${card2Data ? 'bg-primary' : 'bg-muted'}`} />
+                <div className={`w-2 h-2 rounded-full transition-colors ${card3Data ? 'bg-primary' : 'bg-muted'}`} />
+                <span className="text-sm text-muted-foreground ml-1 font-medium">
                   {[card1Data, card2Data, card3Data].filter(Boolean).length} of 3 locked
                 </span>
               </div>
@@ -97,7 +97,7 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
                   <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                     ✓
                   </div>
-                  Predictions saved
+                  All predictions saved
                 </div>
               )}
             </div>

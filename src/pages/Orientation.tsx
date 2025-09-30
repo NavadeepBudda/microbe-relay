@@ -46,7 +46,7 @@ const Orientation = () => {
       />
 
       {/* Hero Ocean */}
-      <section className="relative min-h-screen overflow-hidden pt-16">
+      <section className="relative min-h-screen overflow-hidden pt-14">
         {/* Ocean Background with Parallax */}
         <div className="absolute inset-0 animate-fade-in">
           <img
@@ -100,57 +100,48 @@ const Orientation = () => {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-10 container mx-auto px-4 py-24">
-          {/* Hero Card */}
-          <div
-            className="glass-intense elevation-16 rounded-3xl p-12 max-w-2xl mb-16 animate-fade-in"
-            style={{
-              transform: `translate(${mousePos.x * 0.1}px, ${mousePos.y * 0.1}px)`,
-              transition: "transform 0.5s ease-out",
-              animationDelay: "200ms",
-            }}
-          >
-            <h1 className="font-display font-bold text-5xl mb-4">
-              Orientation Bay
-            </h1>
-            <p className="text-xl text-foreground/80 mb-8">
-              Make your best guesses before we dive.
-            </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+          {/* Hero Content - Apple-style centered */}
+          <div className="flex flex-col items-center justify-center min-h-[85vh] text-center">
+            <div
+              className="max-w-4xl animate-fade-in"
+              style={{
+                transform: `translate(${mousePos.x * 0.05}px, ${mousePos.y * 0.05}px)`,
+                transition: "transform 0.5s ease-out",
+                animationDelay: "200ms",
+              }}
+            >
+              <h1 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl mb-6 tracking-tight bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
+                Orientation Bay
+              </h1>
+              <p className="text-xl sm:text-2xl text-foreground/70 mb-12 font-normal leading-relaxed max-w-2xl mx-auto">
+                Make your best guesses before we dive into the deep.
+              </p>
 
-            {/* Micro Hint Row */}
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Droplets className="w-4 h-4" />
-                <span>Food knob</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <TestTube className="w-4 h-4" />
-                <span>Oxygen knob</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Gauge className="w-4 h-4" />
-                <span>Relay pipeline</span>
+              {/* Status Indicators */}
+              <div className="flex items-center justify-center gap-8 text-sm text-muted-foreground mb-16">
+                <div className="flex items-center gap-2">
+                  <div className={`w-1.5 h-1.5 rounded-full ${allChipsRead ? 'bg-primary' : 'bg-muted'}`} />
+                  <span className={allChipsRead ? 'text-foreground' : ''}>Learn concepts</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className={`w-1.5 h-1.5 rounded-full ${isPretestComplete ? 'bg-primary' : 'bg-muted'}`} />
+                  <span className={isPretestComplete ? 'text-foreground' : ''}>Make predictions</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Glossary Section */}
-          <div className="max-w-4xl mb-16">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-display font-semibold text-2xl">
-                Learn in 30 seconds
+          {/* Glossary Section - Further down */}
+          <div className="max-w-6xl mx-auto pb-32">
+            <div className="text-center mb-12">
+              <h2 className="font-display font-semibold text-3xl sm:text-4xl mb-3 tracking-tight">
+                Three core concepts
               </h2>
-              {allChipsRead && (
-                <div className="text-primary text-sm font-semibold flex items-center gap-2 animate-fade-in">
-                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-xs">
-                    ✓
-                  </div>
-                  Section 1 complete
-                </div>
-              )}
+              <p className="text-muted-foreground text-lg">Tap each card to learn. Takes 30 seconds.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-6 mb-20">
               <GlossaryChip
                 term="Denitrification"
                 definition="Breathing with nitrogen when oxygen is scarce."
@@ -170,60 +161,62 @@ const Orientation = () => {
                 onFlip={() => handleChipFlip("n2o")}
               />
             </div>
-          </div>
 
-          {/* Pre-test CTA */}
-          {allChipsRead && (
-            <div className="max-w-4xl animate-fade-in">
-              <Button
-                onClick={() => setIsDrawerOpen(true)}
-                className="glass-intense elevation-8 h-16 px-8 text-lg font-display font-semibold hover:bg-white/15 relative overflow-hidden group"
-                disabled={isPretestComplete}
-              >
-                {isPretestComplete ? (
-                  <>
-                    <span>Predictions complete</span>
-                    <div className="ml-2 w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-xs">
-                      ✓
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <span>Open pre-test</span>
-                    <div className="ml-2 w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  </>
-                )}
-              </Button>
-            </div>
-          )}
+            {/* Pre-test CTA - Apple style */}
+            {allChipsRead && (
+              <div className="flex flex-col items-center gap-4 animate-fade-in">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary font-medium mb-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  Ready for predictions
+                </div>
+                <Button
+                  onClick={() => setIsDrawerOpen(true)}
+                  disabled={isPretestComplete}
+                  className="h-14 px-10 text-base font-semibold rounded-full bg-gradient-to-b from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 text-white shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  {isPretestComplete ? (
+                    <span className="flex items-center gap-2">
+                      Predictions complete
+                      <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">
+                        ✓
+                      </div>
+                    </span>
+                  ) : (
+                    <span>Make your predictions</span>
+                  )}
+                </Button>
+                <p className="text-sm text-muted-foreground">Required to continue to the lab</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       {/* CTA Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 glass border-t border-border/50">
-        <div className="container mx-auto px-4 py-6">
+      <div className="fixed bottom-0 left-0 right-0 z-30 backdrop-blur-2xl bg-background/90 border-t border-border/10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-5">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">
-              {!allChipsRead && "Read all glossary chips to continue"}
-              {allChipsRead && !isPretestComplete && "Complete pre-test to unlock lab"}
-              {canEnterLab && "Ready to dive! Enter the lab when you're ready."}
+            <div className="text-sm text-muted-foreground font-medium">
+              {!allChipsRead && "Explore the three concepts above to continue"}
+              {allChipsRead && !isPretestComplete && "Complete your predictions to unlock the lab"}
+              {canEnterLab && "All set. Ready to dive into the lab."}
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-muted-foreground hover:bg-white/10"
+                className="text-muted-foreground hover:text-foreground hover:bg-transparent text-sm font-medium h-9"
               >
-                Skip pre-test (not recommended)
+                Skip
               </Button>
               
               <Button
                 disabled={!canEnterLab}
-                className="h-12 px-8 font-display font-bold text-lg bg-gradient-to-r from-coral-cta to-coral-cta/80 hover:from-coral-cta/90 hover:to-coral-cta/70 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="h-11 px-7 font-semibold text-base rounded-full bg-gradient-to-b from-coral-cta to-coral-cta/90 hover:from-coral-cta/90 hover:to-coral-cta/80 text-white shadow-lg shadow-coral-cta/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 Enter the Lab
-                <ChevronRight className="ml-2 w-5 h-5" />
+                <ChevronRight className="ml-1.5 w-4 h-4" />
               </Button>
             </div>
           </div>
