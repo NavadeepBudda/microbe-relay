@@ -20,42 +20,54 @@ export const PredictionCard1 = ({ onLock, isLocked, onUnlock }: PredictionCard1P
   };
 
   return (
-    <div className="backdrop-blur-2xl bg-white/[0.03] border border-white/[0.08] rounded-3xl p-8 min-w-[320px] flex-1 hover:bg-white/[0.04] transition-colors">
-      <div className="flex items-start justify-between mb-8">
-        <h3 className="font-display font-semibold text-xl tracking-tight">N₂O Guess Meter</h3>
+    <div className="glass-subtle border border-white/20 rounded-2xl p-4 h-full flex flex-col hover:glass-intense transition-all duration-300">
+      
+      {/* Compact Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-display font-bold text-lg tracking-tight">
+          N₂O Response
+        </h3>
         {isLocked && (
-          <div className="flex items-center gap-1.5 text-primary text-xs font-medium uppercase tracking-wider">
-            <Lock className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold">
+            <Lock className="w-3 h-3" />
             <span>Locked</span>
           </div>
         )}
       </div>
 
-      <div className="space-y-6">
-        {/* Food Slider */}
-        <div>
-          <label className="block text-sm text-muted-foreground mb-3">
-            Food Level: {foodLevel}
+      {/* Compact Content */}
+      <div className="flex-1 space-y-4">
+        {/* Question */}
+        <p className="text-sm text-muted-foreground">
+          Set food level and predict <span className="text-primary font-semibold">N₂O output</span>
+        </p>
+
+        {/* Food Control */}
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-foreground/80">
+            Food Level: <span className="text-primary font-bold">{foodLevel}</span>
           </label>
-          <Slider
-            value={[foodLevel]}
-            onValueChange={(v) => !isLocked && setFoodLevel(v[0])}
-            min={0}
-            max={100}
-            step={50}
-            disabled={isLocked}
-            className="w-full"
-            aria-label="Food level slider"
-          />
-          <div className="flex justify-between text-xs text-muted-foreground mt-2">
-            <span>Low</span>
-            <span>High</span>
+          <div className="p-3 bg-background/30 rounded-xl border border-white/10">
+            <Slider
+              value={[foodLevel]}
+              onValueChange={(v) => !isLocked && setFoodLevel(v[0])}
+              min={0}
+              max={100}
+              step={50}
+              disabled={isLocked}
+              className="w-full"
+              aria-label="Food level slider"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground mt-1">
+              <span>Low</span>
+              <span>High</span>
+            </div>
           </div>
         </div>
 
-        {/* N₂O Choice */}
-        <div>
-          <label className="block text-sm text-muted-foreground mb-3">
+        {/* N₂O Selection */}
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-foreground/80">
             Predicted N₂O Level:
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -64,11 +76,11 @@ export const PredictionCard1 = ({ onLock, isLocked, onUnlock }: PredictionCard1P
                 key={level}
                 onClick={() => !isLocked && setN2oGuess(level)}
                 disabled={isLocked}
-                className={`py-3 rounded-xl font-medium text-sm transition-all ${
+                className={`p-2 rounded-xl font-semibold text-xs transition-all duration-300 border ${
                   n2oGuess === level
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-white/5 hover:bg-white/10"
-                } disabled:opacity-50 focus-ring`}
+                    ? "bg-primary text-background border-primary"
+                    : "bg-background/50 border-white/20 hover:bg-primary/20"
+                } disabled:opacity-50`}
                 aria-pressed={n2oGuess === level}
               >
                 {level.charAt(0).toUpperCase() + level.slice(1)}
@@ -77,30 +89,38 @@ export const PredictionCard1 = ({ onLock, isLocked, onUnlock }: PredictionCard1P
           </div>
         </div>
 
-        {/* Action */}
+        {/* Selection Display */}
+        {n2oGuess && (
+          <div className="p-2 rounded-xl bg-primary/10 border border-primary/20 animate-scale-in">
+            <p className="text-xs text-primary font-semibold">
+              Food {foodLevel} → {n2oGuess.toUpperCase()} N₂O
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Compact Action */}
+      <div className="mt-4 pt-4 border-t border-white/10">
         {isLocked ? (
           <Button
             variant="ghost"
             size="sm"
             onClick={onUnlock}
-            className="w-full text-primary hover:bg-primary/10"
+            className="w-full text-primary hover:bg-primary/10 font-semibold border border-primary/20 rounded-xl h-8 text-xs"
           >
-            Change answer
+            Change
           </Button>
         ) : (
           <Button
             onClick={handleLock}
             disabled={!n2oGuess}
-            className="w-full bg-coral-cta hover:bg-coral-cta/90 text-white font-semibold"
+            size="sm"
+            className="w-full bg-gradient-to-r from-coral-cta to-coral-cta/90 text-white font-bold rounded-xl h-8 text-xs disabled:opacity-50 transition-all duration-300 hover:scale-105"
           >
             Lock In
           </Button>
         )}
       </div>
-
-      <p className="text-xs text-muted-foreground mt-4 italic">
-        Pick a Food level and predict the meter.
-      </p>
     </div>
   );
 };

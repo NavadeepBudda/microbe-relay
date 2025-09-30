@@ -25,71 +25,98 @@ export const PredictionCard2 = ({ onLock, isLocked, onUnlock }: PredictionCard2P
   };
 
   return (
-    <div className="backdrop-blur-2xl bg-white/[0.03] border border-white/[0.08] rounded-3xl p-8 min-w-[320px] flex-1 hover:bg-white/[0.04] transition-colors">
-      <div className="flex items-start justify-between mb-8">
-        <h3 className="font-display font-semibold text-xl tracking-tight">Dominant Step</h3>
+    <div className="glass-subtle border border-white/20 rounded-2xl p-4 h-full flex flex-col hover:glass-intense transition-all duration-300">
+      
+      {/* Compact Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-display font-bold text-lg tracking-tight">
+          Pathway Dominance
+        </h3>
         {isLocked && (
-          <div className="flex items-center gap-1.5 text-primary text-xs font-medium uppercase tracking-wider">
-            <Lock className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold">
+            <Lock className="w-3 h-3" />
             <span>Locked</span>
           </div>
         )}
       </div>
 
-      <div className="space-y-6">
-        {/* Relay Nodes */}
-        <div>
-          <label className="block text-sm text-muted-foreground mb-4">
-            Select the step's specialists that dominate in low Food:
+      {/* Compact Content */}
+      <div className="flex-1 space-y-4">
+        {/* Question */}
+        <p className="text-sm text-muted-foreground">
+          Which step <span className="text-primary font-semibold">dominates in low food</span> conditions?
+        </p>
+        
+        {/* Compact Selection */}
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-foreground/80">
+            Select pathway step:
           </label>
-          <div className="flex items-center justify-between gap-2">
+          
+          <div className="space-y-1.5">
             {steps.map((step, idx) => (
-              <div key={step.id} className="flex items-center gap-2">
-                <button
-                  onClick={() => !isLocked && setSelectedStep(step.id)}
-                  disabled={isLocked}
-                  className={`w-14 h-14 rounded-full font-mono text-sm font-semibold transition-all ${
-                    selectedStep === step.id
-                      ? "bg-accent text-accent-foreground ring-4 ring-accent/30"
-                      : "bg-white/5 hover:bg-white/10"
-                  } disabled:opacity-50 focus-ring`}
-                  aria-pressed={selectedStep === step.id}
-                  aria-label={`Select ${step.label}`}
-                >
-                  {step.label}
-                </button>
-                {idx < steps.length - 1 && (
-                  <div className="w-4 h-0.5 bg-muted" />
+              <button
+                key={step.id}
+                onClick={() => !isLocked && setSelectedStep(step.id)}
+                disabled={isLocked}
+                className={`w-full p-2.5 rounded-xl font-mono text-sm font-bold transition-all duration-300 border text-left flex items-center justify-between ${
+                  selectedStep === step.id
+                    ? "bg-primary text-background border-primary"
+                    : "bg-background/50 border-white/20 hover:bg-primary/20"
+                } disabled:opacity-50`}
+                aria-pressed={selectedStep === step.id}
+                aria-label={`Select ${step.label}`}
+              >
+                <div className="flex items-center gap-2">
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                    selectedStep === step.id ? "bg-background/20" : "bg-primary/20"
+                  }`}>
+                    {idx + 1}
+                  </div>
+                  <span>{step.label}</span>
+                </div>
+                {selectedStep === step.id && (
+                  <div className="w-4 h-4 rounded-full bg-background/20 flex items-center justify-center text-xs">
+                    ✓
+                  </div>
                 )}
-              </div>
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Action */}
+        {/* Selection Display */}
+        {selectedStep && (
+          <div className="p-2 rounded-xl bg-primary/10 border border-primary/20 animate-scale-in">
+            <p className="text-xs text-primary font-semibold">
+              Selected: {steps.find(s => s.id === selectedStep)?.label}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Compact Action */}
+      <div className="mt-4 pt-4 border-t border-white/10">
         {isLocked ? (
           <Button
             variant="ghost"
             size="sm"
             onClick={onUnlock}
-            className="w-full text-primary hover:bg-primary/10 mt-6"
+            className="w-full text-primary hover:bg-primary/10 font-semibold border border-primary/20 rounded-xl h-8 text-xs"
           >
-            Change answer
+            Change
           </Button>
         ) : (
           <Button
             onClick={handleLock}
             disabled={!selectedStep}
-            className="w-full bg-coral-cta hover:bg-coral-cta/90 text-white font-semibold mt-6"
+            size="sm"
+            className="w-full bg-gradient-to-r from-coral-cta to-coral-cta/90 text-white font-bold rounded-xl h-8 text-xs disabled:opacity-50 transition-all duration-300 hover:scale-105"
           >
             Lock In
           </Button>
         )}
       </div>
-
-      <p className="text-xs text-muted-foreground mt-4 italic">
-        In low Food, which step's specialists dominate?
-      </p>
     </div>
   );
 };

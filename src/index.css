@@ -79,6 +79,14 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Mobile-first optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent text size adjust on mobile */
+    -webkit-text-size-adjust: 100%;
+    /* Improve touch scrolling */
+    -webkit-overflow-scrolling: touch;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -104,6 +112,14 @@ All colors MUST be HSL.
     box-shadow: var(--elevation-16);
   }
   
+  .glass-subtle {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 16px rgba(10, 26, 42, 0.2);
+  }
+  
   /* Elevation utilities */
   .elevation-4 {
     box-shadow: var(--elevation-4);
@@ -122,6 +138,85 @@ All colors MUST be HSL.
     @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
   
+  /* Apple-quality animations */
+  .animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-fade-in-delayed {
+    animation: fadeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+    opacity: 0;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-slide-up-smooth {
+    animation: slideUpSmooth 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-breathe {
+    animation: breathe 6s ease-in-out infinite;
+  }
+  
+  .animate-float {
+    animation: float 12s ease-in-out infinite;
+  }
+  
+  .animate-pulse-plume {
+    animation: pulsePlume 2.5s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-scale-in-spring {
+    animation: scaleInSpring 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  
+  .animate-reveal-up {
+    animation: revealUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-magnetic-pull {
+    animation: magneticPull 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  /* 3D perspective utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  /* Gradient utilities */
+  .gradient-ocean {
+    background: linear-gradient(135deg, 
+      hsl(var(--abyss)) 0%, 
+      hsl(var(--twilight)) 50%, 
+      hsl(var(--omz-violet) / 0.3) 100%
+    );
+  }
+  
+  .gradient-coral {
+    background: linear-gradient(135deg, 
+      hsl(var(--coral-cta)) 0%, 
+      hsl(var(--coral-cta) / 0.8) 100%
+    );
+  }
+  
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -131,5 +226,195 @@ All colors MUST be HSL.
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  33% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  66% {
+    transform: translateY(10px) translateX(-5px);
+  }
+}
+
+@keyframes pulsePlume {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes slideUpSmooth {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleInSpring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes revealUp {
+  from {
+    transform: translateY(60px);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes magneticPull {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Mobile-First Responsive Optimizations */
+@media (max-width: 768px) {
+  /* Reduce animation intensity on mobile for better performance */
+  .animate-scale-in-spring {
+    animation-duration: 300ms;
+  }
+  
+  .animate-slide-up-smooth {
+    animation-duration: 400ms;
+  }
+  
+  /* Better touch targets */
+  button, .focus-ring {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Optimize glass effects for mobile */
+  .glass-intense {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  
+  .glass-subtle {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Mobile typography improvements */
+  h1 {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    line-height: 1.1;
+  }
+  
+  h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.2;
+  }
+  
+  /* Reduce parallax effects on mobile */
+  .parallax-mobile-reduce {
+    transform: none !important;
+  }
+}
+
+/* High-DPI screens optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .glass-subtle, .glass-intense {
+    /* Sharper borders on retina displays */
+    border-width: 0.5px;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Reduce hero height in landscape */
+  .hero-mobile-landscape {
+    min-height: 80vh;
   }
 }
