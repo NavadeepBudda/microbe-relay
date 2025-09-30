@@ -188,6 +188,12 @@ All colors MUST be HSL.
     animation: magneticPull 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   
+  /* Typewriter intro animations */
+  .animate-caret-blink {
+    animation: caretBlink 1.2s ease-in-out infinite;
+  }
+  
+  
   /* 3D perspective utilities */
   .perspective-1000 {
     perspective: 1000px;
@@ -358,6 +364,32 @@ All colors MUST be HSL.
   }
 }
 
+/* Typewriter intro keyframes */
+@keyframes caretBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+
+@keyframes letterSpacingExpand {
+  from {
+    letter-spacing: 0.02em;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    letter-spacing: 0.15em;
+    opacity: 0;
+    transform: translateY(-10px) scale(1.05);
+    filter: blur(2px);
+  }
+}
+
 /* Mobile-First Responsive Optimizations */
 @media (max-width: 768px) {
   /* Reduce animation intensity on mobile for better performance */
@@ -367,6 +399,33 @@ All colors MUST be HSL.
   
   .animate-slide-up-smooth {
     animation-duration: 400ms;
+  }
+  
+  /* Optimize typewriter animations for mobile */
+  .animate-caret-blink {
+    animation-duration: 800ms;
+  }
+  
+  /* Reduce complexity on mobile for better performance */
+  @keyframes letterSpacingExpand {
+    from {
+      letter-spacing: 0.02em;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      letter-spacing: 0.1em;
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+  }
+  
+  /* Mobile typewriter optimizations */
+  .animate-caret-blink {
+    /* Use GPU acceleration for better mobile performance */
+    will-change: opacity;
+    /* Reduce blur effects on mobile to improve performance */
+    backface-visibility: hidden;
   }
   
   /* Better touch targets */
