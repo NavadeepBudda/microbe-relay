@@ -130,8 +130,10 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
 
       {/* Particle visualization background */}
       <div className="relative glass-subtle rounded-2xl p-8 overflow-hidden border border-white/10 shadow-lg">
-        {/* Animated background particles */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Animated background particles - hidden during interaction */}
+        <div className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${
+          isInteracting ? "opacity-0" : "opacity-100"
+        }`}>
           {particles.map(particle => (
             <div
               key={particle.id}
@@ -181,21 +183,6 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
               aria-label="Food level slider"
             />
             
-            {/* Snap point indicators */}
-            <div className="absolute -bottom-8 left-0 right-0 flex justify-between px-4">
-              {foodLevelDetails.map((level) => (
-                <div
-                  key={level.value}
-                  className={`flex flex-col items-center transition-all duration-300 ${
-                    value === level.value ? "text-primary scale-110" : "text-muted-foreground"
-                  }`}
-                >
-                  <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    value === level.value ? "bg-primary shadow-lg shadow-primary/50" : "bg-muted"
-                  }`} />
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
