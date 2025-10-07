@@ -4,9 +4,11 @@ import { OrientationHeader } from "@/components/OrientationHeader";
 import { GlossaryChip } from "@/components/GlossaryChip";
 import { PretestDrawer } from "@/components/PretestDrawer";
 import { ChevronRight, Play, ArrowDown, Waves, Microscope, Target } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import oceanHero from "@/assets/ocean-hero.jpg";
 
 const Orientation = () => {
+  const navigate = useNavigate();
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [flippedChips, setFlippedChips] = useState<Set<string>>(new Set());
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -399,6 +401,7 @@ const Orientation = () => {
             <div className="flex items-center justify-end">
               <Button
                 disabled={!canEnterLab}
+                onClick={() => navigate("/relay")}
                 className="h-12 px-8 font-bold rounded-full bg-gradient-to-r from-coral-cta to-coral-cta/90 hover:from-coral-cta/95 hover:to-coral-cta/85 text-white shadow-lg shadow-coral-cta/25 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 disabled:hover:scale-100 group"
               >
                 <span className="flex items-center gap-2">

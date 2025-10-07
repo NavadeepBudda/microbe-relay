@@ -188,12 +188,6 @@ All colors MUST be HSL.
     animation: magneticPull 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   
-  /* Typewriter intro animations */
-  .animate-caret-blink {
-    animation: caretBlink 1.2s ease-in-out infinite;
-  }
-  
-  
   /* 3D perspective utilities */
   .perspective-1000 {
     perspective: 1000px;
@@ -364,30 +358,198 @@ All colors MUST be HSL.
   }
 }
 
-/* Typewriter intro keyframes */
-@keyframes caretBlink {
-  0%, 50% {
+@keyframes slideIn {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes microbeGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes particleTrail {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* Enhanced animations for the nitrogen relay */
+@keyframes batonPass {
+  0% {
+    transform: translateX(0) scale(1);
     opacity: 1;
   }
-  51%, 100% {
+  25% {
+    transform: translateX(25%) scale(1.2);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(50%) scale(1.5);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translateX(75%) scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes organicMatterSink {
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110%) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes relayGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px currentColor;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 16px currentColor, 0 0 24px currentColor;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes n2oBubble {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-50px) scale(1.2);
+  }
+  100% {
+    transform: translateY(-100px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes enzymeWork {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.1);
+  }
+}
+
+@keyframes metabolicPulse {
+  0% {
+    background-size: 100% 100%;
+    opacity: 0.3;
+  }
+  50% {
+    background-size: 120% 120%;
+    opacity: 0.6;
+  }
+  100% {
+    background-size: 100% 100%;
     opacity: 0.3;
   }
 }
 
+@keyframes concentrationGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
-@keyframes letterSpacingExpand {
-  from {
-    letter-spacing: 0.02em;
-    opacity: 1;
+@keyframes gasEscape {
+  0% {
     transform: translateY(0) scale(1);
-    filter: blur(0);
+    opacity: 0.8;
   }
-  to {
-    letter-spacing: 0.15em;
+  50% {
+    transform: translateY(-30px) scale(1.3);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-60px) scale(0.8);
     opacity: 0;
-    transform: translateY(-10px) scale(1.05);
-    filter: blur(2px);
   }
+}
+
+/* Utility classes for relay animations */
+.animate-baton-pass {
+  animation: batonPass 2s ease-in-out infinite;
+}
+
+.animate-organic-sink {
+  animation: organicMatterSink 4s linear infinite;
+}
+
+.animate-relay-glow {
+  animation: relayGlow 3s ease-in-out infinite;
+}
+
+.animate-n2o-bubble {
+  animation: n2oBubble 3s ease-out infinite;
+}
+
+.animate-enzyme-work {
+  animation: enzymeWork 2s ease-in-out infinite;
+}
+
+.animate-metabolic-pulse {
+  animation: metabolicPulse 4s ease-in-out infinite;
+}
+
+.animate-concentration-gradient {
+  animation: concentrationGradient 8s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+.animate-gas-escape {
+  animation: gasEscape 2s ease-out infinite;
 }
 
 /* Mobile-First Responsive Optimizations */
@@ -399,33 +561,6 @@ All colors MUST be HSL.
   
   .animate-slide-up-smooth {
     animation-duration: 400ms;
-  }
-  
-  /* Optimize typewriter animations for mobile */
-  .animate-caret-blink {
-    animation-duration: 800ms;
-  }
-  
-  /* Reduce complexity on mobile for better performance */
-  @keyframes letterSpacingExpand {
-    from {
-      letter-spacing: 0.02em;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      letter-spacing: 0.1em;
-      opacity: 0;
-      transform: translateY(-5px);
-    }
-  }
-  
-  /* Mobile typewriter optimizations */
-  .animate-caret-blink {
-    /* Use GPU acceleration for better mobile performance */
-    will-change: opacity;
-    /* Reduce blur effects on mobile to improve performance */
-    backface-visibility: hidden;
   }
   
   /* Better touch targets */
