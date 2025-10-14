@@ -89,22 +89,34 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
             <div className="relative z-10 p-6 max-h-[50vh] overflow-y-auto">
               {/* Cards Grid - Responsive */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <PredictionCard1
-                  onLock={setCard1Data}
-                  isLocked={!!card1Data}
-                  onUnlock={() => setCard1Data(null)}
-                />
-                <PredictionCard2
-                  onLock={setCard2Data}
-                  isLocked={!!card2Data}
-                  onUnlock={() => setCard2Data(null)}
-                />
-                <PredictionCard3
-                  onLock={setCard3Data}
-                  isLocked={!!card3Data}
-                  onUnlock={() => setCard3Data(null)}
-                  onPulse={onPulse}
-                />
+            <PredictionCard1
+              onLock={(data) => setCard1Data({
+                id: 'n2o-response',
+                response: JSON.stringify(data),
+                timestamp: new Date()
+              })}
+              isLocked={!!card1Data}
+              onUnlock={() => setCard1Data(null)}
+            />
+            <PredictionCard2
+              onLock={(data) => setCard2Data({
+                id: 'dominant-step',
+                response: data.dominantStep,
+                timestamp: new Date()
+              })}
+              isLocked={!!card2Data}
+              onUnlock={() => setCard2Data(null)}
+            />
+            <PredictionCard3
+              onLock={(data) => setCard3Data({
+                id: 'pulse-moment',
+                response: data.pulseGuess,
+                timestamp: new Date()
+              })}
+              isLocked={!!card3Data}
+              onUnlock={() => setCard3Data(null)}
+              onPulse={onPulse}
+            />
               </div>
             </div>
 

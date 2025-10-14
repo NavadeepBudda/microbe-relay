@@ -401,7 +401,7 @@ const Orientation = () => {
             <div className="flex items-center justify-end">
               <Button
                 disabled={!canEnterLab}
-                onClick={() => navigate("/relay")}
+                onClick={() => navigate("/meet-the-relay")}
                 className="h-12 px-8 font-bold rounded-full bg-gradient-to-r from-coral-cta to-coral-cta/90 hover:from-coral-cta/95 hover:to-coral-cta/85 text-white shadow-lg shadow-coral-cta/25 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 disabled:hover:scale-100 group"
               >
                 <span className="flex items-center gap-2">

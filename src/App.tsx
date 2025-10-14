@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Orientation from "./pages/Orientation";
+import MeetTheRelay from "./pages/MeetTheRelay";
 import Relay from "./pages/Relay";
 import Denitrification from "./pages/Denitrification";
 import NotFound from "./pages/NotFound";
@@ -18,6 +19,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Orientation />} />
+          <Route path="/meet-the-relay" element={<MeetTheRelay />} />
           <Route path="/relay" element={<Relay />} />
           <Route path="/denitrification" element={<Denitrification />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

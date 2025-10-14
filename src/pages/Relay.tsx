@@ -24,11 +24,11 @@ const Relay = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/meet-the-relay")}
                 className="flex items-center gap-2 px-3 text-muted-foreground hover:text-foreground"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to orientation
+                Back
               </Button>
               
               <div className="hidden sm:block h-6 w-px bg-white/20" />
