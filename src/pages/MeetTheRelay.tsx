@@ -94,37 +94,37 @@ const relayStages: RelayStage[] = [
 const microbeProfiles: MicrobeProfile[] = [
   {
     icon: Microscope,
-    title: "Starter specialists",
-    subtitle: "Nitrate reducers",
-    description: "Operate on the lightest energy budget, flipping nitrate into nitrite within moments.",
+    title: "Starter specialists (NO₃⁻ → NO₂⁻)",
+    subtitle: "STEP 01 — NITRATE REDUCERS",
+    description: "The lightest enzyme toolkit kicks off the relay by turning nitrate into nitrite. They dominate when food is scarce.",
     highlights: [
-      "Activate instantly as oxygen falls",
-      "Minimal enzyme toolkit to conserve energy",
-      "Keep the relay primed even when food is sparse",
+      "Win at low food — thrifty with carbon.",
+      "Feed the rest by supplying NO₂⁻ for downstream steps.",
+      "Common in OMZs and tolerant of tiny oxygen leaks.",
     ],
     accent: "from-teal-glow/20 via-transparent to-white/5",
   },
   {
     icon: Link2,
-    title: "Relay converters",
-    subtitle: "Nitrite transformers",
-    description: "Modular players that stretch across steps when resources allow for a longer hand-off.",
+    title: "Relay converters (NO₂⁻ → N₂O)",
+    subtitle: "STEP 02 — NITRITE REDUCERS",
+    description: "Take the handoff from Step 1. With moderate food—or short pulses—they grow and often pass along nitrous oxide as the intermediate.",
     highlights: [
-      "Adjust participation based on available food",
-      "Bridge early and late reactions with shared enzymes",
-      "Introduce the intermediate N₂O pulse",
+      "Depend on Step 1’s NO₂⁻; coexist with other steps at mid food.",
+      "Pulses can create N₂O spikes at this handoff.",
+      "Bridge early and late steps in patchy environments.",
     ],
     accent: "from-omz-violet/20 via-transparent to-white/5",
   },
   {
     icon: Droplets,
-    title: "Closing team",
-    subtitle: "N₂O scrubbers",
-    description: "Prevent nitrous oxide from escaping by completing the last reduction to inert nitrogen.",
+    title: "Closing team (N₂O → N₂)",
+    subtitle: "STEP 03 — N₂O REDUCERS / COMPLETE DENITRIFIERS",
+    description: "When food is plentiful and nitrate becomes limiting, longer pathways are worth the cost. Finishers convert N₂O to harmless N₂.",
     highlights: [
-      "Guard against greenhouse leakage",
-      "Need stable food and low oxygen to stay engaged",
-      "Return nitrogen safely to the atmosphere",
+      "Favored at high food when nitrogen is scarce.",
+      "Lower greenhouse gas by turning N₂O into N₂.",
+      "Often multi-step players during high-food periods.",
     ],
     accent: "from-coral-cta/20 via-transparent to-white/5",
   },
@@ -266,13 +266,13 @@ const MeetTheRelay = () => {
                     Meet the Relay
                   </h1>
                   <p className="mx-auto max-w-3xl text-base text-white/80 sm:text-lg md:mx-0">
-                    Four precision reactions pass nitrogen like a baton through the twilight zone. Specialists swap roles in response to changing food, oxygen, and nitrogen—keeping Earth’s oceans balanced.
+                    In low-oxygen waters, different microbes run different steps. Move the Food dial to see the handoff change.
                   </p>
                 </div>
               </div>
 
               {/* Interactive Pipeline Section - Clean and Centered */}
-              <div className="relay-pipeline flex justify-center mb-12">
+              <div className="relay-pipeline flex justify-center mb-10">
                 <InteractiveRelayPipeline 
                   foodLevel={foodLevel} 
                   className="w-full"
@@ -280,13 +280,13 @@ const MeetTheRelay = () => {
               </div>
 
               {/* Interactive Controls and Explanation Grid - Better spacing */}
-              <div className="grid gap-8 lg:grid-cols-2 max-w-5xl mx-auto">
+              <div className="grid gap-7 lg:grid-cols-2 max-w-5xl mx-auto">
                 {/* Food Control */}
                 <div className="food-control-slider">
                   <InteractiveFoodControl
                     value={foodLevel}
                     onChange={handleFoodLevelChange}
-                    className="h-full min-h-[400px]"
+                    className="h-full min-h-[310px]"
                   />
                 </div>
                 
@@ -294,7 +294,7 @@ const MeetTheRelay = () => {
                 <div className="explanation-area">
                   <DynamicExplanation
                     foodLevel={foodLevel}
-                    className="h-full min-h-[400px]"
+                    className="h-full min-h-[310px]"
                     autoUpdate={true}
                   />
                 </div>
@@ -310,35 +310,37 @@ const MeetTheRelay = () => {
                   Microbe playbook
                 </div>
                 <h2 className="text-3xl font-semibold text-white sm:text-4xl">
-                  Who holds the baton at every moment
+                  Who holds the baton as food changes
                 </h2>
                 <p className="max-w-3xl text-base text-white/75 sm:text-lg">
-                  Specialists tune in and out of the relay depending on how much food is available and how low oxygen dips. Each team contributes a precise move that keeps the nitrogen cycle balanced.
+                  Most microbes do just one step of the nitrogen relay. When food (organic matter) is scarce, early-step specialists lead. As food rises (and nitrogen becomes limiting), longer, multi-step players take over. Later steps depend on earlier ones for their starting material.
                 </p>
               </div>
 
-              <div className="grid gap-8 lg:grid-cols-3">
+              <div className="grid gap-10 lg:grid-cols-3 xl:gap-12">
                 {microbeProfiles.map(({ icon: Icon, title, subtitle, description, highlights, accent }) => (
                   <div
                     key={title}
-                    className="relative flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[rgba(10,22,38,0.65)] p-8 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+                    className="relative flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[rgba(10,22,38,0.65)] p-9 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
                   >
                     <div className={`absolute inset-0 rounded-[1.75rem] bg-gradient-to-br ${accent} opacity-70`} aria-hidden />
-                    <div className="relative z-10 flex h-full flex-col">
-                      <div className="mb-6 flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white">
-                          <Icon className="h-5 w-5" />
+                    <div className="relative z-10 flex h-full flex-col gap-8">
+                      <div className="flex flex-col gap-5">
+                        <div className="flex items-start gap-4">
+                          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <p className="text-[0.7rem] uppercase tracking-[0.18em] text-white/60">{subtitle}</p>
+                            <h3 className="text-lg font-semibold leading-snug text-white">{title}</h3>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-xs uppercase tracking-[0.35em] text-white/50">{subtitle}</p>
-                          <h3 className="mt-1 text-xl font-semibold text-white">{title}</h3>
-                        </div>
+                        <p className="text-sm leading-relaxed text-white/80">{description}</p>
                       </div>
-                      <p className="text-sm text-white/75">{description}</p>
-                      <div className="mt-6 space-y-3 text-sm text-white/80">
+                      <div className="space-y-4 text-sm leading-relaxed text-white/80">
                         {highlights.map((item) => (
-                          <div key={item} className="flex items-start gap-2">
-                            <span className="mt-1 inline-flex h-1.5 w-1.5 flex-shrink-0 rounded-full bg-white/70" />
+                          <div key={item} className="flex items-start gap-3">
+                            <span className="mt-2 inline-flex h-1.5 w-1.5 flex-shrink-0 rounded-full bg-white/70" />
                             <span>{item}</span>
                           </div>
                         ))}
@@ -358,20 +360,17 @@ const MeetTheRelay = () => {
                 <div className="relative z-10 space-y-6">
                   <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60">
                     <Droplets className="h-4 w-4" />
-                    Ready to test the flow
+                    Ready to try the relay?
                   </p>
                   <h2 className="text-4xl font-semibold text-white sm:text-5xl">
-                    Step into the interactive lab
+                    Slide Food (organic matter) and watch which specialists lead each step.
                   </h2>
-                  <p className="mx-auto max-w-2xl text-base text-white/75 sm:text-lg">
-                    Adjust food, oxygen, and time to watch the relay reconfigure itself. Visual gauges and guided narration help you connect each slider movement to the microbes at work.
-                  </p>
                   <Button
                     onClick={() => navigate("/relay")}
                     size="lg"
                     className="rounded-full bg-coral-cta px-10 py-6 text-base font-semibold text-white shadow-[0_25px_60px_-30px_rgba(245,97,69,0.8)] transition hover:scale-[1.03] hover:bg-coral-cta/90"
                   >
-                    Explore the interactive lab
+                    Start the lab
                     <ArrowRight className="ml-3 h-5 w-5" />
                   </Button>
                 </div>

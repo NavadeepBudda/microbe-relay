@@ -78,6 +78,9 @@ const relayStages: RelayStage[] = [
 
 export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRelayPipelineProps) => {
   const relayState = getRelayState(foodLevel);
+  const twoStepActive = relayState.dominantModules.includes("TwoStepBand") || relayState.coexistingModules.includes("TwoStepBand");
+  const threeStepActive = relayState.dominantModules.includes("ThreeStepBand") || relayState.coexistingModules.includes("ThreeStepBand");
+  const isHighFood = foodLevel >= 70;
 
   const getStepActivityLevel = (stepNumber: number): "inactive" | "active" | "dominant" => {
     const moduleMap: { [key: number]: RelayModule } = {
@@ -102,7 +105,7 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
       {/* Educational badge - always visible */}
       <div className="educational-badge mb-8 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-xl">
-          ✨ A few microbes can do many steps, but most do one or two
+          A few microbes can do many steps, but most do one or two
         </div>
       </div>
 
@@ -144,37 +147,49 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
           })}
         </div>
 
-        {/* Multi-step bands - simplified */}
-        <div className="relative h-16 mx-8">
-          {/* Two-step specialist band */}
-          {(relayState.dominantModules.includes("TwoStepBand") || relayState.coexistingModules.includes("TwoStepBand")) && (
-            <div className={`absolute top-2 left-0 right-1/2 h-12 rounded-xl border transition-all duration-500 flex items-center justify-center ${
-              relayState.dominantModules.includes("TwoStepBand") 
-                ? "border-white/50 bg-white/15 opacity-100" 
-                : "border-white/30 bg-white/10 opacity-70"
-            }`}>
-              <span className="text-xs font-medium text-white/80">Two-Step Specialist</span>
-            </div>
-          )}
-          
-          {/* Three-step specialist band */}
-          {(relayState.dominantModules.includes("ThreeStepBand") || relayState.coexistingModules.includes("ThreeStepBand")) && (
-            <div className={`absolute top-2 left-0 right-1/4 h-12 rounded-xl border transition-all duration-500 flex items-center justify-center ${
-              relayState.dominantModules.includes("ThreeStepBand") 
-                ? "border-white/50 bg-white/15 opacity-100" 
-                : "border-white/30 bg-white/10 opacity-70"
-            }`}>
-              <span className="text-xs font-medium text-white/80">Three-Step Specialist</span>
-            </div>
-          )}
-        </div>
+        {/* Multi-step bands */}
+        {(twoStepActive || threeStepActive) && (
+          <div className="mx-8 mt-4 flex flex-col items-center gap-3">
+            {isHighFood ? (
+              <div className="w-full max-w-md rounded-2xl border border-white/25 bg-white/12 px-5 py-4 text-center shadow-[0_18px_45px_-35px_rgba(0,0,0,0.8)]">
+                <p className="text-[0.65rem] uppercase tracking-[0.26em] text-white/60">Dominant Relay Team</p>
+                <p className="mt-2 text-sm font-semibold text-white">Multi-step specialists take over</p>
+                <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs text-white/80">
+                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">Two-step teams</span>
+                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">Complete denitrifiers</span>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {twoStepActive && (
+                  <div className={`rounded-xl border px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
+                    relayState.dominantModules.includes("TwoStepBand")
+                      ? "border-white/50 bg-white/15"
+                      : "border-white/25 bg-white/8"
+                  }`}>
+                    Two-step specialists
+                  </div>
+                )}
+                {threeStepActive && (
+                  <div className={`rounded-xl border px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
+                    relayState.dominantModules.includes("ThreeStepBand")
+                      ? "border-white/50 bg-white/15"
+                      : "border-white/25 bg-white/8"
+                  }`}>
+                    Three-step specialists
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Activity summary */}
-        <div className="text-center pt-4">
+        <div className="pt-4 text-center">
           <p className="text-sm text-white/70">
             {foodLevel < 35 && "Step 1 specialists dominate with minimal energy requirements"}
             {foodLevel >= 35 && foodLevel < 70 && "Multiple specialists coexist and share the workload"}
-            {foodLevel >= 70 && "Multi-step specialists complete the full pathway efficiently"}
+            {foodLevel >= 70 && "Multi-step specialists carry the relay and finish the full pathway"}
           </p>
         </div>
       </div>
