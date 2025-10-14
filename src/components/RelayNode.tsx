@@ -5,27 +5,64 @@ interface RelayNodeProps {
   subscript?: string;
   className?: string;
   glowColor?: string;
+  isActive?: boolean;
+  isDominant?: boolean;
 }
 
-export const RelayNode = ({ label, subscript, className, glowColor = "var(--teal-glow)" }: RelayNodeProps) => {
+export const RelayNode = ({ 
+  label, 
+  subscript, 
+  className, 
+  glowColor = "hsl(var(--teal-glow))",
+  isActive = false,
+  isDominant = false 
+}: RelayNodeProps) => {
+  const getOpacity = () => {
+    if (isDominant) return "opacity-100";
+    if (isActive) return "opacity-80";
+    return "opacity-40";
+  };
+
+  const getBorderStyle = () => {
+    if (isDominant) return "border-white/80 border-3";
+    if (isActive) return "border-white/60 border-2";
+    return "border-white/30 border-2";
+  };
+
+  const getGlowIntensity = () => {
+    if (isDominant) return "50";
+    if (isActive) return "30";
+    return "15";
+  };
+
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center">
       <div 
         className={cn(
-          "relative w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full flex items-center justify-center",
-          "glass-subtle border-2 border-white/30 backdrop-blur-xl",
-          "transition-all duration-500 hover:scale-110 hover:border-white/50",
-          "cursor-pointer select-none",
+          "relative rounded-full flex items-center justify-center",
+          "bg-white/10 backdrop-blur-xl transition-all duration-300 ease-out",
+          getOpacity(),
+          getBorderStyle(),
           className
         )}
         style={{
-          boxShadow: `0 0 50px ${glowColor}40, inset 0 0 25px ${glowColor}30, 0 8px 32px rgba(0,0,0,0.3)`
+          boxShadow: `0 0 ${getGlowIntensity()}px ${glowColor}, inset 0 0 15px rgba(255,255,255,0.1)`
         }}
       >
-        <div className="text-lg md:text-2xl lg:text-3xl font-bold text-white flex items-baseline drop-shadow-lg">
+        <div className="text-lg md:text-xl lg:text-2xl font-bold text-white flex items-baseline">
           {label}
-          {subscript && <span className="text-xs md:text-sm lg:text-base ml-1 -mb-1">{subscript}</span>}
+          {subscript && <span className="text-sm md:text-base ml-1 -mb-1">{subscript}</span>}
         </div>
+        
+        {/* Simple glow for dominant state - no pulsing */}
+        {isDominant && (
+          <div 
+            className="absolute inset-0 rounded-full border border-white/20"
+            style={{
+              boxShadow: `0 0 20px ${glowColor}`
+            }}
+          />
+        )}
       </div>
     </div>
   );

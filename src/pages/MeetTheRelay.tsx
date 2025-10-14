@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,8 +12,11 @@ import type { LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
-import { RelayNode } from "@/components/RelayNode";
-import { FoodControlCard } from "@/components/FoodControlCard";
+import { InteractiveFoodControl } from "@/components/InteractiveFoodControl";
+import { InteractiveRelayPipeline } from "@/components/InteractiveRelayPipeline";
+import { DynamicExplanation } from "@/components/DynamicExplanation";
+import { GuidedOverlay } from "@/components/GuidedOverlay";
+import { analytics } from "@/lib/analytics";
 
 type RelayStage = {
   stage: string;
@@ -130,6 +133,14 @@ const microbeProfiles: MicrobeProfile[] = [
 const MeetTheRelay = () => {
   const navigate = useNavigate();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  // Interactive state management
+  const [foodLevel, setFoodLevel] = useState(50); // 0-100
+  const [hasVisitedLow, setHasVisitedLow] = useState(false);
+  const [hasVisitedHigh, setHasVisitedHigh] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showCompletionToast, setShowCompletionToast] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -142,6 +153,67 @@ const MeetTheRelay = () => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Check if this is the user's first visit and track page open
+  useEffect(() => {
+    analytics.pageOpen();
+    
+    const hasVisited = localStorage.getItem('meetTheRelay-visited');
+    if (!hasVisited) {
+      setShowOnboarding(true);
+      analytics.onboardingStarted();
+    } else {
+      setIsFirstVisit(false);
+    }
+  }, []);
+
+  // Track food level changes and visit ranges
+  const handleFoodLevelChange = useCallback((newLevel: number) => {
+    setFoodLevel(newLevel);
+    
+    // Determine band and track analytics
+    const band = newLevel <= 33 ? 'LOW' : newLevel >= 67 ? 'HIGH' : 'MID';
+    analytics.foodLevelChange(newLevel, band);
+    analytics.sliderInteraction(newLevel);
+    
+    // Track if user has visited low and high ranges
+    if (newLevel <= 33 && !hasVisitedLow) {
+      setHasVisitedLow(true);
+      analytics.bandEntered('LOW');
+    }
+    if (newLevel >= 67 && !hasVisitedHigh) {
+      setHasVisitedHigh(true);
+      analytics.bandEntered('HIGH');
+    }
+    
+    // Show completion toast when both ranges visited
+    if (hasVisitedLow && newLevel >= 67 && !hasVisitedHigh) {
+      setHasVisitedHigh(true);
+      analytics.exploredBothExtremes();
+      setShowCompletionToast(true);
+      setTimeout(() => setShowCompletionToast(false), 4000);
+    }
+    if (hasVisitedHigh && newLevel <= 33 && !hasVisitedLow) {
+      setHasVisitedLow(true);
+      analytics.exploredBothExtremes();
+      setShowCompletionToast(true);
+      setTimeout(() => setShowCompletionToast(false), 4000);
+    }
+  }, [hasVisitedLow, hasVisitedHigh]);
+
+  const handleOnboardingComplete = () => {
+    analytics.onboardingCompleted();
+    setShowOnboarding(false);
+    setIsFirstVisit(false);
+    localStorage.setItem('meetTheRelay-visited', 'true');
+  };
+
+  const handleOnboardingSkip = () => {
+    analytics.onboardingSkipped();
+    setShowOnboarding(false);
+    setIsFirstVisit(false);
+    localStorage.setItem('meetTheRelay-visited', 'true');
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[hsl(var(--background))] text-foreground">
@@ -199,44 +271,33 @@ const MeetTheRelay = () => {
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-10 shadow-[0_40px_120px_-45px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18)_0%,_rgba(10,24,44,0.85)_55%,_rgba(6,15,26,0.95)_100%)] opacity-90" aria-hidden />
-                <div className="relative z-10 overflow-x-auto">
-                  <div className="flex min-w-[920px] items-start gap-12">
-                    {relayStages.map((stage, index) => (
-                      <div
-                        key={stage.stage}
-                        className="group relative flex min-w-[220px] flex-col items-center text-center"
-                      >
-                        <div className="relative flex flex-col items-center">
-                          <RelayNode
-                            label={stage.node.label}
-                            subscript={stage.node.subscript}
-                            glowColor={stage.node.glowColor}
-                            className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
-                          />
-                          {index < relayStages.length - 1 && (
-                            <div className="absolute left-full top-1/2 ml-4 h-[2px] w-20 -translate-y-1/2 bg-gradient-to-r from-white/40 via-white/25 to-transparent sm:w-28" />
-                          )}
-                        </div>
-                        <div className="mt-6 w-full rounded-[1.5rem] border border-white/15 bg-white/8 p-6 text-left shadow-[0_24px_72px_-50px_rgba(0,0,0,0.85)] transition group-hover:border-white/35 group-hover:bg-white/12">
-                          <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-white/55">
-                            <span>{stage.stage}</span>
-                            <span className="h-1 w-12 rounded-full bg-gradient-to-r from-teal-200 via-omz-violet/70 to-coral-cta/70" />
-                            <span>{stage.role}</span>
-                          </div>
-                          <p className="mt-4 text-lg font-semibold text-white">{stage.chemical}</p>
-                          <p className="mt-3 text-sm text-white/70">{stage.description}</p>
-                          <p className="mt-4 text-xs font-medium text-teal-100/90">{stage.insight}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              {/* Interactive Pipeline Section - Clean and Centered */}
+              <div className="relay-pipeline flex justify-center mb-12">
+                <InteractiveRelayPipeline 
+                  foodLevel={foodLevel} 
+                  className="w-full"
+                />
               </div>
 
-              <div className="mx-auto w-full max-w-3xl">
-                <FoodControlCard />
+              {/* Interactive Controls and Explanation Grid - Better spacing */}
+              <div className="grid gap-8 lg:grid-cols-2 max-w-5xl mx-auto">
+                {/* Food Control */}
+                <div className="food-control-slider">
+                  <InteractiveFoodControl
+                    value={foodLevel}
+                    onChange={handleFoodLevelChange}
+                    className="h-full min-h-[400px]"
+                  />
+                </div>
+                
+                {/* Dynamic Explanation */}
+                <div className="explanation-area">
+                  <DynamicExplanation
+                    foodLevel={foodLevel}
+                    className="h-full min-h-[400px]"
+                    autoUpdate={true}
+                  />
+                </div>
               </div>
             </div>
           </section>
@@ -318,6 +379,30 @@ const MeetTheRelay = () => {
             </div>
           </section>
         </main>
+
+        {/* Guided Overlay for First-Time Users */}
+        <GuidedOverlay
+          isFirstVisit={showOnboarding}
+          onComplete={handleOnboardingComplete}
+          onSkip={handleOnboardingSkip}
+        />
+
+        {/* Completion Toast */}
+        {showCompletionToast && (
+          <div className="fixed bottom-8 right-8 z-50 animate-in slide-in-from-bottom-4 fade-in-0 duration-300">
+            <div className="rounded-2xl border border-teal-glow/30 bg-[rgba(8,20,36,0.95)] p-6 shadow-[0_25px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-glow/20">
+                  <Zap className="h-5 w-5 text-teal-200" />
+                </div>
+                <div>
+                  <p className="font-semibold text-white">Great exploration! 🎉</p>
+                  <p className="text-sm text-white/70">You've seen how food changes which step wins</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

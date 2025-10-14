@@ -1,15 +1,38 @@
 import { ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface RelayArrowProps {
   className?: string;
+  isActive?: boolean;
+  isDominant?: boolean;
 }
 
-export const RelayArrow = ({ className }: RelayArrowProps) => {
+export const RelayArrow = ({ className, isActive = false, isDominant = false }: RelayArrowProps) => {
+  const getOpacity = () => {
+    if (isDominant) return "opacity-100";
+    if (isActive) return "opacity-70";
+    return "opacity-30";
+  };
+
+  const getThickness = () => {
+    if (isDominant) return "h-1.5";
+    if (isActive) return "h-1";
+    return "h-0.5";
+  };
+
   return (
-    <div className={`flex items-center justify-center flex-shrink-0 ${className || ''}`}>
+    <div className={cn("flex items-center justify-center flex-shrink-0 transition-all duration-300", className)}>
       <div className="relative flex items-center">
-        <div className="h-1 w-8 md:w-20 lg:w-24 bg-gradient-to-r from-teal-glow/70 to-omz-violet/70 rounded-full" />
-        <ChevronRight className="w-5 h-5 md:w-7 md:h-7 text-teal-glow -ml-2 md:-ml-3 drop-shadow-lg" strokeWidth={3} />
+        <div className={cn(
+          "bg-gradient-to-r from-teal-glow/70 to-omz-violet/70 rounded-full transition-all duration-300",
+          getThickness(),
+          getOpacity(),
+          className
+        )} />
+        <ChevronRight className={cn(
+          "w-5 h-5 text-teal-glow -ml-1 transition-all duration-300",
+          getOpacity()
+        )} strokeWidth={2} />
       </div>
     </div>
   );
