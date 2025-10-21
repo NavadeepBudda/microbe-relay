@@ -89,8 +89,22 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
       3: "Step3"
     };
     
+    // For step 4 (Release), only active in high food when multi-step specialists complete full pathway
+    if (stepNumber === 4) {
+      if (foodLevel >= 70) {
+        return "dominant"; // Multi-step specialists complete the full pathway
+      }
+      return "inactive"; // Medium and low food don't complete to release
+    }
+    
     const module = moduleMap[stepNumber];
     if (!module) return "inactive";
+    
+    // For high food (multi-step specialists), show all steps as active
+    if (foodLevel >= 70) {
+      // Multi-step specialists perform all steps, so show all as dominant
+      return "dominant";
+    }
     
     if (relayState.dominantModules.includes(module)) return "dominant";
     if (relayState.coexistingModules.includes(module)) return "active";
@@ -114,7 +128,7 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
         {/* Step nodes row */}
         <div className="flex items-center justify-center gap-8 px-4">
           {relayStages.map((stage, index) => {
-            const activityLevel = index < 3 ? getStepActivityLevel(index + 1) : "inactive";
+            const activityLevel = getStepActivityLevel(index + 1);
             
             return (
               <div key={stage.stage} className="flex items-center">
@@ -148,39 +162,19 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
         </div>
 
         {/* Multi-step bands */}
-        {(twoStepActive || threeStepActive) && (
+        {threeStepActive && !isHighFood && (
           <div className="mx-8 mt-4 flex flex-col items-center gap-3">
-            {isHighFood ? (
-              <div className="w-full max-w-md rounded-2xl border border-white/25 bg-white/12 px-5 py-4 text-center shadow-[0_18px_45px_-35px_rgba(0,0,0,0.8)]">
-                <p className="text-[0.65rem] uppercase tracking-[0.26em] text-white/60">Dominant Relay Team</p>
-                <p className="mt-2 text-sm font-semibold text-white">Multi-step specialists take over</p>
-                <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs text-white/80">
-                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">Two-step teams</span>
-                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">Complete denitrifiers</span>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {threeStepActive && (
+                <div className={`rounded-xl border px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
+                  relayState.dominantModules.includes("ThreeStepBand")
+                    ? "border-white/50 bg-white/15"
+                    : "border-white/25 bg-white/8"
+                }`}>
+                  Three-step specialists
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                {twoStepActive && (
-                  <div className={`rounded-xl border px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
-                    relayState.dominantModules.includes("TwoStepBand")
-                      ? "border-white/50 bg-white/15"
-                      : "border-white/25 bg-white/8"
-                  }`}>
-                    Two-step specialists
-                  </div>
-                )}
-                {threeStepActive && (
-                  <div className={`rounded-xl border px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
-                    relayState.dominantModules.includes("ThreeStepBand")
-                      ? "border-white/50 bg-white/15"
-                      : "border-white/25 bg-white/8"
-                  }`}>
-                    Three-step specialists
-                  </div>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         )}
 

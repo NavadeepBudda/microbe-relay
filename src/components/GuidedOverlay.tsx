@@ -125,21 +125,6 @@ export const GuidedOverlay = ({ isFirstVisit = true, onComplete, onSkip }: Guide
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      
-      {/* Spotlight effect for highlighted areas */}
-      {currentGuideStep.highlightArea && (
-        <div 
-          className="absolute border-4 border-white/50 rounded-lg bg-white/5 animate-pulse"
-          style={{
-            // This would need to be calculated based on element position
-            // For now, using placeholder values
-            top: "20%",
-            left: "20%", 
-            width: "60%",
-            height: "60%",
-          }}
-        />
-      )}
 
       {/* Guide content */}
       <div className="relative z-10 max-w-md mx-6">

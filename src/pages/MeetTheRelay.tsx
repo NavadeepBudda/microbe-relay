@@ -94,37 +94,37 @@ const relayStages: RelayStage[] = [
 const microbeProfiles: MicrobeProfile[] = [
   {
     icon: Microscope,
-    title: "Starter specialists (NO₃⁻ → NO₂⁻)",
-    subtitle: "STEP 01 — NITRATE REDUCERS",
-    description: "The lightest enzyme toolkit kicks off the relay by turning nitrate into nitrite. They dominate when food is scarce.",
+    title: "NITRATE REDUCERS (NO₃⁻ → NO₂⁻)",
+    subtitle: "STEP 01",
+    description: "Who wins when: Low food",
     highlights: [
-      "Win at low food — thrifty with carbon.",
-      "Feed the rest by supplying NO₂⁻ for downstream steps.",
-      "Common in OMZs and tolerant of tiny oxygen leaks.",
+      "Carry the smallest enzyme set → thrifty with carbon.",
+      "Supply NO₂⁻ to everyone downstream.",
+      "Tend to be the most widespread module in food-poor waters.",
     ],
     accent: "from-teal-glow/20 via-transparent to-white/5",
   },
   {
     icon: Link2,
-    title: "Relay converters (NO₂⁻ → N₂O)",
-    subtitle: "STEP 02 — NITRITE REDUCERS",
-    description: "Take the handoff from Step 1. With moderate food—or short pulses—they grow and often pass along nitrous oxide as the intermediate.",
+    title: "NITRITE REDUCERS (NO₂⁻ → N₂O)",
+    subtitle: "STEP 02",
+    description: "Who wins when: Medium food (or short pulses)",
     highlights: [
-      "Depend on Step 1’s NO₂⁻; coexist with other steps at mid food.",
-      "Pulses can create N₂O spikes at this handoff.",
-      "Bridge early and late steps in patchy environments.",
+      "Grow once Step 1 provides enough NO₂⁻.",
+      "Often make N₂O the main hand-off, creating N₂O peaks.",
+      "Coexist with other single-step players in patchy conditions.",
     ],
     accent: "from-omz-violet/20 via-transparent to-white/5",
   },
   {
     icon: Droplets,
-    title: "Closing team (N₂O → N₂)",
-    subtitle: "STEP 03 — N₂O REDUCERS / COMPLETE DENITRIFIERS",
-    description: "When food is plentiful and nitrate becomes limiting, longer pathways are worth the cost. Finishers convert N₂O to harmless N₂.",
+    title: "N₂O REDUCERS / COMPLETE DENITRIFIERS (… → N₂)",
+    subtitle: "STEP 03",
+    description: "Who wins when: High food (nitrate becomes limiting)",
     highlights: [
-      "Favored at high food when nitrogen is scarce.",
-      "Lower greenhouse gas by turning N₂O into N₂.",
-      "Often multi-step players during high-food periods.",
+      "Longer pathways pay the enzyme cost but squeeze more energy from N.",
+      "Finish the relay by turning N₂O → N₂, lowering greenhouse gas output.",
+      "Dominate during sustained high-food periods.",
     ],
     accent: "from-coral-cta/20 via-transparent to-white/5",
   },
@@ -304,17 +304,22 @@ const MeetTheRelay = () => {
 
           <section className="relative border-t border-white/10 bg-white/5 py-24 md:py-32">
             <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6">
-              <div className="flex flex-col gap-4 text-center md:text-left">
+              <div className="flex flex-col gap-6 text-center md:text-left">
                 <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 md:self-start">
                   <GaugeCircle className="h-4 w-4" />
                   Microbe playbook
                 </div>
                 <h2 className="text-3xl font-semibold text-white sm:text-4xl">
-                  Who holds the baton as food changes
+                  Who wins as food changes
                 </h2>
-                <p className="max-w-3xl text-base text-white/75 sm:text-lg">
-                  Most microbes do just one step of the nitrogen relay. When food (organic matter) is scarce, early-step specialists lead. As food rises (and nitrogen becomes limiting), longer, multi-step players take over. Later steps depend on earlier ones for their starting material.
-                </p>
+                <div className="max-w-4xl space-y-4 text-base text-white/80 sm:text-lg">
+                  <p>Most denitrifiers do <strong>one</strong> step of the nitrogen relay.</p>
+                  <div className="space-y-2">
+                    <p><strong>Low food (carbon scarce):</strong> short, <strong>single-step</strong> players win.</p>
+                    <p><strong>Medium food (pulses/patchy):</strong> multiple single-step players <strong>coexist</strong>; <strong>N₂O</strong> often becomes the hand-off.</p>
+                    <p><strong>High food (nitrate scarce):</strong> <strong>longer, multi-step</strong> players take over and push N₂O to <strong>N₂</strong>.</p>
+                  </div>
+                </div>
               </div>
 
               <div className="grid gap-10 lg:grid-cols-3 xl:gap-12">
