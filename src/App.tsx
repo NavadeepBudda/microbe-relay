@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Orientation from "./pages/Orientation";
 import MeetTheRelay from "./pages/MeetTheRelay";
 import Relay from "./pages/Relay";
-import Denitrification from "./pages/Denitrification";
+import TryIt from "./pages/TryIt";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -23,7 +23,7 @@ const App = () => (
           <Route path="/" element={<Orientation />} />
           <Route path="/meet-the-relay" element={<MeetTheRelay />} />
           <Route path="/relay" element={<Relay />} />
-          <Route path="/denitrification" element={<Denitrification />} />
+          <Route path="/try-it" element={<TryIt />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

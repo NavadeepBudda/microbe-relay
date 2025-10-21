@@ -8,11 +8,25 @@ export interface RelayState {
 }
 
 export const calculateN2OLevel = (foodLevel: number): number => {
-  // Smooth hump curve peaking around 65
-  const peak = 65;
-  const width = 22;
-  const result = 100 * Math.exp(-Math.pow(foodLevel - peak, 2) / (2 * Math.pow(width, 2)));
-  return Math.round(Math.max(0, Math.min(100, result)));
+  // N₂O peaks at medium food (~50-55%) and drops at high food
+  // Low food: minimal N₂O (short pathways)
+  // Medium food: peak N₂O (multiple specialists, handoff bottlenecks)  
+  // High food: lower N₂O (complete pathways convert N₂O to N₂)
+  
+  if (foodLevel <= 35) {
+    // Low food: minimal N₂O production
+    return Math.round(10 + (foodLevel / 35) * 15); // 10-25%
+  } else if (foodLevel <= 70) {
+    // Medium food: peak N₂O production (hotspot zone)
+    const mediumPosition = (foodLevel - 35) / 35; // 0 to 1
+    const peak = Math.sin(mediumPosition * Math.PI); // Bell curve in medium range
+    return Math.round(25 + peak * 65); // 25-90%
+  } else {
+    // High food: declining N₂O (complete pathways dominate)
+    const highPosition = (foodLevel - 70) / 30; // 0 to 1
+    const decline = 1 - (highPosition * 0.7); // Gradual decline
+    return Math.round(90 * decline); // 90% down to ~27%
+  }
 };
 
 export const getRelayState = (foodLevel: number): RelayState => {

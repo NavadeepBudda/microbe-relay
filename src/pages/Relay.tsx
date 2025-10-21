@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Globe, Info } from "lucide-react";
+import { ArrowLeft, BookOpen, Globe, Info, ArrowRight, Target } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FoodSlider } from "@/components/FoodSlider";
 import { foodLevelDetails, type FoodLevel } from "@/lib/food-level";
@@ -296,13 +296,33 @@ const Relay = () => {
         </section>
       </div>
 
-      {/* Simple Footer */}
+      {/* Enhanced Footer with Try It Button */}
       <div className="border-t border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-6">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center gap-2 text-primary">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8">
+          <div className="text-center space-y-6">
+            <div className="flex items-center justify-center gap-2 text-primary">
               <BookOpen className="w-5 h-5" />
               <span className="text-sm font-semibold">Understanding Organic Matter Impact</span>
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-white">Ready to test your knowledge?</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Put your understanding to the test with interactive missions that challenge you to control the microbe relay and achieve specific goals.
+              </p>
+              
+              <Button
+                onClick={() => navigate("/try-it")}
+                size="lg"
+                className="group relative h-auto rounded-full px-8 py-4 text-base font-semibold text-white shadow-[0_25px_60px_-25px_rgba(245,97,69,0.8)] transition-all duration-300 bg-gradient-to-r from-coral-cta to-coral-cta/80 hover:-translate-y-0.5 hover:shadow-[0_35px_80px_-25px_rgba(245,97,69,0.75)] hover:scale-105"
+              >
+                <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="relative flex items-center gap-3">
+                  <Target className="h-5 w-5" />
+                  <span className="text-lg">Try It - Test Your Knowledge</span>
+                  <ArrowRight className="h-5 w-5 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
+              </Button>
             </div>
           </div>
         </div>
