@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { OrientationHeader } from "@/components/OrientationHeader";
+import { LearningHeader } from "@/components/LearningHeader";
 import { GlossaryChip } from "@/components/GlossaryChip";
 import { PretestDrawer } from "@/components/PretestDrawer";
 import { ChevronRight, Play, ArrowDown, Waves, Microscope, Target } from "lucide-react";
@@ -84,13 +84,10 @@ const Orientation = () => {
 
   return (
     <div className={isHighContrast ? "high-contrast" : ""}>
-      <OrientationHeader
-        onToggleContrast={() => setIsHighContrast(!isHighContrast)}
-        isHighContrast={isHighContrast}
-      />
+      <LearningHeader />
 
       {/* Apple-Quality Hero Ocean */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden hero-mobile-landscape">
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden hero-mobile-landscape pt-16">
         {/* Constrained Ocean Background */}
         <div className="absolute inset-0">
           {/* Base ocean image with proper constraints */}

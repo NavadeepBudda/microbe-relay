@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 
 interface PredictionCard2Props {
-  onLock: (data: { dominantStep: string }) => void;
+  onLock: (data: { dominantStep: string }) => void | Promise<void>;
   isLocked: boolean;
   onUnlock: () => void;
 }
@@ -18,9 +18,13 @@ const steps = [
 export const PredictionCard2 = ({ onLock, isLocked, onUnlock }: PredictionCard2Props) => {
   const [selectedStep, setSelectedStep] = useState<string>("");
 
-  const handleLock = () => {
+  const handleLock = async () => {
     if (selectedStep) {
-      onLock({ dominantStep: selectedStep });
+      try {
+        await onLock({ dominantStep: selectedStep });
+      } catch (error) {
+        console.error('Error locking card 2:', error);
+      }
     }
   };
 

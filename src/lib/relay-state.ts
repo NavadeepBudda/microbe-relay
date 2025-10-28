@@ -34,7 +34,7 @@ export const getRelayState = (foodLevel: number): RelayState => {
   let coexistingModules: RelayModule[] = [];
 
   if (foodLevel < 35) {
-    // Low Food: Step 1 dominates
+    // Low Food: Step 1 dominates (NO₃⁻ → NO₂⁻)
     dominantModules = ["Step1"];
     coexistingModules = [];
   } else if (foodLevel < 70) {

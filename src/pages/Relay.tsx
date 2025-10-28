@@ -1,7 +1,8 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Globe, Info, ArrowRight, Target } from "lucide-react";
+import { BookOpen, Globe, Info, ArrowRight, Target } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { LearningHeader } from "@/components/LearningHeader";
 import { FoodSlider } from "@/components/FoodSlider";
 import { foodLevelDetails, type FoodLevel } from "@/lib/food-level";
 import { ContextModal } from "@/components/ContextModal";
@@ -16,33 +17,9 @@ const Relay = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <div className="border-b border-white/10 bg-white/5 backdrop-blur-xl sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/meet-the-relay")}
-                className="flex items-center gap-2 px-3 text-muted-foreground hover:text-foreground"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back
-              </Button>
-              
-              <div className="hidden sm:block h-6 w-px bg-white/20" />
-              
-              <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                Understanding Organic Matter
-              </div>
-            </div>
+      <LearningHeader />
 
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 space-y-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 pt-20 space-y-12">
         {/* Hero Section */}
         <section className="text-center space-y-6">
           <div className="space-y-4">

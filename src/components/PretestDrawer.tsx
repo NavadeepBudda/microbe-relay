@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PredictionCard1 } from "./PredictionCard1";
 import { PredictionCard2 } from "./PredictionCard2";
 import { PredictionCard3 } from "./PredictionCard3";
+import { pretestService, PretestSessionData } from "@/lib/pretest-service";
 
 interface PretestDrawerProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface PredictionData {
   id: string;
   response: string | number;
   timestamp: Date;
+  startTime: Date;
 }
 
 export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestDrawerProps) => {
@@ -23,14 +25,84 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
   const [card2Data, setCard2Data] = useState<PredictionData | null>(null);
   const [card3Data, setCard3Data] = useState<PredictionData | null>(null);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+  const [session, setSession] = useState<PretestSessionData | null>(null);
+  const [isInitializing, setIsInitializing] = useState(false);
+  
+  // Track when each card interaction starts
+  const [cardStartTimes, setCardStartTimes] = useState<{[key: number]: Date}>({});
 
   const allLocked = card1Data && card2Data && card3Data;
   const completedCount = [card1Data, card2Data, card3Data].filter(Boolean).length;
 
+  // Initialize session when drawer opens
+  useEffect(() => {
+    const initializeSession = async () => {
+      if (isOpen && !session && !isInitializing) {
+        setIsInitializing(true);
+        try {
+          const newSession = await pretestService.initializeSession();
+          setSession(newSession);
+          
+          // Initialize start times for all cards when session is created
+          const now = new Date();
+          setCardStartTimes({
+            1: now,
+            2: now, 
+            3: now
+          });
+          
+          console.log('Session initialized:', newSession);
+        } catch (error) {
+          console.error('Failed to initialize pretest session:', error);
+        } finally {
+          setIsInitializing(false);
+        }
+      }
+    };
+
+    initializeSession();
+  }, [isOpen, session, isInitializing]);
+
+  // Handle saving responses to database
+  const saveResponse = async (questionNumber: number, response: string) => {
+    if (!session) {
+      console.error('No active session for saving response');
+      return;
+    }
+
+    const startTime = cardStartTimes[questionNumber];
+    if (!startTime) {
+      console.error('No start time found for question', questionNumber);
+      return;
+    }
+
+    try {
+      const responseTime = Date.now() - startTime.getTime();
+      console.log('Saving response:', { questionNumber, response, responseTime });
+      await pretestService.saveResponse(questionNumber, response, responseTime);
+      console.log('Response saved successfully');
+    } catch (error) {
+      console.error('Failed to save response:', error);
+    }
+  };
 
   useEffect(() => {
     if (allLocked && !showSuccessAnimation) {
       setShowSuccessAnimation(true);
+      
+      // Complete the session in the database
+      const completeSession = async () => {
+        if (session) {
+          try {
+            await pretestService.completeSession();
+          } catch (error) {
+            console.error('Failed to complete session:', error);
+          }
+        }
+      };
+      
+      completeSession();
+      
       // Auto-close after animation
       const timer = setTimeout(() => {
         onComplete();
@@ -39,7 +111,7 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [allLocked, showSuccessAnimation, onComplete, onClose]);
+  }, [allLocked, showSuccessAnimation, onComplete, onClose, session]);
 
   if (!isOpen) return null;
 
@@ -90,29 +162,59 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
               {/* Cards Grid - Responsive */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <PredictionCard1
-              onLock={(data) => setCard1Data({
-                id: 'n2o-response',
-                response: JSON.stringify(data),
-                timestamp: new Date()
-              })}
+              onLock={async (data) => {
+                console.log('Card 1 locked with data:', data);
+                const now = new Date();
+                const cardData = {
+                  id: 'n2o-response',
+                  response: JSON.stringify(data),
+                  timestamp: now,
+                  startTime: now
+                };
+                setCard1Data(cardData);
+                
+                // Save to database
+                const standardAnswer = pretestService.mapCardResponseToStandardAnswer(1, data);
+                await saveResponse(1, standardAnswer);
+              }}
               isLocked={!!card1Data}
               onUnlock={() => setCard1Data(null)}
             />
             <PredictionCard2
-              onLock={(data) => setCard2Data({
-                id: 'dominant-step',
-                response: data.dominantStep,
-                timestamp: new Date()
-              })}
+              onLock={async (data) => {
+                console.log('Card 2 locked with data:', data);
+                const now = new Date();
+                const cardData = {
+                  id: 'dominant-step',
+                  response: data.dominantStep,
+                  timestamp: now,
+                  startTime: now
+                };
+                setCard2Data(cardData);
+                
+                // Save to database
+                const standardAnswer = pretestService.mapCardResponseToStandardAnswer(2, data.dominantStep);
+                await saveResponse(2, standardAnswer);
+              }}
               isLocked={!!card2Data}
               onUnlock={() => setCard2Data(null)}
             />
             <PredictionCard3
-              onLock={(data) => setCard3Data({
-                id: 'pulse-moment',
-                response: data.pulseGuess,
-                timestamp: new Date()
-              })}
+              onLock={async (data) => {
+                console.log('Card 3 locked with data:', data);
+                const now = new Date();
+                const cardData = {
+                  id: 'pulse-moment',
+                  response: data.pulseGuess,
+                  timestamp: now,
+                  startTime: now
+                };
+                setCard3Data(cardData);
+                
+                // Save to database
+                const standardAnswer = pretestService.mapCardResponseToStandardAnswer(3, data.pulseGuess);
+                await saveResponse(3, standardAnswer);
+              }}
               isLocked={!!card3Data}
               onUnlock={() => setCard3Data(null)}
               onPulse={onPulse}

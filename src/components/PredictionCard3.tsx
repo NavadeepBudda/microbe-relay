@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 
 interface PredictionCard3Props {
-  onLock: (data: { pulseGuess: string }) => void;
+  onLock: (data: { pulseGuess: string }) => void | Promise<void>;
   isLocked: boolean;
   onUnlock: () => void;
   onPulse: () => void;
@@ -12,9 +12,13 @@ interface PredictionCard3Props {
 export const PredictionCard3 = ({ onLock, isLocked, onUnlock, onPulse }: PredictionCard3Props) => {
   const [pulseGuess, setPulseGuess] = useState<string>("");
 
-  const handleLock = () => {
+  const handleLock = async () => {
     if (pulseGuess) {
-      onLock({ pulseGuess });
+      try {
+        await onLock({ pulseGuess });
+      } catch (error) {
+        console.error('Error locking card 3:', error);
+      }
     }
   };
 

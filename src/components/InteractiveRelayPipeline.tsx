@@ -100,6 +100,14 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
     const module = moduleMap[stepNumber];
     if (!module) return "inactive";
     
+    // Special handling for low food: Step1 represents NO₃⁻ → NO₂⁻ conversion (both circles 1 and 2)
+    if (foodLevel < 35 && relayState.dominantModules.includes("Step1")) {
+      if (stepNumber === 1 || stepNumber === 2) {
+        return "dominant"; // Both NO₃⁻ and NO₂⁻ circles should light up for Step1
+      }
+      return "inactive";
+    }
+    
     // For high food (multi-step specialists), show all steps as active
     if (foodLevel >= 70) {
       // Multi-step specialists perform all steps, so show all as dominant
@@ -142,18 +150,31 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
                     className="w-20 h-20 md:w-24 md:h-24"
                   />
                   <div className="mt-3 text-center">
-                    <p className="text-xs text-white/60">Step {index + 1}</p>
                     <p className="text-sm font-medium text-white">{stage.node.label}{stage.node.subscript}</p>
                   </div>
                 </div>
                 
                 {index < relayStages.length - 1 && (
-                  <div className="mx-4">
-                    <RelayArrow
-                      className="w-16"
-                      isActive={activityLevel !== "inactive"}
-                      isDominant={activityLevel === "dominant"}
-                    />
+                  <div className="mx-4 flex flex-col items-center">
+                    {index < 3 && (
+                      <div className="w-16 flex flex-col items-center">
+                        <div className={`w-5 h-5 flex items-center justify-center transition-all duration-300 ${
+                          activityLevel === "dominant" ? "opacity-100" : 
+                          activityLevel === "active" ? "opacity-70" : "opacity-30"
+                        }`}>
+                          <svg
+                            className="w-5 h-5 text-teal-glow"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                        <p className="text-xs text-white/60 mt-1">Step {index + 1}</p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

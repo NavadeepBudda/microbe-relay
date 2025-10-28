@@ -4,7 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Lock } from "lucide-react";
 
 interface PredictionCard1Props {
-  onLock: (data: { foodLevel: number; n2oGuess: string }) => void;
+  onLock: (data: { foodLevel: number; n2oGuess: string }) => void | Promise<void>;
   isLocked: boolean;
   onUnlock: () => void;
 }
@@ -13,9 +13,13 @@ export const PredictionCard1 = ({ onLock, isLocked, onUnlock }: PredictionCard1P
   const [foodLevel, setFoodLevel] = useState(50);
   const [n2oGuess, setN2oGuess] = useState<string>("");
 
-  const handleLock = () => {
+  const handleLock = async () => {
     if (n2oGuess) {
-      onLock({ foodLevel, n2oGuess });
+      try {
+        await onLock({ foodLevel, n2oGuess });
+      } catch (error) {
+        console.error('Error locking card 1:', error);
+      }
     }
   };
 

@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Droplets,
   GaugeCircle,
@@ -12,6 +11,7 @@ import type { LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import { LearningHeader } from "@/components/LearningHeader";
 import { InteractiveFoodControl } from "@/components/InteractiveFoodControl";
 import { InteractiveRelayPipeline } from "@/components/InteractiveRelayPipeline";
 import { DynamicExplanation } from "@/components/DynamicExplanation";
@@ -233,28 +233,10 @@ const MeetTheRelay = () => {
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col">
-        <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(6,15,26,0.82)] backdrop-blur-2xl">
-          <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
-            <Button
-              onClick={() => navigate("/")}
-              variant="ghost"
-              size="lg"
-              className="gap-3 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-white/80 transition hover:bg-white/15 hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to overview
-            </Button>
-
-            <div className="hidden items-center gap-2 text-xs uppercase tracking-[0.4em] text-white/60 sm:flex">
-              <span className="h-2 w-2 rounded-full bg-white/60" />
-              <span className="h-2 w-2 rounded-full bg-teal-400/70" />
-              <span className="h-2 w-2 rounded-full bg-omz-violet/60" />
-            </div>
-          </div>
-        </header>
+        <LearningHeader />
 
         <main className="flex flex-1 flex-col">
-          <section className="relative isolate pb-24 pt-16 md:pb-28 md:pt-24">
+          <section className="relative isolate pb-24 pt-20 md:pb-28 md:pt-28">
             <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6">
               <div className="space-y-8 text-center md:text-left">
                 <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 backdrop-blur-xl md:self-start">
@@ -375,7 +357,7 @@ const MeetTheRelay = () => {
                     size="lg"
                     className="rounded-full bg-coral-cta px-10 py-6 text-base font-semibold text-white shadow-[0_25px_60px_-30px_rgba(245,97,69,0.8)] transition hover:scale-[1.03] hover:bg-coral-cta/90"
                   >
-                    Start the lab
+                    Continue Learning
                     <ArrowRight className="ml-3 h-5 w-5" />
                   </Button>
                 </div>

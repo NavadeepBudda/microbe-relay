@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, Target, Zap, AlertTriangle } from "lucide-react";
+import { CheckCircle, Target, Zap, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { LearningHeader } from "@/components/LearningHeader";
 import { InteractiveRelayPipeline } from "@/components/InteractiveRelayPipeline";
 import { InteractiveFoodControl } from "@/components/InteractiveFoodControl";
 import { InteractiveN2OGauge } from "@/components/InteractiveN2OGauge";
@@ -117,43 +118,9 @@ const TryIt = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      {/* Header */}
-      <div className="border-b border-white/10 bg-white/5 backdrop-blur-xl sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/relay")}
-                className="flex items-center gap-2 px-3 text-muted-foreground hover:text-foreground"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back
-              </Button>
-              
-              <div>
-                <div className="text-lg font-semibold text-foreground">Try It</div>
-                <div className="text-sm text-muted-foreground">Test what you've learned with 3 quick missions</div>
-              </div>
-            </div>
+      <LearningHeader />
 
-            <div className="flex items-center gap-4">
-              <div className="text-sm text-muted-foreground">
-                {getProgressText()}
-              </div>
-              <div className="w-24 h-2 glass-subtle rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-500"
-                  style={{ width: `${(completedMissions.length / missions.length) * 100}%` }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 pt-20">
         <div className="max-w-7xl mx-auto">
           {/* Success Message */}
           {showSuccessMessage && (
@@ -294,7 +261,9 @@ const TryIt = () => {
                   
                   <div className="flex items-center gap-2">
                     <span className="text-white/60">N₂O Level:</span>
-                    <span className="font-medium text-white">{Math.round(n2oLevel)}%</span>
+                    <span className="font-medium text-white">
+                      {n2oLevel <= 35 ? "Low" : n2oLevel <= 70 ? "Medium" : "High"}
+                    </span>
                     {n2oLevel > 70 && (
                       <AlertTriangle className="w-4 h-4 text-coral-cta animate-pulse" />
                     )}
