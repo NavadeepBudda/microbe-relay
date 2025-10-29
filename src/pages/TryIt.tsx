@@ -7,6 +7,7 @@ import { InteractiveRelayPipeline } from "@/components/InteractiveRelayPipeline"
 import { InteractiveFoodControl } from "@/components/InteractiveFoodControl";
 import { InteractiveN2OGauge } from "@/components/InteractiveN2OGauge";
 import { getRelayState, calculateN2OLevel } from "@/lib/relay-state";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 interface Mission {
   id: number;
@@ -52,6 +53,7 @@ const missions: Mission[] = [
 ];
 
 const TryIt = () => {
+  useDocumentTitle("Microbe Relay | Try It");
   const navigate = useNavigate();
   const [foodLevel, setFoodLevel] = useState(50);
   const [currentMission, setCurrentMission] = useState(0);

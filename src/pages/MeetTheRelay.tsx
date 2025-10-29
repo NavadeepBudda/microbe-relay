@@ -16,6 +16,7 @@ import { InteractiveFoodControl } from "@/components/InteractiveFoodControl";
 import { InteractiveRelayPipeline } from "@/components/InteractiveRelayPipeline";
 import { DynamicExplanation } from "@/components/DynamicExplanation";
 import { GuidedOverlay } from "@/components/GuidedOverlay";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { analytics } from "@/lib/analytics";
 
 type RelayStage = {
@@ -131,6 +132,7 @@ const microbeProfiles: MicrobeProfile[] = [
 ];
 
 const MeetTheRelay = () => {
+  useDocumentTitle("Microbe Relay | Meet the Relay");
   const navigate = useNavigate();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   

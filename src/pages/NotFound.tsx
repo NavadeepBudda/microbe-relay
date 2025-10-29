@@ -1,7 +1,9 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 const NotFound = () => {
+  useDocumentTitle("Microbe Relay | Page Not Found");
   const location = useLocation();
 
   useEffect(() => {

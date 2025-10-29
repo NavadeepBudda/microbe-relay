@@ -6,10 +6,12 @@ import { LearningHeader } from "@/components/LearningHeader";
 import { FoodSlider } from "@/components/FoodSlider";
 import { foodLevelDetails, type FoodLevel } from "@/lib/food-level";
 import { ContextModal } from "@/components/ContextModal";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export type { FoodLevel };
 
 const Relay = () => {
+  useDocumentTitle("Microbe Relay | Relay");
   const navigate = useNavigate();
   const [foodLevel, setFoodLevel] = useState<FoodLevel>("low");
   const [isContextModalOpen, setIsContextModalOpen] = useState(false);

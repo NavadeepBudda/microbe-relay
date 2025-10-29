@@ -5,9 +5,11 @@ import { GlossaryChip } from "@/components/GlossaryChip";
 import { PretestDrawer } from "@/components/PretestDrawer";
 import { ChevronRight, Play, ArrowDown, Waves, Microscope, Target } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import oceanHero from "@/assets/ocean-hero.jpg";
 
 const Orientation = () => {
+  useDocumentTitle("Microbe Relay | Orientation Bay");
   const navigate = useNavigate();
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [flippedChips, setFlippedChips] = useState<Set<string>>(new Set());
