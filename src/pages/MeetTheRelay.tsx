@@ -5,6 +5,7 @@ import {
   GaugeCircle,
   Link2,
   Microscope,
+  Target,
   Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -331,18 +332,21 @@ const MeetTheRelay = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18)_0%,_rgba(10,24,44,0.85)_55%,_rgba(6,15,26,0.95)_100%)] opacity-90" aria-hidden />
                 <div className="relative z-10 space-y-6">
                   <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60">
-                    <Droplets className="h-4 w-4" />
-                    Ready to try the relay?
+                    <Target className="h-4 w-4" />
+                    Mission-Based Learning
                   </p>
                   <h2 className="text-4xl font-semibold text-white sm:text-5xl">
-                    Slide Food (organic matter) and watch which specialists lead each step.
+                    Take on interactive missions to master the relay dynamics.
                   </h2>
+                  <p className="text-lg text-white/70 max-w-2xl mx-auto">
+                    Complete 3 hands-on missions: control food scarcity to dominate Step 1, create N₂O hotspots at medium levels, and activate complete pathways with high food. Each mission tests your understanding with real-time feedback.
+                  </p>
                   <Button
-                    onClick={() => navigate("/relay")}
+                    onClick={() => navigate("/try-it")}
                     size="lg"
                     className="rounded-full bg-coral-cta px-10 py-6 text-base font-semibold text-white shadow-[0_25px_60px_-30px_rgba(245,97,69,0.8)] transition hover:scale-[1.03] hover:bg-coral-cta/90"
                   >
-                    Continue Learning
+                    Start Missions
                     <ArrowRight className="ml-3 h-5 w-5" />
                   </Button>
                 </div>

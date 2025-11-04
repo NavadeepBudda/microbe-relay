@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Globe, Info, ArrowRight, Target } from "lucide-react";
+import { BookOpen, Globe, Info, ArrowRight, Target, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LearningHeader } from "@/components/LearningHeader";
 import { FoodSlider } from "@/components/FoodSlider";
 import { foodLevelDetails, type FoodLevel } from "@/lib/food-level";
 import { ContextModal } from "@/components/ContextModal";
+import { PostTestDrawer } from "@/components/PostTestDrawer";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export type { FoodLevel };
@@ -15,7 +16,15 @@ const Relay = () => {
   const navigate = useNavigate();
   const [foodLevel, setFoodLevel] = useState<FoodLevel>("low");
   const [isContextModalOpen, setIsContextModalOpen] = useState(false);
+  const [isPostTestOpen, setIsPostTestOpen] = useState(false);
+  const [isPostTestComplete, setIsPostTestComplete] = useState(false);
+  const [isPulsing, setIsPulsing] = useState(false);
   const currentLevelDetails = foodLevelDetails.find(level => level.value === foodLevel) ?? foodLevelDetails[0];
+
+  const handlePulse = () => {
+    setIsPulsing(true);
+    setTimeout(() => setIsPulsing(false), 1200);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -275,35 +284,62 @@ const Relay = () => {
         </section>
       </div>
 
-      {/* Enhanced Footer with Try It Button */}
+      {/* Enhanced Footer with Post-Test */}
       <div className="border-t border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8">
-          <div className="text-center space-y-6">
-            <div className="flex items-center justify-center gap-2 text-primary">
-              <BookOpen className="w-5 h-5" />
-              <span className="text-sm font-semibold">Understanding Organic Matter Impact</span>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-16">
+          {!isPostTestComplete ? (
+            <div className="text-center space-y-8">
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-subtle border border-primary/20">
+                  <Target className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold text-primary uppercase tracking-[0.3em]">Knowledge Assessment</span>
+                </div>
+                
+                <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight">
+                  Test Your Understanding
+                </h2>
+                
+                <p className="text-muted-foreground text-xl leading-relaxed max-w-3xl mx-auto font-light">
+                  Apply what you've learned about ocean microbe behavior and greenhouse gas production.
+                </p>
+              </div>
+              
+              <div className="pt-4">
+                <Button
+                  onClick={() => setIsPostTestOpen(true)}
+                  size="lg"
+                  className="group relative h-auto rounded-full px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_25px_60px_-25px_rgba(16,76,133,0.8)] transition-all duration-300 bg-gradient-to-r from-primary via-accent to-coral-cta hover:-translate-y-0.5 hover:shadow-[0_35px_80px_-25px_rgba(244,114,87,0.75)] hover:scale-105"
+                >
+                  <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <span className="relative flex items-center gap-3">
+                    <Target className="h-5 w-5" />
+                    <span className="text-lg">Take Knowledge Assessment</span>
+                    <ArrowRight className="h-4 w-4 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </span>
+                </Button>
+              </div>
             </div>
-            
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-white">Ready to test your knowledge?</h3>
+          ) : (
+            <div className="text-center space-y-6">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <CheckCircle className="w-8 h-8 text-emerald-400" />
+                <h3 className="text-2xl font-bold text-emerald-400">Assessment Complete!</h3>
+              </div>
+              
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Put your understanding to the test with interactive missions that challenge you to control the microbe relay and achieve specific goals.
+                Excellent work! You've demonstrated mastery of ocean denitrification concepts. You now understand how food scarcity shapes which specialists dominate, when greenhouse gases spike, and how ocean chemistry drives global nitrogen cycles.
               </p>
               
-              <Button
-                onClick={() => navigate("/try-it")}
-                size="lg"
-                className="group relative h-auto rounded-full px-8 py-4 text-base font-semibold text-white shadow-[0_25px_60px_-25px_rgba(245,97,69,0.8)] transition-all duration-300 bg-gradient-to-r from-coral-cta to-coral-cta/80 hover:-translate-y-0.5 hover:shadow-[0_35px_80px_-25px_rgba(245,97,69,0.75)] hover:scale-105"
-              >
-                <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="relative flex items-center gap-3">
-                  <Target className="h-5 w-5" />
-                  <span className="text-lg">Try It - Test Your Knowledge</span>
-                  <ArrowRight className="h-5 w-5 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
-                </span>
-              </Button>
+              <div className="flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-semibold">
+                <CheckCircle className="w-5 h-5" />
+                <span>Ocean Microbe Expert Certified</span>
+              </div>
+              
+              <p className="text-sm text-muted-foreground/70">
+                Feel free to continue exploring and experimenting with the food controls above.
+              </p>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -312,6 +348,14 @@ const Relay = () => {
         isOpen={isContextModalOpen}
         onClose={() => setIsContextModalOpen(false)}
         foodLevel={foodLevel}
+      />
+
+      {/* Post-Test Drawer */}
+      <PostTestDrawer
+        isOpen={isPostTestOpen}
+        onClose={() => setIsPostTestOpen(false)}
+        onComplete={() => setIsPostTestComplete(true)}
+        onPulse={handlePulse}
       />
     </div>
   );

@@ -31,18 +31,18 @@ const learningPages: LearningPage[] = [
     backPath: "/",
   },
   {
-    path: "/relay",
-    title: "Organic Matter & Ocean Chemistry", 
-    subtitle: "Environmental controls",
+    path: "/try-it",
+    title: "Try It",
+    subtitle: "Test your knowledge",
     step: 3,
     backPath: "/meet-the-relay",
   },
   {
-    path: "/try-it",
-    title: "Try It",
-    subtitle: "Test your knowledge",
+    path: "/relay",
+    title: "Organic Matter & Ocean Chemistry", 
+    subtitle: "Environmental controls",
     step: 4,
-    backPath: "/relay",
+    backPath: "/try-it",
   },
 ];
 

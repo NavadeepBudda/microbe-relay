@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Target, Zap, AlertTriangle } from "lucide-react";
+import { CheckCircle, Target, Zap, AlertTriangle, ArrowRight, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LearningHeader } from "@/components/LearningHeader";
 import { InteractiveRelayPipeline } from "@/components/InteractiveRelayPipeline";
@@ -286,6 +286,39 @@ const TryIt = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Navigation Section */}
+          <div className="mt-16 pt-12 border-t border-white/10">
+            <div className="text-center space-y-6">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-subtle border border-primary/20 text-sm text-primary font-medium">
+                  <BookOpen className="w-4 h-4" />
+                  Ready for Deep Dive
+                </div>
+                
+                <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                  Explore Ocean Chemistry
+                </h2>
+                
+                <p className="text-lg text-white/80 max-w-2xl mx-auto">
+                  Now that you've mastered the relay dynamics, dive deeper into the environmental chemistry that drives these microbial processes.
+                </p>
+              </div>
+
+              <Button
+                onClick={() => navigate("/relay")}
+                size="lg"
+                className="group relative h-auto rounded-full px-8 py-4 text-base font-semibold text-white shadow-[0_25px_60px_-25px_rgba(245,97,69,0.8)] transition-all duration-300 bg-gradient-to-r from-coral-cta to-coral-cta/80 hover:-translate-y-0.5 hover:shadow-[0_35px_80px_-25px_rgba(245,97,69,0.75)] hover:scale-105"
+              >
+                <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="relative flex items-center gap-3">
+                  <BookOpen className="h-5 w-5" />
+                  <span className="text-lg">Continue to Ocean Chemistry</span>
+                  <ArrowRight className="h-5 w-5 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
+              </Button>
             </div>
           </div>
         </div>
