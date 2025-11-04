@@ -9,10 +9,9 @@ interface PredictionCard2Props {
 }
 
 const steps = [
-  { id: "NO3", label: "NO₃⁻" },
-  { id: "NO2", label: "NO₂⁻" },
-  { id: "N2O", label: "N₂O" },
-  { id: "N2", label: "N₂" },
+  { id: "step1", label: "Step 1: NO₃⁻ to NO₂⁻" },
+  { id: "step1and2", label: "Step 1 and 2: NO₃⁻ to N₂O" },
+  { id: "step1and2and3", label: "Step 1 and 2 and 3: NO₃⁻ to N₂" },
 ];
 
 export const PredictionCard2 = ({ onLock, isLocked, onUnlock }: PredictionCard2Props) => {
@@ -48,13 +47,13 @@ export const PredictionCard2 = ({ onLock, isLocked, onUnlock }: PredictionCard2P
       <div className="flex-1 space-y-4">
         {/* Question */}
         <p className="text-sm text-muted-foreground">
-          Which step <span className="text-primary font-semibold">dominates in low food</span> conditions?
+          Which pathway steps <span className="text-primary font-semibold">dominate in low food</span> conditions?
         </p>
         
         {/* Compact Selection */}
         <div className="space-y-2">
           <label className="block text-xs font-medium text-foreground/80">
-            Select pathway step:
+            Select pathway steps:
           </label>
           
           <div className="space-y-1.5">
@@ -63,7 +62,7 @@ export const PredictionCard2 = ({ onLock, isLocked, onUnlock }: PredictionCard2P
                 key={step.id}
                 onClick={() => !isLocked && setSelectedStep(step.id)}
                 disabled={isLocked}
-                className={`w-full p-2.5 rounded-xl font-mono text-sm font-bold transition-all duration-300 border text-left flex items-center justify-between ${
+                className={`w-full p-3 rounded-xl text-sm font-medium transition-all duration-300 border text-left flex items-center justify-between ${
                   selectedStep === step.id
                     ? "bg-primary text-background border-primary"
                     : "bg-background/50 border-white/20 hover:bg-primary/20"
@@ -71,13 +70,13 @@ export const PredictionCard2 = ({ onLock, isLocked, onUnlock }: PredictionCard2P
                 aria-pressed={selectedStep === step.id}
                 aria-label={`Select ${step.label}`}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                     selectedStep === step.id ? "bg-background/20" : "bg-primary/20"
                   }`}>
                     {idx + 1}
                   </div>
-                  <span>{step.label}</span>
+                  <span className="font-mono">{step.label}</span>
                 </div>
                 {selectedStep === step.id && (
                   <div className="w-4 h-4 rounded-full bg-background/20 flex items-center justify-center text-xs">

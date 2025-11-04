@@ -95,38 +95,26 @@ const relayStages: RelayStage[] = [
 const microbeProfiles: MicrobeProfile[] = [
   {
     icon: Microscope,
-    title: "NITRATE REDUCERS (NO₃⁻ → NO₂⁻)",
-    subtitle: "STEP 01",
-    description: "Who wins when: Low food",
-    highlights: [
-      "Carry the smallest enzyme set → thrifty with carbon.",
-      "Supply NO₂⁻ to everyone downstream.",
-      "Tend to be the most widespread module in food-poor waters.",
-    ],
+    title: "Relay Team Forms",
+    subtitle: "Low Food",
+    description: "When there's almost no food, only the cheapest microbes are able to keep going. The best at surviving are the Step 1 microbes that do the first part of the process (turning nitrate into nitrite). They only run that one step, so they don't need lots of enzymes or energy. The nitrite they produced can then support microbes that turn nitrite into nitrogen gas. Now these two specialists each run different steps and pass the chemistry along, like a relay.",
+    highlights: [],
     accent: "from-teal-glow/20 via-transparent to-white/5",
   },
   {
     icon: Link2,
-    title: "NITRITE REDUCERS (NO₂⁻ → N₂O)",
-    subtitle: "STEP 02",
-    description: "Who wins when: Medium food (or short pulses)",
-    highlights: [
-      "Grow once Step 1 provides enough NO₂⁻.",
-      "Often make N₂O the main hand-off, creating N₂O peaks.",
-      "Coexist with other single-step players in patchy conditions.",
-    ],
+    title: "Different Relay Team Forms",
+    subtitle: "Medium Food",
+    description: "When a pulse of food shows up, different types of microbes can stay active. This is where nitrous oxide gets made and passed between microbes, so nitrous oxide can build up. Multiple steps are happening at once, but they're still mostly done by different microbes.",
+    highlights: [],
     accent: "from-omz-violet/20 via-transparent to-white/5",
   },
   {
     icon: Droplets,
-    title: "N₂O REDUCERS / COMPLETE DENITRIFIERS (… → N₂)",
-    subtitle: "STEP 03",
-    description: "Who wins when: High food (nitrate becomes limiting)",
-    highlights: [
-      "Longer pathways pay the enzyme cost but squeeze more energy from N.",
-      "Finish the relay by turning N₂O → N₂, lowering greenhouse gas output.",
-      "Dominate during sustained high-food periods.",
-    ],
+    title: "Multi-Step Players",
+    subtitle: "High Food",
+    description: "With lots of food, some microbes can afford to carry out many steps on their own, from nitrate almost all the way to nitrogen gas. These multi-step microbes don't have to hand off as much, and they can also use up nitrous oxide instead of leaving it behind. This means less passing between different microbes and more complete cleanup of nitrous oxide.",
+    highlights: [],
     accent: "from-coral-cta/20 via-transparent to-white/5",
   },
 ];
@@ -296,13 +284,8 @@ const MeetTheRelay = () => {
                 <h2 className="text-3xl font-semibold text-white sm:text-4xl">
                   Who wins as food changes
                 </h2>
-                <div className="max-w-4xl space-y-4 text-base text-white/80 sm:text-lg">
-                  <p>Most denitrifiers do <strong>one</strong> step of the nitrogen relay.</p>
-                  <div className="space-y-2">
-                    <p><strong>Low food (carbon scarce):</strong> short, <strong>single-step</strong> players win.</p>
-                    <p><strong>Medium food (pulses/patchy):</strong> multiple single-step players <strong>coexist</strong>; <strong>N₂O</strong> often becomes the hand-off.</p>
-                    <p><strong>High food (nitrate scarce):</strong> <strong>longer, multi-step</strong> players take over and push N₂O to <strong>N₂</strong>.</p>
-                  </div>
+                <div className="max-w-4xl text-base text-white/80 sm:text-lg">
+                  <p>In low-oxygen parts of the ocean, different microbes team up to breathe nitrogen in steps, and who does which step mostly depends on how much food (organic matter) is available.</p>
                 </div>
               </div>
 

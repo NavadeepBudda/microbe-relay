@@ -10,7 +10,7 @@ interface PredictionCard1Props {
 }
 
 export const PredictionCard1 = ({ onLock, isLocked, onUnlock }: PredictionCard1Props) => {
-  const [foodLevel, setFoodLevel] = useState(50);
+  const foodLevel = 50; // Fixed at 50, no longer state
   const [n2oGuess, setN2oGuess] = useState<string>("");
 
   const handleLock = async () => {
@@ -43,27 +43,24 @@ export const PredictionCard1 = ({ onLock, isLocked, onUnlock }: PredictionCard1P
       <div className="flex-1 space-y-4">
         {/* Question */}
         <p className="text-sm text-muted-foreground">
-          Set food level and predict <span className="text-primary font-semibold">N₂O output</span>
+          Food level is fixed at medium. Predict <span className="text-primary font-semibold">N₂O output</span>
         </p>
 
-        {/* Food Control */}
+        {/* Fixed Food Level Display */}
         <div className="space-y-2">
           <label className="block text-xs font-medium text-foreground/80">
-            Food Level: <span className="text-primary font-bold">{foodLevel}</span>
+            Food Level: <span className="text-primary font-bold">{foodLevel}</span> (Fixed)
           </label>
           <div className="p-3 bg-background/30 rounded-xl border border-white/10">
-            <Slider
-              value={[foodLevel]}
-              onValueChange={(v) => !isLocked && setFoodLevel(v[0])}
-              min={0}
-              max={100}
-              step={50}
-              disabled={isLocked}
-              className="w-full"
-              aria-label="Food level slider"
-            />
+            <div className="relative w-full h-2 bg-muted/30 rounded-full">
+              <div 
+                className="absolute left-1/2 transform -translate-x-1/2 h-full w-2 bg-primary rounded-full"
+                aria-label="Food level indicator at 50"
+              />
+            </div>
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
               <span>Low</span>
+              <span className="text-primary font-semibold">Medium</span>
               <span>High</span>
             </div>
           </div>
