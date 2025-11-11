@@ -120,26 +120,26 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
   };
 
   return (
-    <div className={`relative w-full max-w-6xl mx-auto rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl ${className || ""}`}>
+    <div className={`relative w-full max-w-6xl mx-auto rounded-3xl border border-white/10 bg-white/5 p-4 md:p-8 shadow-2xl backdrop-blur-xl ${className || ""}`}>
       {/* Clean background */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl" aria-hidden />
       
       {/* Educational badge - always visible */}
-      <div className="educational-badge mb-8 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-xl">
+      <div className="educational-badge mb-4 md:mb-8 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 md:px-6 py-2 md:py-3 text-xs md:text-sm font-medium text-white/90 backdrop-blur-xl">
           A few microbes can do many steps, but most do one or two
         </div>
       </div>
 
       {/* Clean, centered pipeline */}
-      <div className="space-y-8">
-        {/* Step nodes row */}
-        <div className="flex items-center justify-center gap-8 px-4">
+      <div className="space-y-4 md:space-y-8">
+        {/* Step nodes row - responsive layout */}
+        <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-8 px-2 md:px-4 overflow-x-auto">
           {relayStages.map((stage, index) => {
             const activityLevel = getStepActivityLevel(index + 1);
             
             return (
-              <div key={stage.stage} className="flex items-center">
+              <div key={stage.stage} className="flex items-center flex-shrink-0">
                 <div className="flex flex-col items-center text-center">
                   <RelayNode
                     label={stage.node.label}
@@ -147,23 +147,23 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
                     glowColor={stage.node.glowColor}
                     isActive={activityLevel === "active"}
                     isDominant={activityLevel === "dominant"}
-                    className="w-20 h-20 md:w-24 md:h-24"
+                    className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
                   />
-                  <div className="mt-3 text-center">
-                    <p className="text-sm font-medium text-white">{stage.node.label}{stage.node.subscript}</p>
+                  <div className="mt-1 md:mt-3 text-center">
+                    <p className="text-xs sm:text-sm font-medium text-white">{stage.node.label}{stage.node.subscript}</p>
                   </div>
                 </div>
                 
                 {index < relayStages.length - 1 && (
-                  <div className="mx-4 flex flex-col items-center">
+                  <div className="mx-1 sm:mx-2 md:mx-4 flex flex-col items-center flex-shrink-0">
                     {index < 3 && (
-                      <div className="w-16 flex flex-col items-center">
-                        <div className={`w-5 h-5 flex items-center justify-center transition-all duration-300 ${
+                      <div className="w-8 sm:w-12 md:w-16 flex flex-col items-center">
+                        <div className={`w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center transition-all duration-300 ${
                           activityLevel === "dominant" ? "opacity-100" : 
                           activityLevel === "active" ? "opacity-70" : "opacity-30"
                         }`}>
                           <svg
-                            className="w-5 h-5 text-teal-glow"
+                            className="w-4 h-4 sm:w-5 sm:h-5 text-teal-glow"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -172,7 +172,7 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                           </svg>
                         </div>
-                        <p className="text-xs text-white/60 mt-1">Step {index + 1}</p>
+                        <p className="text-xs text-white/60 mt-1 hidden sm:block">Step {index + 1}</p>
                       </div>
                     )}
                   </div>
@@ -184,10 +184,10 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
 
         {/* Multi-step bands */}
         {threeStepActive && !isHighFood && (
-          <div className="mx-8 mt-4 flex flex-col items-center gap-3">
-            <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="mx-2 md:mx-8 mt-2 md:mt-4 flex flex-col items-center gap-2 md:gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
               {threeStepActive && (
-                <div className={`rounded-xl border px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
+                <div className={`rounded-xl border px-3 md:px-4 py-1.5 md:py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition-all duration-500 ${
                   relayState.dominantModules.includes("ThreeStepBand")
                     ? "border-white/50 bg-white/15"
                     : "border-white/25 bg-white/8"
@@ -200,8 +200,8 @@ export const InteractiveRelayPipeline = ({ foodLevel, className }: InteractiveRe
         )}
 
         {/* Activity summary */}
-        <div className="pt-4 text-center">
-          <p className="text-sm text-white/70">
+        <div className="pt-2 md:pt-4 text-center px-2">
+          <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
             {foodLevel < 35 && "Step 1 specialists dominate with minimal energy requirements"}
             {foodLevel >= 35 && foodLevel < 70 && "Multiple specialists coexist and share the workload"}
             {foodLevel >= 70 && "Multi-step specialists carry the relay and finish the full pathway"}

@@ -227,39 +227,39 @@ const MeetTheRelay = () => {
         <LearningHeader />
 
         <main className="flex flex-1 flex-col">
-          <section className="relative isolate pb-24 pt-20 md:pb-28 md:pt-28">
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6">
-              <div className="space-y-8 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 backdrop-blur-xl md:self-start">
-                  <Zap className="h-4 w-4 text-teal-200" />
+          <section className="relative isolate pb-16 pt-16 md:pb-24 md:pt-20 lg:pb-28 lg:pt-28">
+            <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-16 px-4 md:px-6">
+              <div className="space-y-4 md:space-y-8 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/10 bg-white/5 px-3 md:px-5 py-1.5 md:py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 backdrop-blur-xl md:self-start">
+                  <Zap className="h-3 w-3 md:h-4 md:w-4 text-teal-200" />
                   Relay intelligence
                 </div>
-                <div className="space-y-6">
-                  <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                <div className="space-y-4 md:space-y-6">
+                  <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
                     Meet the Relay
                   </h1>
-                  <p className="mx-auto max-w-3xl text-base text-white/80 sm:text-lg md:mx-0">
+                  <p className="mx-auto max-w-3xl text-sm sm:text-base md:text-lg text-white/80 leading-relaxed md:mx-0 px-2 md:px-0">
                     In low-oxygen waters, different microbes run different steps. Move the Food dial to see the handoff change.
                   </p>
                 </div>
               </div>
 
               {/* Interactive Pipeline Section - Clean and Centered */}
-              <div className="relay-pipeline flex justify-center mb-10">
+              <div className="relay-pipeline flex justify-center mb-6 md:mb-10">
                 <InteractiveRelayPipeline 
                   foodLevel={foodLevel} 
                   className="w-full"
                 />
               </div>
 
-              {/* Interactive Controls and Explanation Grid - Better spacing */}
-              <div className="grid gap-7 lg:grid-cols-2 max-w-5xl mx-auto">
+              {/* Interactive Controls and Explanation Grid - Mobile responsive */}
+              <div className="grid gap-4 md:gap-7 lg:grid-cols-2 max-w-5xl mx-auto">
                 {/* Food Control */}
                 <div className="food-control-slider">
                   <InteractiveFoodControl
                     value={foodLevel}
                     onChange={handleFoodLevelChange}
-                    className="h-full min-h-[310px]"
+                    className="h-full min-h-[280px] md:min-h-[310px]"
                   />
                 </div>
                 
@@ -267,7 +267,7 @@ const MeetTheRelay = () => {
                 <div className="explanation-area">
                   <DynamicExplanation
                     foodLevel={foodLevel}
-                    className="h-full min-h-[310px]"
+                    className="h-full min-h-[280px] md:min-h-[310px]"
                     autoUpdate={true}
                   />
                 </div>
@@ -275,49 +275,51 @@ const MeetTheRelay = () => {
             </div>
           </section>
 
-          <section className="relative border-t border-white/10 bg-white/5 py-24 md:py-32">
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6">
-              <div className="flex flex-col gap-6 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 md:self-start">
-                  <GaugeCircle className="h-4 w-4" />
+          <section className="relative border-t border-white/10 bg-white/5 py-16 md:py-24 lg:py-32">
+            <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-12 px-4 md:px-6">
+              <div className="flex flex-col gap-4 md:gap-6 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/15 bg-white/5 px-3 md:px-4 py-1.5 md:py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 md:self-start">
+                  <GaugeCircle className="h-3 w-3 md:h-4 md:w-4" />
                   Microbe playbook
                 </div>
-                <h2 className="text-3xl font-semibold text-white sm:text-4xl">
+                <h2 className="text-2xl font-semibold text-white sm:text-3xl md:text-4xl leading-tight">
                   Who wins as food changes
                 </h2>
-                <div className="max-w-4xl text-base text-white/80 sm:text-lg">
+                <div className="max-w-4xl text-sm sm:text-base md:text-lg text-white/80 leading-relaxed px-2 md:px-0">
                   <p>In low-oxygen parts of the ocean, different microbes team up to breathe nitrogen in steps, and who does which step mostly depends on how much food (organic matter) is available.</p>
                 </div>
               </div>
 
-              <div className="grid gap-10 lg:grid-cols-3 xl:gap-12">
+              <div className="grid gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:gap-12">
                 {microbeProfiles.map(({ icon: Icon, title, subtitle, description, highlights, accent }) => (
                   <div
                     key={title}
-                    className="relative flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[rgba(10,22,38,0.65)] p-9 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+                    className="relative flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[rgba(10,22,38,0.65)] p-5 md:p-7 lg:p-9 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
                   >
                     <div className={`absolute inset-0 rounded-[1.75rem] bg-gradient-to-br ${accent} opacity-70`} aria-hidden />
-                    <div className="relative z-10 flex h-full flex-col gap-8">
-                      <div className="flex flex-col gap-5">
-                        <div className="flex items-start gap-4">
-                          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white">
-                            <Icon className="h-5 w-5" />
+                    <div className="relative z-10 flex h-full flex-col gap-5 md:gap-8">
+                      <div className="flex flex-col gap-3 md:gap-5">
+                        <div className="flex items-start gap-3 md:gap-4">
+                          <div className="flex h-9 w-9 md:h-11 md:w-11 items-center justify-center rounded-full bg-white/10 text-white flex-shrink-0">
+                            <Icon className="h-4 w-4 md:h-5 md:w-5" />
                           </div>
-                          <div className="flex flex-col gap-1.5">
-                            <p className="text-[0.7rem] uppercase tracking-[0.18em] text-white/60">{subtitle}</p>
-                            <h3 className="text-lg font-semibold leading-snug text-white">{title}</h3>
+                          <div className="flex flex-col gap-1 md:gap-1.5 min-w-0 flex-1">
+                            <p className="text-[0.65rem] md:text-[0.7rem] uppercase tracking-[0.18em] text-white/60">{subtitle}</p>
+                            <h3 className="text-sm md:text-lg font-semibold leading-snug text-white">{title}</h3>
                           </div>
                         </div>
-                        <p className="text-sm leading-relaxed text-white/80">{description}</p>
+                        <p className="text-xs md:text-sm leading-relaxed text-white/80">{description}</p>
                       </div>
-                      <div className="space-y-4 text-sm leading-relaxed text-white/80">
-                        {highlights.map((item) => (
-                          <div key={item} className="flex items-start gap-3">
-                            <span className="mt-2 inline-flex h-1.5 w-1.5 flex-shrink-0 rounded-full bg-white/70" />
-                            <span>{item}</span>
-                          </div>
-                        ))}
-                      </div>
+                      {highlights.length > 0 && (
+                        <div className="space-y-3 md:space-y-4 text-xs md:text-sm leading-relaxed text-white/80">
+                          {highlights.map((item) => (
+                            <div key={item} className="flex items-start gap-2 md:gap-3">
+                              <span className="mt-1.5 md:mt-2 inline-flex h-1.5 w-1.5 flex-shrink-0 rounded-full bg-white/70" />
+                              <span className="leading-relaxed">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

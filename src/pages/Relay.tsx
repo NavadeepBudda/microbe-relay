@@ -39,22 +39,22 @@ const Relay = () => {
     <div className="min-h-screen bg-background text-foreground">
       <LearningHeader />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 pt-20 space-y-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 md:py-8 pt-16 md:pt-20 space-y-6 md:space-y-12">
         {/* Hero Section */}
-        <section className="text-center space-y-6">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-subtle border border-primary/20 text-sm text-primary font-medium">
-              <BookOpen className="w-4 h-4" />
+        <section className="text-center space-y-3 md:space-y-6">
+          <div className="space-y-2 md:space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full glass-subtle border border-primary/20 text-xs md:text-sm text-primary font-medium">
+              <BookOpen className="w-3 h-3 md:w-4 md:h-4" />
               Interactive Learning Lab
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight px-2">
               <span className="bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent">
                 Organic Matter & Ocean Chemistry
               </span>
             </h1>
             
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed px-3">
               Understand how organic matter availability fundamentally shapes ocean denitrification. 
               Explore the environmental conditions that determine which microbial teams can participate in this critical nitrogen cycle.
             </p>
@@ -63,38 +63,38 @@ const Relay = () => {
         </section>
 
         {/* Main Learning Interface */}
-        <section className="grid gap-12 lg:gap-16">
+        <section className="grid gap-6 md:gap-12 lg:gap-16">
           {/* Food Control - Enhanced Context */}
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-background/60 to-background px-8 py-12 lg:px-16 shadow-[0_40px_120px_-60px_rgba(16,76,133,0.6)]">
-            <div className="pointer-events-none absolute -top-24 -right-16 h-56 w-56 rounded-full bg-primary/20 blur-3xl" />
+          <div className="relative overflow-hidden rounded-2xl md:rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-background/60 to-background px-4 py-6 sm:px-6 sm:py-8 lg:px-16 lg:py-12 shadow-[0_40px_120px_-60px_rgba(16,76,133,0.6)]">
+            <div className="pointer-events-none absolute -top-12 md:-top-24 -right-8 md:-right-16 h-28 w-28 md:h-56 md:w-56 rounded-full bg-primary/20 blur-3xl" />
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_55%)]" />
 
-            <div className="relative grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(380px,1fr)] lg:items-center">
-              <div className="space-y-8 text-center lg:text-left">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+            <div className="relative grid gap-6 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,1fr)] lg:items-center">
+              <div className="space-y-4 md:space-y-8 text-center lg:text-left">
+                <div className="space-y-2 md:space-y-4">
+                  <div className="inline-flex items-center gap-1.5 md:gap-2 rounded-full bg-primary/10 px-3 md:px-4 py-1.5 md:py-2 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
                     Interactive Controls
                   </div>
-                  <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight">
+                  <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight">
                     Control the Environment
                   </h2>
-                  <p className="text-muted-foreground text-xl leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 px-2">
                     Move the food slider and see how the nitrogen relay changes. Different food levels lead to different teams and different nitrous oxide outcomes.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
-                  <div className="glass-subtle border border-white/10 rounded-2xl px-6 py-5 text-center transition-all duration-300 hover:border-primary/30 hover:scale-105">
-                    <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 mb-2">Scenario</div>
-                    <div className="text-base font-semibold text-foreground">{currentLevelDetails.scenario}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 max-w-2xl mx-auto lg:mx-0">
+                  <div className="glass-subtle border border-white/10 rounded-xl md:rounded-2xl px-3 py-3 md:px-6 md:py-5 text-center transition-all duration-300 hover:border-primary/30 hover:scale-105">
+                    <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 mb-1 md:mb-2">Scenario</div>
+                    <div className="text-xs sm:text-sm md:text-base font-semibold text-foreground">{currentLevelDetails.scenario}</div>
                   </div>
-                  <div className="glass-subtle border border-white/10 rounded-2xl px-6 py-5 text-center transition-all duration-300 hover:border-primary/30 hover:scale-105">
-                    <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 mb-2">Location</div>
-                    <div className="text-base font-semibold text-foreground">{currentLevelDetails.location}</div>
+                  <div className="glass-subtle border border-white/10 rounded-xl md:rounded-2xl px-3 py-3 md:px-6 md:py-5 text-center transition-all duration-300 hover:border-primary/30 hover:scale-105">
+                    <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 mb-1 md:mb-2">Location</div>
+                    <div className="text-xs sm:text-sm md:text-base font-semibold text-foreground">{currentLevelDetails.location}</div>
                   </div>
-                  <div className="glass-subtle border border-white/10 rounded-2xl px-6 py-5 text-center transition-all duration-300 hover:border-primary/30 hover:scale-105">
-                    <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 mb-2">N₂O Risk</div>
-                    <div className="text-base font-semibold text-foreground">{currentLevelDetails.n2oRisk}</div>
+                  <div className="glass-subtle border border-white/10 rounded-xl md:rounded-2xl px-3 py-3 md:px-6 md:py-5 text-center transition-all duration-300 hover:border-primary/30 hover:scale-105">
+                    <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 mb-1 md:mb-2">N₂O Risk</div>
+                    <div className="text-xs sm:text-sm md:text-base font-semibold text-foreground">{currentLevelDetails.n2oRisk}</div>
                   </div>
                 </div>
               </div>
@@ -105,48 +105,48 @@ const Relay = () => {
             </div>
 
             {/* Context Button */}
-            <div className="relative mt-12 flex justify-center">
+            <div className="relative mt-6 md:mt-12 flex justify-center">
               <Button
                 onClick={() => setIsContextModalOpen(true)}
                 size="lg"
-                className="group relative h-auto rounded-full px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_25px_60px_-25px_rgba(16,76,133,0.8)] transition-all duration-300 bg-gradient-to-r from-primary via-accent to-coral-cta hover:-translate-y-0.5 hover:shadow-[0_35px_80px_-25px_rgba(244,114,87,0.75)] hover:scale-105"
+                className="group relative h-auto rounded-full px-4 py-2.5 md:px-8 md:py-4 text-xs sm:text-sm md:text-base font-semibold text-primary-foreground shadow-[0_25px_60px_-25px_rgba(16,76,133,0.8)] transition-all duration-300 bg-gradient-to-r from-primary via-accent to-coral-cta hover:-translate-y-0.5 hover:shadow-[0_35px_80px_-25px_rgba(244,114,87,0.75)] hover:scale-105"
               >
                 <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="relative flex items-center gap-3">
-                  <Globe className="h-5 w-5" />
-                  <span className="text-lg">Show Real-World Context</span>
-                  <Info className="h-4 w-4 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <span className="relative flex items-center gap-2 md:gap-3">
+                  <Globe className="h-3 w-3 md:h-5 md:w-5" />
+                  <span className="md:text-lg">Show Real-World Context</span>
+                  <Info className="h-3 w-3 md:h-4 md:w-4 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </span>
               </Button>
             </div>
           </div>
 
           {/* Educational Content Section */}
-          <div className="space-y-16">
-            <div className="text-center space-y-6">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-subtle border border-primary/20">
-                  <div className="w-3 h-3 rounded-full bg-primary/60 animate-pulse" />
-                  <span className="text-sm font-semibold text-primary uppercase tracking-[0.3em]">Key Concept</span>
+          <div className="space-y-8 md:space-y-16">
+            <div className="text-center space-y-3 md:space-y-6">
+              <div className="space-y-2 md:space-y-4">
+                <div className="inline-flex items-center gap-2 md:gap-3 px-3 py-2 md:px-6 md:py-3 rounded-full glass-subtle border border-primary/20">
+                  <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-primary/60 animate-pulse" />
+                  <span className="text-xs md:text-sm font-semibold text-primary uppercase tracking-[0.3em]">Key Concept</span>
                 </div>
                 
-                <h2 className="text-5xl lg:text-6xl font-bold bg-gradient-to-br from-foreground via-primary via-accent to-coral-cta bg-clip-text text-transparent leading-[1.1]">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-br from-foreground via-primary via-accent to-coral-cta bg-clip-text text-transparent leading-[1.1] px-2">
                   Why Organic Matter
                   <br />
                   <span className="bg-gradient-to-r from-accent to-coral-cta bg-clip-text text-transparent">Matters</span>
                 </h2>
               </div>
               
-              <p className="text-muted-foreground text-2xl leading-relaxed max-w-4xl mx-auto font-light">
+              <p className="text-muted-foreground text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-4xl mx-auto font-light px-3">
                 Food level sets who runs the nitrogen relay and how far it goes. It also shapes how much nitrous oxide (N₂O) builds up.
               </p>
               
-              <div className="flex items-center justify-center gap-8 mt-8">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center justify-center gap-4 md:gap-8 mt-4 md:mt-8 flex-wrap">
+                <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-muted-foreground">
                   <div className="w-2 h-2 rounded-full bg-teal-400" />
                   <span>Low Food</span>
                 </div>
-                <div className="w-px h-4 bg-white/20" />
+                <div className="w-px h-3 md:h-4 bg-white/20" />
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <div className="w-2 h-2 rounded-full bg-violet-400" />
                   <span>Medium Food</span>

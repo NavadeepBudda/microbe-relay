@@ -122,95 +122,158 @@ const TryIt = () => {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <LearningHeader />
 
-      <div className="flex-1 p-6 pt-20">
+      <div className="flex-1 p-3 md:p-6 pt-16 md:pt-20">
         <div className="max-w-7xl mx-auto">
           {/* Success Message */}
           {showSuccessMessage && (
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 animate-in fade-in-0 zoom-in-95 duration-300">
-              <div className="rounded-3xl border border-teal-glow/30 bg-[rgba(8,20,36,0.95)] p-8 shadow-[0_25px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-2xl text-center max-w-md">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-teal-glow/20">
-                    <CheckCircle className="h-8 w-8 text-teal-200" />
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 animate-in fade-in-0 zoom-in-95 duration-300 px-4">
+              <div className="rounded-3xl border border-teal-glow/30 bg-[rgba(8,20,36,0.95)] p-6 md:p-8 shadow-[0_25px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-2xl text-center max-w-md w-full mx-auto">
+                <div className="flex items-center justify-center mb-3 md:mb-4">
+                  <div className="flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full bg-teal-glow/20">
+                    <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-teal-200" />
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Mission Complete! 🎉</h3>
-                <p className="text-sm text-white/80">{successMessage}</p>
+                <h3 className="text-lg md:text-xl font-semibold text-white mb-2">Mission Complete! 🎉</h3>
+                <p className="text-xs md:text-sm text-white/80 leading-relaxed">{successMessage}</p>
               </div>
             </div>
           )}
 
 
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
-            
-            {/* Mission Cards - Left Side */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                <Target className="w-5 h-5 text-coral-cta" />
+          {/* Main Content - Mobile-First */}
+          <div className="space-y-6 md:space-y-8">
+            {/* Mission Cards - Top on Mobile */}
+            <div className="space-y-3 md:space-y-4">
+              <h2 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4 flex items-center gap-2">
+                <Target className="w-4 h-4 md:w-5 md:h-5 text-coral-cta" />
                 Missions
               </h2>
               
-              {missions.map((mission, index) => {
-                const status = getMissionCardStatus(index);
-                const isActive = status === "active";
-                const isCompleted = status === "completed";
-                
-                return (
-                  <div
-                    key={mission.id}
-                    className={`relative rounded-2xl border p-6 transition-all duration-300 ${
-                      isActive 
-                        ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]" 
-                        : isCompleted
-                          ? "border-teal-glow/40 bg-teal-glow/10"
-                          : "border-white/10 bg-white/5"
-                    }`}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${
-                        isCompleted 
-                          ? "bg-teal-glow/20 text-teal-200" 
-                          : isActive 
-                            ? "bg-coral-cta/20 text-coral-cta" 
-                            : "bg-white/10 text-white/60"
-                      }`}>
-                        {isCompleted ? <CheckCircle className="w-5 h-5" /> : mission.icon}
-                      </div>
-                      
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className={`font-semibold ${
-                            isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
-                          }`}>
-                            Mission {mission.id}: {mission.title}
-                          </h3>
-                          {isActive && (
-                            <div className="animate-pulse">
-                              <div className="w-2 h-2 rounded-full bg-coral-cta"></div>
-                            </div>
-                          )}
-                        </div>
-                        
-                        <p className="text-sm text-white/70 mb-3">{mission.description}</p>
-                        
-                        <div className={`text-xs font-medium px-3 py-1 rounded-full inline-block ${
+              {/* Mobile: Horizontal scroll for missions */}
+              <div className="md:hidden flex gap-3 overflow-x-auto pb-2 -mx-3 px-3">
+                {missions.map((mission, index) => {
+                  const status = getMissionCardStatus(index);
+                  const isActive = status === "active";
+                  const isCompleted = status === "completed";
+                  
+                  return (
+                    <div
+                      key={mission.id}
+                      className={`relative rounded-xl border p-4 transition-all duration-300 min-w-[280px] flex-shrink-0 ${
+                        isActive 
+                          ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]" 
+                          : isCompleted
+                            ? "border-teal-glow/40 bg-teal-glow/10"
+                            : "border-white/10 bg-white/5"
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold flex-shrink-0 ${
                           isCompleted 
                             ? "bg-teal-glow/20 text-teal-200" 
                             : isActive 
                               ? "bg-coral-cta/20 text-coral-cta" 
                               : "bg-white/10 text-white/60"
                         }`}>
-                          {mission.goal}
+                          {isCompleted ? <CheckCircle className="w-4 h-4" /> : mission.icon}
+                        </div>
+                        
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className={`text-sm font-semibold ${
+                              isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
+                            }`}>
+                              Mission {mission.id}: {mission.title}
+                            </h3>
+                            {isActive && (
+                              <div className="animate-pulse">
+                                <div className="w-1.5 h-1.5 rounded-full bg-coral-cta"></div>
+                              </div>
+                            )}
+                          </div>
+                          
+                          <p className="text-xs text-white/70 mb-2 leading-relaxed">{mission.description}</p>
+                          
+                          <div className={`text-xs font-medium px-2 py-1 rounded-full inline-block ${
+                            isCompleted 
+                              ? "bg-teal-glow/20 text-teal-200" 
+                              : isActive 
+                                ? "bg-coral-cta/20 text-coral-cta" 
+                                : "bg-white/10 text-white/60"
+                          }`}>
+                            {mission.goal}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+
+              {/* Desktop: Grid layout for missions */}
+              <div className="hidden md:grid md:grid-cols-3 gap-4 lg:gap-6">
+                {missions.map((mission, index) => {
+                  const status = getMissionCardStatus(index);
+                  const isActive = status === "active";
+                  const isCompleted = status === "completed";
+                  
+                  return (
+                    <div
+                      key={mission.id}
+                      className={`relative rounded-2xl border p-5 md:p-6 transition-all duration-300 ${
+                        isActive 
+                          ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]" 
+                          : isCompleted
+                            ? "border-teal-glow/40 bg-teal-glow/10"
+                            : "border-white/10 bg-white/5"
+                      }`}
+                    >
+                      <div className="flex items-start gap-3 md:gap-4">
+                        <div className={`flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full text-sm font-semibold ${
+                          isCompleted 
+                            ? "bg-teal-glow/20 text-teal-200" 
+                            : isActive 
+                              ? "bg-coral-cta/20 text-coral-cta" 
+                              : "bg-white/10 text-white/60"
+                        }`}>
+                          {isCompleted ? <CheckCircle className="w-4 h-4 md:w-5 md:h-5" /> : mission.icon}
+                        </div>
+                        
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h3 className={`text-sm md:text-base font-semibold ${
+                              isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
+                            }`}>
+                              Mission {mission.id}: {mission.title}
+                            </h3>
+                            {isActive && (
+                              <div className="animate-pulse">
+                                <div className="w-2 h-2 rounded-full bg-coral-cta"></div>
+                              </div>
+                            )}
+                          </div>
+                          
+                          <p className="text-xs md:text-sm text-white/70 mb-3 leading-relaxed">{mission.description}</p>
+                          
+                          <div className={`text-xs font-medium px-2.5 md:px-3 py-1 rounded-full inline-block ${
+                            isCompleted 
+                              ? "bg-teal-glow/20 text-teal-200" 
+                              : isActive 
+                                ? "bg-coral-cta/20 text-coral-cta" 
+                                : "bg-white/10 text-white/60"
+                          }`}>
+                            {mission.goal}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Interactive Area - Center */}
-            <div className="lg:col-span-2 space-y-6">
+            {/* Interactive Area */}
+            <div className="space-y-4 md:space-y-6">
               {/* Relay Pipeline */}
               <div className="w-full">
                 <InteractiveRelayPipeline 
@@ -220,19 +283,19 @@ const TryIt = () => {
               </div>
 
               {/* Controls Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {/* Food Control */}
                 <InteractiveFoodControl
                   value={foodLevel}
                   onChange={handleFoodLevelChange}
-                  className="h-full min-h-[320px]"
+                  className="h-full min-h-[280px] md:min-h-[320px]"
                 />
                 
                 {/* N2O Gauge */}
                 <InteractiveN2OGauge
                   value={n2oLevel}
                   foodLevel={foodLevel}
-                  className="h-full min-h-[320px]"
+                  className="h-full min-h-[280px] md:min-h-[320px]"
                 />
               </div>
 

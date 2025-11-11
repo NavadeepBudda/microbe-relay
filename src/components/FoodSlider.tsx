@@ -108,9 +108,9 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       {/* Header with scenario info */}
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-2 md:space-y-4">
         <div className="flex items-center justify-center gap-2">
           <HelpTooltip
             term="Organic Matter"
@@ -118,18 +118,19 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
             context="The primary food source for denitrifying microbes in the ocean"
             example="After algae blooms, sinking particles create concentrated food patches"
           >
-            <h3 className="text-2xl font-bold cursor-help border-b border-dotted border-primary/50 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold cursor-help border-b border-dotted border-primary/50 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Organic Matter Availability
             </h3>
           </HelpTooltip>
+          <TrendingUp className="w-3 h-3 md:w-4 md:h-4 text-primary" />
         </div>
-        <p className="text-muted-foreground text-lg leading-relaxed max-w-lg mx-auto">
+        <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-lg mx-auto px-3">
           Adjust the food level to see how microbial communities respond
         </p>
       </div>
 
       {/* Particle visualization background */}
-      <div className="relative glass-subtle rounded-2xl p-8 overflow-hidden border border-white/10 shadow-lg">
+      <div className="relative glass-subtle rounded-xl md:rounded-2xl p-4 md:p-8 overflow-hidden border border-white/10 shadow-lg">
         {/* Animated background particles - hidden during interaction */}
         <div className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${
           isInteracting ? "opacity-0" : "opacity-100"
@@ -153,25 +154,25 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
         </div>
 
         {/* Slider container */}
-        <div className="relative z-10 space-y-6">
+        <div className="relative z-10 space-y-3 md:space-y-6">
           {/* Scenario indicators */}
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center gap-2 text-muted-foreground/80 transition-colors hover:text-primary">
-              <Waves className="w-4 h-4" />
+          <div className="grid grid-cols-3 gap-2 text-xs md:text-sm">
+            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center md:text-left">
+              <Waves className="w-3 h-3 md:w-4 md:h-4" />
               <span className="font-medium">Twilight Zone</span>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground/80 transition-colors hover:text-primary">
-              <MapPin className="w-4 h-4" />
+            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center md:text-left">
+              <MapPin className="w-3 h-3 md:w-4 md:h-4" />
               <span className="font-medium">River Mouth</span>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground/80 transition-colors hover:text-primary">
-              <TrendingUp className="w-4 h-4" />
+            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center md:text-left">
+              <TrendingUp className="w-3 h-3 md:w-4 md:h-4" />
               <span className="font-medium">Bloom Fallout</span>
             </div>
           </div>
 
           {/* Main slider */}
-          <div className="relative px-4 py-2">
+          <div className="relative px-2 md:px-4 py-1 md:py-2">
             <Slider
               value={sliderValue}
               onValueChange={handleSliderChange}
@@ -179,7 +180,7 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
               max={100}
               min={0}
               step={1}
-              className="w-full"
+              className="w-full touch-manipulation"
               aria-label="Food level slider"
             />
             
@@ -188,30 +189,30 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
       </div>
 
       {/* Current level display */}
-      <div className="text-center space-y-6">
-        <div className="text-6xl transition-all duration-500 transform hover:scale-110">
+      <div className="text-center space-y-3 md:space-y-6">
+        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl transition-all duration-500 transform hover:scale-110">
           {currentLevel.emoji}
         </div>
         
-        <div className="space-y-3">
-          <div className="text-3xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
+        <div className="space-y-1 md:space-y-3">
+          <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
             {currentLevel.label} Food
           </div>
-          <div className="text-lg text-muted-foreground font-medium">
+          <div className="text-sm sm:text-base md:text-lg text-muted-foreground font-medium">
             {currentLevel.scenario}
           </div>
         </div>
         
         {/* Quick impact indicator */}
         <div 
-          className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-subtle border transition-all duration-500 hover:scale-105"
+          className="inline-flex items-center gap-2 md:gap-3 px-3 py-2 md:px-6 md:py-3 rounded-full glass-subtle border transition-all duration-500 hover:scale-105"
           style={{ borderColor: `${currentLevel.particleColor}30` }}
         >
           <div 
-            className="w-3 h-3 rounded-full animate-pulse"
+            className="w-2 h-2 md:w-3 md:h-3 rounded-full animate-pulse"
             style={{ backgroundColor: currentLevel.particleColor }}
           />
-          <span className="text-base font-medium text-muted-foreground">
+          <span className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">
             Level {sliderValue[0]}%
           </span>
         </div>
