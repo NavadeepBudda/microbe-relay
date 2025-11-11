@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, CheckCircle, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PostTestCard1 } from "./PostTestCard1";
 import { PostTestCard2 } from "./PostTestCard2";
 import { PostTestCard3 } from "./PostTestCard3";
+import { posttestService, PosttestSessionData } from "@/lib/posttest-service";
+import { comparisonService } from "@/lib/comparison-service";
 
 interface PostTestDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onComplete: () => void;
+  onComplete: (comparisonData: any) => void;
   onPulse: () => void;
 }
 
@@ -16,7 +18,6 @@ interface PredictionData {
   id: string;
   response: string | number;
   timestamp: Date;
-  startTime: Date;
 }
 
 export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTestDrawerProps) => {
@@ -24,23 +25,101 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
   const [card2Data, setCard2Data] = useState<PredictionData | null>(null);
   const [card3Data, setCard3Data] = useState<PredictionData | null>(null);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+  const [session, setSession] = useState<PosttestSessionData | null>(null);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const hasCompletedRef = useRef(false);
+  
 
   const allLocked = card1Data && card2Data && card3Data;
   const completedCount = [card1Data, card2Data, card3Data].filter(Boolean).length;
 
+  // Get existing user ID from localStorage (from pretest)
+  const getUserId = (): string | null => {
+    const existingUserId = localStorage.getItem('microberelay_user_id');
+    return existingUserId;
+  };
+
+  // Initialize session when drawer opens
   useEffect(() => {
-    if (allLocked && !showSuccessAnimation) {
+    const initializeSession = async () => {
+      if (isOpen && !session && !isInitializing) {
+        setIsInitializing(true);
+        try {
+          const existingUserId = getUserId();
+          const newSession = await posttestService.initializeSession(existingUserId || undefined);
+          setSession(newSession);
+          
+          // Save user ID to localStorage if it's new
+          if (!existingUserId) {
+            localStorage.setItem('microberelay_user_id', newSession.userId);
+          }
+          
+          
+          console.log('Posttest session initialized:', newSession);
+        } catch (error) {
+          console.error('Failed to initialize posttest session:', error);
+        } finally {
+          setIsInitializing(false);
+        }
+      }
+    };
+
+    initializeSession();
+  }, [isOpen, session, isInitializing]);
+
+  // Handle saving responses to database
+  const saveResponse = async (questionNumber: number, response: string) => {
+    // Wait for session to be available
+    let attempts = 0;
+    while (!session && attempts < 50) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
+    }
+    
+    if (!session) {
+      console.error('No active session for saving response after waiting');
+      return;
+    }
+
+    try {
+      console.log('Saving posttest response:', { questionNumber, response });
+      await posttestService.saveResponse(questionNumber, response);
+      console.log('Posttest response saved successfully');
+    } catch (error) {
+      console.error('Failed to save posttest response:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (allLocked && !showSuccessAnimation && session && !hasCompletedRef.current) {
+      hasCompletedRef.current = true;
       setShowSuccessAnimation(true);
       
-      // Auto-close after animation
-      const timer = setTimeout(() => {
-        onComplete();
-        onClose();
-        setShowSuccessAnimation(false);
-      }, 1200);
-      return () => clearTimeout(timer);
+      // Complete the session and create comparison data
+      const completeSession = async () => {
+        try {
+          await posttestService.completeSession();
+          
+          // Create comparison data
+          const comparisonData = await comparisonService.getOrCreateUserComparison(
+            session.userId, 
+            session.sessionId
+          );
+          
+          // Auto-close after animation with comparison data
+          setTimeout(() => {
+            onComplete(comparisonData);
+            onClose();
+          }, 1200);
+        } catch (error) {
+          console.error('Failed to complete session or create comparison:', error);
+          hasCompletedRef.current = false; // Reset on error
+        }
+      };
+      
+      completeSession();
     }
-  }, [allLocked, showSuccessAnimation, onComplete, onClose]);
+  }, [allLocked, showSuccessAnimation, session, onComplete, onClose]);
 
   if (!isOpen) return null;
 
@@ -91,46 +170,55 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
               {/* Cards Grid - Responsive */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <PostTestCard1
-              onLock={(data) => {
+              onLock={async (data) => {
                 console.log('Card 1 locked with data:', data);
                 const now = new Date();
                 const cardData = {
                   id: 'n2o-response',
                   response: JSON.stringify(data),
-                  timestamp: now,
-                  startTime: now
+                  timestamp: now
                 };
                 setCard1Data(cardData);
+                
+                // Save to database
+                const standardAnswer = posttestService.mapCardResponseToStandardAnswer(1, data);
+                await saveResponse(1, standardAnswer);
               }}
               isLocked={!!card1Data}
               onUnlock={() => setCard1Data(null)}
             />
             <PostTestCard2
-              onLock={(data) => {
+              onLock={async (data) => {
                 console.log('Card 2 locked with data:', data);
                 const now = new Date();
                 const cardData = {
                   id: 'dominant-step',
                   response: data.dominantStep,
-                  timestamp: now,
-                  startTime: now
+                  timestamp: now
                 };
                 setCard2Data(cardData);
+                
+                // Save to database
+                const standardAnswer = posttestService.mapCardResponseToStandardAnswer(2, data.dominantStep);
+                await saveResponse(2, standardAnswer);
               }}
               isLocked={!!card2Data}
               onUnlock={() => setCard2Data(null)}
             />
             <PostTestCard3
-              onLock={(data) => {
+              onLock={async (data) => {
                 console.log('Card 3 locked with data:', data);
                 const now = new Date();
                 const cardData = {
                   id: 'pulse-moment',
                   response: data.pulseGuess,
-                  timestamp: now,
-                  startTime: now
+                  timestamp: now
                 };
                 setCard3Data(cardData);
+                
+                // Save to database
+                const standardAnswer = posttestService.mapCardResponseToStandardAnswer(3, data.pulseGuess);
+                await saveResponse(3, standardAnswer);
               }}
               isLocked={!!card3Data}
               onUnlock={() => setCard3Data(null)}

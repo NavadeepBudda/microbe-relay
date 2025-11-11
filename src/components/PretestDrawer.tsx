@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, CheckCircle, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PredictionCard1 } from "./PredictionCard1";
@@ -17,7 +17,6 @@ interface PredictionData {
   id: string;
   response: string | number;
   timestamp: Date;
-  startTime: Date;
 }
 
 export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestDrawerProps) => {
@@ -27,9 +26,8 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const [session, setSession] = useState<PretestSessionData | null>(null);
   const [isInitializing, setIsInitializing] = useState(false);
+  const hasCompletedRef = useRef(false);
   
-  // Track when each card interaction starts
-  const [cardStartTimes, setCardStartTimes] = useState<{[key: number]: Date}>({});
 
   const allLocked = card1Data && card2Data && card3Data;
   const completedCount = [card1Data, card2Data, card3Data].filter(Boolean).length;
@@ -43,13 +41,9 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
           const newSession = await pretestService.initializeSession();
           setSession(newSession);
           
-          // Initialize start times for all cards when session is created
-          const now = new Date();
-          setCardStartTimes({
-            1: now,
-            2: now, 
-            3: now
-          });
+          // Save user ID to localStorage for linking with post-test
+          localStorage.setItem('microberelay_user_id', newSession.userId);
+          
           
           console.log('Session initialized:', newSession);
         } catch (error) {
@@ -65,21 +59,21 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
 
   // Handle saving responses to database
   const saveResponse = async (questionNumber: number, response: string) => {
-    if (!session) {
-      console.error('No active session for saving response');
-      return;
+    // Wait for session to be available
+    let attempts = 0;
+    while (!session && attempts < 50) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
     }
-
-    const startTime = cardStartTimes[questionNumber];
-    if (!startTime) {
-      console.error('No start time found for question', questionNumber);
+    
+    if (!session) {
+      console.error('No active session for saving response after waiting');
       return;
     }
 
     try {
-      const responseTime = Date.now() - startTime.getTime();
-      console.log('Saving response:', { questionNumber, response, responseTime });
-      await pretestService.saveResponse(questionNumber, response, responseTime);
+      console.log('Saving response:', { questionNumber, response });
+      await pretestService.saveResponse(questionNumber, response);
       console.log('Response saved successfully');
     } catch (error) {
       console.error('Failed to save response:', error);
@@ -87,7 +81,8 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
   };
 
   useEffect(() => {
-    if (allLocked && !showSuccessAnimation) {
+    if (allLocked && !showSuccessAnimation && !hasCompletedRef.current) {
+      hasCompletedRef.current = true;
       setShowSuccessAnimation(true);
       
       // Complete the session in the database
@@ -97,6 +92,7 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
             await pretestService.completeSession();
           } catch (error) {
             console.error('Failed to complete session:', error);
+            hasCompletedRef.current = false;
           }
         }
       };
@@ -104,12 +100,10 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
       completeSession();
       
       // Auto-close after animation
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         onComplete();
         onClose();
-        setShowSuccessAnimation(false);
       }, 1200);
-      return () => clearTimeout(timer);
     }
   }, [allLocked, showSuccessAnimation, onComplete, onClose, session]);
 
@@ -168,8 +162,7 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
                 const cardData = {
                   id: 'n2o-response',
                   response: JSON.stringify(data),
-                  timestamp: now,
-                  startTime: now
+                  timestamp: now
                 };
                 setCard1Data(cardData);
                 
@@ -187,8 +180,7 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
                 const cardData = {
                   id: 'dominant-step',
                   response: data.dominantStep,
-                  timestamp: now,
-                  startTime: now
+                  timestamp: now
                 };
                 setCard2Data(cardData);
                 
@@ -206,8 +198,7 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
                 const cardData = {
                   id: 'pulse-moment',
                   response: data.pulseGuess,
-                  timestamp: now,
-                  startTime: now
+                  timestamp: now
                 };
                 setCard3Data(cardData);
                 

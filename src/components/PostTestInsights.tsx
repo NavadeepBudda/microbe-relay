@@ -1,124 +1,55 @@
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Brain, Trophy } from "lucide-react";
+import { AlertTriangle, Brain, Trophy, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { UserComparisonData, QuestionComparison } from "@/lib/comparison-service";
 
-export type QuestionStatus = "mastered" | "improved" | "needs-review";
-export type QuestionDifficulty = "intro" | "core" | "challenge";
+type QuestionStatus = "mastered" | "improved" | "needs-review";
 
-export interface QuestionBreakdown {
+// Map our QuestionComparison to the UI format
+interface UIQuestionBreakdown {
   id: string;
   prompt: string;
-  concept: string;
-  difficulty: QuestionDifficulty;
   preAnswer: string;
   postAnswer: string;
   correctAnswer: string;
-  explanation: string;
-  tip: string;
   status: QuestionStatus;
 }
 
-export interface InsightCardData {
-  id: string;
-  kind: "lift" | "focus" | "attention" | "momentum";
-  title: string;
-  description: string;
-}
-
-export interface PostTestResults {
-  preScore: number;
-  postScore: number;
-  totalQuestions: number;
-  timeToComplete: string;
-  completedAt: string;
-  focusAreas: string[];
-  insights: InsightCardData[];
-  questions: QuestionBreakdown[];
-}
-
-export const mockPostTestResults: PostTestResults = {
-  preScore: 48,
-  postScore: 92,
-  totalQuestions: 3,
-  timeToComplete: "01:52",
-  completedAt: "November 10, 2025 • 3:24 PM PT",
-  focusAreas: [
-    "Narrate how bloom pulses briefly spike N₂O before finishers catch up",
-    "Explain why complete denitrifiers only dominate when carbon is abundant"
-  ],
-  insights: [
-    {
-      id: "lift",
-      kind: "lift",
-      title: "+44 pt leap",
-      description: "Connecting food supply to relay finishers clicked—your biggest gain of the day."
-    },
-    {
-      id: "focus",
-      kind: "focus",
-      title: "Finishers locked",
-      description: "You now identify Step 4 handoffs every time rich particles show up."
-    },
-    {
-      id: "attention",
-      kind: "attention",
-      title: "Pulse story fuzzy",
-      description: "Still mixing up how N₂O behaves right after blooms. Revisit the pulse animation."
-    }
-  ],
-  questions: [
-    {
-      id: "q1",
-      prompt: "When food is fixed at medium, what happens to N₂O output?",
-      concept: "N₂O response",
-      difficulty: "core",
-      preAnswer: "High N₂O",
-      postAnswer: "Medium N₂O",
-      correctAnswer: "Medium N₂O",
-      explanation: "Medium food means partial relay completion—N₂O builds but doesn't spike because finishers are present but not dominant.",
-      tip: "Check the gauge card at 50 to remember this steady-state response.",
-      status: "improved"
-    },
-    {
-      id: "q2",
-      prompt: "During a high-food bloom, which step dominates the relay?",
-      concept: "Relay finishers",
-      difficulty: "challenge",
-      preAnswer: "Step 2 (NO₂⁻ → NO)",
-      postAnswer: "Step 4 (N₂O → N₂)",
-      correctAnswer: "Step 4 (N₂O → N₂)",
-      explanation: "Complete denitrifiers thrive when carbon is plentiful, converting N₂O all the way to N₂ and capping greenhouse spikes.",
-      tip: "Remember the final baton pass in the relay animation—finishers glow coral during blooms.",
-      status: "mastered"
-    },
-    {
-      id: "q3",
-      prompt: "Right after a bloom pulse, how does N₂O behave?",
-      concept: "Pulse spikes",
-      difficulty: "core",
-      preAnswer: "Stays the same",
-      postAnswer: "Drops temporarily",
-      correctAnswer: "Spikes briefly",
-      explanation: "When bloom debris rains down, early steps surge before finishers catch up, so N₂O momentarily spikes.",
-      tip: "Replay the pulse moment in the interactive slider and watch the pink flash of N₂O.",
-      status: "needs-review"
-    }
-  ]
-};
-
 interface PostTestInsightsProps {
-  results?: PostTestResults;
+  comparisonData: UserComparisonData | null;
 }
 
-export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsightsProps) => {
+export const PostTestInsights = ({ comparisonData }: PostTestInsightsProps) => {
+  // Show loading state if no data
+  if (!comparisonData) {
+    return (
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 via-background/80 to-background px-6 py-8">
+        <div className="text-center space-y-4">
+          <h2 className="text-2xl font-bold text-foreground">Loading Assessment Results...</h2>
+          <p className="text-muted-foreground">Processing your responses and calculating improvements.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Map comparison data to UI format with safety checks
+  const uiQuestions: UIQuestionBreakdown[] = (comparisonData.questions || []).map(q => ({
+    id: q.questionNumber?.toString() || '0',
+    prompt: q.questionText || '',
+    preAnswer: q.preAnswer || '',
+    postAnswer: q.postAnswer || '',
+    correctAnswer: q.correctAnswer || '',
+    status: q.status || 'needs-review'
+  }));
+
   const orderedQuestions = useMemo(() => {
-    return [...results.questions].sort((a, b) => {
+    return [...uiQuestions].sort((a, b) => {
       const order = { "needs-review": 0, improved: 1, mastered: 2 } as Record<QuestionStatus, number>;
       return order[a.status] - order[b.status];
     });
-  }, [results.questions]);
+  }, [uiQuestions]);
 
-  const improvement = Math.max(results.postScore - results.preScore, 0);
+  const improvement = Math.max(comparisonData.improvement, 0);
   const needsReviewQuestions = useMemo(
     () => orderedQuestions.filter(q => q.status === "needs-review"),
     [orderedQuestions]
@@ -142,20 +73,29 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
     ? needsReviewQuestions.findIndex(question => question.id === activeReview.id)
     : -1;
 
+  // Format completion date
+  const completedAtFormatted = new Date(comparisonData.completedAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   const scoreStats = [
     {
       label: "Pre check",
-      value: `${results.preScore}%`,
+      value: `${Math.round(comparisonData.preScore)}%`,
       tone: "text-muted-foreground"
     },
     {
       label: "Gain",
-      value: `+${improvement} pts`,
+      value: `+${Math.round(improvement)} pts`,
       tone: "text-primary"
     },
     {
       label: "Post check",
-      value: `${results.postScore}%`,
+      value: `${Math.round(comparisonData.postScore)}%`,
       tone: "text-foreground"
     }
   ];
@@ -178,11 +118,11 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
           <div className="flex flex-wrap items-center gap-4 justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">Score swing</p>
-              <p className="text-2xl font-semibold text-foreground">{results.preScore}% → {results.postScore}%</p>
+              <p className="text-2xl font-semibold text-foreground">{Math.round(comparisonData.preScore)}% → {Math.round(comparisonData.postScore)}%</p>
             </div>
             <div className="flex items-center gap-2">
               <div className="rounded-full bg-gradient-to-r from-primary to-coral-400 px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg">
-                +{improvement} pts
+                +{Math.round(improvement)} pts
               </div>
               <Trophy className="h-5 w-5 text-amber-300" />
             </div>
@@ -200,7 +140,7 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
           <div className="space-y-6">
-            {needsReviewQuestions.length > 0 && activeReview && (
+            {needsReviewQuestions.length > 0 && activeReview ? (
               <section className="rounded-3xl border border-coral-500/30 bg-coral-500/5 p-6 space-y-5">
                 <div className="flex flex-wrap items-center gap-3">
                   <AlertTriangle className="h-5 w-5 text-coral-300" />
@@ -210,36 +150,48 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
                   </div>
                 </div>
 
-                <nav
-                  className="flex flex-wrap gap-2 rounded-2xl border border-coral-500/20 bg-background/70 p-2"
-                  aria-label="Review questions"
-                >
-                  {needsReviewQuestions.map((question, index) => {
-                    const isActive = question.id === activeReview.id;
-                    return (
-                      <button
-                        key={question.id}
-                        type="button"
-                        className={cn(
-                          "flex-1 min-w-[110px] rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition",
-                          isActive
-                            ? "bg-coral-500/20 text-coral-100 border border-coral-400/40"
-                            : "text-coral-200/70 border border-transparent hover:border-coral-400/30"
-                        )}
-                        onClick={() => setActiveReviewId(question.id)}
-                        aria-pressed={isActive}
-                        aria-current={isActive}
-                      >
-                        Q{index + 1}
-                      </button>
-                    );
-                  })}
-                </nav>
+                {needsReviewQuestions.length === 1 ? (
+                  // Single question - show as simple label
+                  <div className="rounded-2xl border border-coral-500/20 bg-background/70 p-3">
+                    <span className="text-sm font-semibold text-coral-100">Q{parseInt(needsReviewQuestions[0].id)}</span>
+                  </div>
+                ) : (
+                  // Multiple questions - show as dropdown navigation
+                  <nav
+                    className="flex flex-wrap gap-2 rounded-2xl border border-coral-500/20 bg-background/70 p-2"
+                    aria-label="Review questions"
+                  >
+                    <div className="flex items-center gap-1 text-xs text-coral-200/70">
+                      <ChevronDown className="h-3 w-3" />
+                      <span>Multiple concepts need review:</span>
+                    </div>
+                    {needsReviewQuestions.map((question, index) => {
+                      const isActive = question.id === activeReview.id;
+                      return (
+                        <button
+                          key={question.id}
+                          type="button"
+                          className={cn(
+                            "flex-1 min-w-[110px] rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition",
+                            isActive
+                              ? "bg-coral-500/20 text-coral-100 border border-coral-400/40"
+                              : "text-coral-200/70 border border-transparent hover:border-coral-400/30"
+                          )}
+                          onClick={() => setActiveReviewId(question.id)}
+                          aria-pressed={isActive}
+                          aria-current={isActive}
+                        >
+                          Q{parseInt(question.id)}
+                        </button>
+                      );
+                    })}
+                  </nav>
+                )}
 
                 <article className="rounded-2xl border border-coral-500/30 bg-background/90 p-5 space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-coral-100">
-                      <span>Question {activeReviewIndex + 1}</span>
+                      <span>Question {parseInt(activeReview.id)}</span>
                       <span className="text-white/50">•</span>
                       <span>Need another look</span>
                     </div>
@@ -261,6 +213,22 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
                   </div>
                 </article>
               </section>
+            ) : (
+              // Show success message when no questions need review
+              <section className="rounded-3xl border border-emerald-500/30 bg-emerald-500/5 p-6 space-y-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <Trophy className="h-5 w-5 text-emerald-300" />
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-200">Excellent work!</p>
+                    <p className="text-lg font-semibold text-foreground">All concepts mastered</p>
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-emerald-500/20 bg-background/70 p-4">
+                  <p className="text-sm text-foreground leading-relaxed">
+                    Great job! You've successfully demonstrated understanding of all the key concepts about ocean microbe behavior and nitrogen cycling.
+                  </p>
+                </div>
+              </section>
             )}
           </div>
 
@@ -271,8 +239,9 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
                 <span>Question outcomes</span>
               </div>
               <div className="space-y-3">
-                {results.questions.map((question, index) => {
-                  const isCorrect = question.postAnswer === question.correctAnswer;
+                {orderedQuestions.map((question, index) => {
+                  const questionData = comparisonData.questions.find(q => q.questionNumber.toString() === question.id);
+                  const isCorrect = questionData?.wasCorrectPost || false;
                   const badgeClasses = isCorrect
                     ? "bg-emerald-500/10 text-emerald-200 border border-emerald-500/30"
                     : "bg-coral-500/10 text-coral-200 border border-coral-500/30";
@@ -296,7 +265,7 @@ export const PostTestInsights = ({ results = mockPostTestResults }: PostTestInsi
                         disabled={question.status !== "needs-review"}
                         aria-pressed={question.status === "needs-review" && question.id === activeReviewId}
                       >
-                        Question {index + 1}
+                        Question {parseInt(question.id)}
                       </button>
                       <span className={cn("rounded-full px-3 py-1 text-xs font-semibold", badgeClasses)}>
                         {statusLabel}

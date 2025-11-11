@@ -1,37 +1,37 @@
 import { 
   generateUserId, 
-  createPretestSession, 
-  savePretestResponse, 
-  completePretestSession,
-  getPretestQuestions,
-  PretestQuestion
+  createPosttestSession, 
+  savePosttestResponse, 
+  completePosttestSession,
+  getPosttestQuestions,
+  PosttestQuestion
 } from './supabase'
 
-export interface PretestSessionData {
+export interface PosttestSessionData {
   sessionId: string
   userId: string
   startTime: Date
-  responses: Map<number, PretestResponseData>
+  responses: Map<number, PosttestResponseData>
 }
 
-export interface PretestResponseData {
+export interface PosttestResponseData {
   questionNumber: number
   userAnswer: string
   timestamp: Date
 }
 
-class PretestService {
-  private session: PretestSessionData | null = null
-  private questions: PretestQuestion[] = []
+class PosttestService {
+  private session: PosttestSessionData | null = null
+  private questions: PosttestQuestion[] = []
 
-  async initializeSession(): Promise<PretestSessionData> {
+  async initializeSession(existingUserId?: string): Promise<PosttestSessionData> {
     try {
       // Load questions from database
-      this.questions = await getPretestQuestions()
+      this.questions = await getPosttestQuestions()
       
-      // Generate session data
-      const userId = generateUserId()
-      const sessionId = await createPretestSession(userId)
+      // Use existing user ID if provided (to link with pretest), otherwise generate new one
+      const userId = existingUserId || generateUserId()
+      const sessionId = await createPosttestSession(userId)
       
       this.session = {
         sessionId,
@@ -40,29 +40,29 @@ class PretestService {
         responses: new Map()
       }
 
-      console.log('Pretest session initialized:', { sessionId, userId })
+      console.log('Posttest session initialized:', { sessionId, userId })
       return this.session
     } catch (error) {
-      console.error('Failed to initialize pretest session:', error)
+      console.error('Failed to initialize posttest session:', error)
       throw error
     }
   }
 
   async saveResponse(questionNumber: number, userAnswer: string): Promise<void> {
     if (!this.session) {
-      throw new Error('No active pretest session')
+      throw new Error('No active posttest session')
     }
 
     try {
       // Save to database
-      await savePretestResponse(
+      await savePosttestResponse(
         this.session.sessionId,
         questionNumber,
         userAnswer
       )
 
       // Store locally for session management
-      const responseData: PretestResponseData = {
+      const responseData: PosttestResponseData = {
         questionNumber,
         userAnswer,
         timestamp: new Date()
@@ -70,32 +70,32 @@ class PretestService {
       
       this.session.responses.set(questionNumber, responseData)
 
-      console.log('Pretest response saved:', { questionNumber, userAnswer })
+      console.log('Posttest response saved:', { questionNumber, userAnswer })
     } catch (error) {
-      console.error('Failed to save pretest response:', error)
+      console.error('Failed to save posttest response:', error)
       throw error
     }
   }
 
   async completeSession(): Promise<void> {
     if (!this.session) {
-      throw new Error('No active pretest session')
+      throw new Error('No active posttest session')
     }
 
     try {
-      await completePretestSession(this.session.sessionId)
-      console.log('Pretest session completed:', this.session.sessionId)
+      await completePosttestSession(this.session.sessionId)
+      console.log('Posttest session completed:', this.session.sessionId)
     } catch (error) {
-      console.error('Failed to complete pretest session:', error)
+      console.error('Failed to complete posttest session:', error)
       throw error
     }
   }
 
-  getCurrentSession(): PretestSessionData | null {
+  getCurrentSession(): PosttestSessionData | null {
     return this.session
   }
 
-  getQuestions(): PretestQuestion[] {
+  getQuestions(): PosttestQuestion[] {
     return this.questions
   }
 
@@ -113,7 +113,7 @@ class PretestService {
         return answer1.charAt(0).toUpperCase() + answer1.slice(1).toLowerCase()
       
       case 2:
-        // Card 2: Pathway Dominance - map to step numbers to match database
+        // Card 2: Pathway Dominance - map step selections to numbers
         const stepMapping: Record<string, string> = {
           'step1': '1',              // Step 1: NO₃⁻ to NO₂⁻
           'step1and2': '2',          // Steps 1&2: NO₃⁻ to N₂O  
@@ -145,4 +145,4 @@ class PretestService {
 }
 
 // Export singleton instance
-export const pretestService = new PretestService()
+export const posttestService = new PosttestService()

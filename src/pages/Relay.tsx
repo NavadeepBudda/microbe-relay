@@ -7,7 +7,8 @@ import { FoodSlider } from "@/components/FoodSlider";
 import { foodLevelDetails, type FoodLevel } from "@/lib/food-level";
 import { ContextModal } from "@/components/ContextModal";
 import { PostTestDrawer } from "@/components/PostTestDrawer";
-import { PostTestInsights, mockPostTestResults, type PostTestResults } from "@/components/PostTestInsights";
+import { PostTestInsights, type PostTestResults } from "@/components/PostTestInsights";
+import type { UserComparisonData } from "@/lib/comparison-service";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export type { FoodLevel };
@@ -19,7 +20,7 @@ const Relay = () => {
   const [isContextModalOpen, setIsContextModalOpen] = useState(false);
   const [isPostTestOpen, setIsPostTestOpen] = useState(false);
   const [isPostTestComplete, setIsPostTestComplete] = useState(false);
-  const [postTestInsights, setPostTestInsights] = useState<PostTestResults | null>(null);
+  const [comparisonData, setComparisonData] = useState<UserComparisonData | null>(null);
   const [isPulsing, setIsPulsing] = useState(false);
   const currentLevelDetails = foodLevelDetails.find(level => level.value === foodLevel) ?? foodLevelDetails[0];
 
@@ -28,9 +29,10 @@ const Relay = () => {
     setTimeout(() => setIsPulsing(false), 1200);
   };
 
-  const handlePostTestComplete = () => {
+  const handlePostTestComplete = (userData: UserComparisonData | null) => {
     setIsPostTestComplete(true);
-    setPostTestInsights(mockPostTestResults);
+    setComparisonData(userData);
+    console.log('Post-test completed with data:', userData);
   };
 
   return (
@@ -327,7 +329,7 @@ const Relay = () => {
               </div>
             </div>
           ) : (
-            <PostTestInsights results={postTestInsights ?? mockPostTestResults} />
+            <PostTestInsights key={comparisonData?.userId} comparisonData={comparisonData} />
           )}
         </div>
       </div>
