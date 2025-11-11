@@ -1,4 +1,4 @@
-# Ocean Denitrification: Microbial Relay Science
+# Microbe Relay
 
 An interactive educational website that teaches how ocean microbes share denitrification work through specialized biochemical pathways. Users control food and oxygen levels to observe which microbial specialists dominate and when greenhouse gases are produced. Designed for high school students and the general public to understand ocean biogeochemistry and climate connections.
 
