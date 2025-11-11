@@ -1,12 +1,13 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Globe, Info, ArrowRight, Target, CheckCircle } from "lucide-react";
+import { BookOpen, Globe, Info, ArrowRight, Target } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LearningHeader } from "@/components/LearningHeader";
 import { FoodSlider } from "@/components/FoodSlider";
 import { foodLevelDetails, type FoodLevel } from "@/lib/food-level";
 import { ContextModal } from "@/components/ContextModal";
 import { PostTestDrawer } from "@/components/PostTestDrawer";
+import { PostTestInsights, mockPostTestResults, type PostTestResults } from "@/components/PostTestInsights";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export type { FoodLevel };
@@ -18,12 +19,18 @@ const Relay = () => {
   const [isContextModalOpen, setIsContextModalOpen] = useState(false);
   const [isPostTestOpen, setIsPostTestOpen] = useState(false);
   const [isPostTestComplete, setIsPostTestComplete] = useState(false);
+  const [postTestInsights, setPostTestInsights] = useState<PostTestResults | null>(null);
   const [isPulsing, setIsPulsing] = useState(false);
   const currentLevelDetails = foodLevelDetails.find(level => level.value === foodLevel) ?? foodLevelDetails[0];
 
   const handlePulse = () => {
     setIsPulsing(true);
     setTimeout(() => setIsPulsing(false), 1200);
+  };
+
+  const handlePostTestComplete = () => {
+    setIsPostTestComplete(true);
+    setPostTestInsights(mockPostTestResults);
   };
 
   return (
@@ -320,25 +327,7 @@ const Relay = () => {
               </div>
             </div>
           ) : (
-            <div className="text-center space-y-6">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <CheckCircle className="w-8 h-8 text-emerald-400" />
-                <h3 className="text-2xl font-bold text-emerald-400">Assessment Complete!</h3>
-              </div>
-              
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Excellent work! You've demonstrated mastery of ocean denitrification concepts. You now understand how food scarcity shapes which specialists dominate, when greenhouse gases spike, and how ocean chemistry drives global nitrogen cycles.
-              </p>
-              
-              <div className="flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-semibold">
-                <CheckCircle className="w-5 h-5" />
-                <span>Ocean Microbe Expert Certified</span>
-              </div>
-              
-              <p className="text-sm text-muted-foreground/70">
-                Feel free to continue exploring and experimenting with the food controls above.
-              </p>
-            </div>
+            <PostTestInsights results={postTestInsights ?? mockPostTestResults} />
           )}
         </div>
       </div>
@@ -354,7 +343,7 @@ const Relay = () => {
       <PostTestDrawer
         isOpen={isPostTestOpen}
         onClose={() => setIsPostTestOpen(false)}
-        onComplete={() => setIsPostTestComplete(true)}
+        onComplete={handlePostTestComplete}
         onPulse={handlePulse}
       />
     </div>
