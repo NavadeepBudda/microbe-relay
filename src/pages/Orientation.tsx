@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { LearningHeader } from "@/components/LearningHeader";
 import { GlossaryChip } from "@/components/GlossaryChip";
 import { PretestDrawer } from "@/components/PretestDrawer";
-import { ChevronRight, Play, ArrowDown, Waves, Microscope, Target } from "lucide-react";
+import { ChevronRight, Microscope, Target } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
-import oceanHero from "@/assets/ocean-hero.jpg";
 import { EntrySection } from "@/components/EntrySection";
 import { TwilightZoneSection } from "@/components/TwilightZoneSection";
 import { AbyssalPlainSection } from "@/components/AbyssalPlainSection";
+import { HeroSection } from "@/components/HeroSection";
 
 const Orientation = () => {
   useDocumentTitle("Microbe Relay | Orientation Bay");
@@ -19,41 +19,12 @@ const Orientation = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isPretestComplete, setIsPretestComplete] = useState(false);
   const [isPulsing, setIsPulsing] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const [hasAutoScrolled, setHasAutoScrolled] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
   const learningRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-
-      // Show floating CTA when scrolled past hero
-      const heroHeight = heroRef.current?.offsetHeight || 0;
-      setShowFloatingCTA(window.scrollY > heroHeight * 0.7);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleScroll);
-
-    // Trigger entrance animation
-    const timer = setTimeout(() => setIsVisible(true), 100);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timer);
-    };
+    // Only scroll listener needed here now
+    // Mouse move logic moved to HeroSection to prevent re-renders of the whole page
   }, []);
 
   const handleChipFlip = (term: string) => {
@@ -87,8 +58,6 @@ const Orientation = () => {
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
-
-
   return (
     <div className={isHighContrast ? "high-contrast" : ""}>
       <LearningHeader />
@@ -102,184 +71,13 @@ const Orientation = () => {
       {/* Abyssal Plain Section */}
       <AbyssalPlainSection />
 
-
-      {/* Apple-Quality Hero Ocean */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden hero-mobile-landscape pt-16">
-        {/* Constrained Ocean Background */}
-        <div className="absolute inset-0">
-          {/* Transition Gradient from Abyssal Plain */}
-          <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-[#00050a] via-[#00050a]/80 to-transparent z-20 pointer-events-none" />
-
-          {/* Base ocean image with proper constraints */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div
-              className="absolute w-[120%] h-[120%] -left-[10%] -top-[10%] parallax-mobile-reduce"
-              style={{
-                transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px) translateY(${Math.max(scrollY * 0.3, -100)}px)`,
-                transition: "transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-              }}
-            >
-              <img
-                src={oceanHero}
-                alt="Deep ocean cross-section"
-                className="w-full h-full object-cover"
-              />
-
-              {/* Edge fade masks */}
-              <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-background/60" />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/20" />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background/20" />
-            </div>
-          </div>
-
-          {/* Sophisticated gradient overlay system */}
-          <div
-            className="absolute inset-0 opacity-80 parallax-mobile-reduce"
-            style={{
-              background: `
-                radial-gradient(ellipse 80% 60% at center 40%, 
-                  transparent 0%, 
-                  hsl(var(--abyss) / 0.3) 40%,
-                  hsl(var(--abyss) / 0.7) 100%
-                ),
-                linear-gradient(180deg, 
-                  hsl(var(--abyss) / 0.1) 0%, 
-                  transparent 25%, 
-                  hsl(var(--omz-violet) / 0.2) 40%, 
-                  hsl(var(--omz-violet) / 0.4) 50%, 
-                  hsl(var(--omz-violet) / 0.2) 60%, 
-                  transparent 75%,
-                  hsl(var(--abyss) / 0.9) 100%
-                )`,
-              transform: `translateY(${mousePos.y * 0.4}px)`,
-            }}
-          />
-
-          {/* Enhanced OMZ breathing layer */}
-          <div
-            className="absolute inset-0 opacity-40 animate-breathe"
-            style={{
-              background: `linear-gradient(135deg, 
-                transparent 30%, 
-                hsl(var(--omz-violet) / 0.2) 45%, 
-                hsl(var(--primary) / 0.3) 50%, 
-                hsl(var(--omz-violet) / 0.2) 55%, 
-                transparent 70%)`,
-              transform: `translateY(${mousePos.y * 0.2}px) rotate(${mousePos.x * 0.05}deg)`,
-            }}
-          />
-
-          {/* Pulse plume effect */}
-          {isPulsing && (
-            <div
-              className="absolute top-1/2 left-0 right-0 h-48 animate-pulse-plume"
-              style={{
-                background: "linear-gradient(90deg, transparent 0%, hsl(var(--primary) / 0.5) 50%, transparent 100%)",
-                filter: "blur(60px)",
-              }}
-            />
-          )}
-
-          {/* Refined floating particles */}
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(15)].map((_, i) => (
-              <div
-                key={i}
-                className={`absolute rounded-full animate-float ${i % 4 === 0 ? "bg-primary/50" :
-                  i % 4 === 1 ? "bg-accent/30" :
-                    i % 4 === 2 ? "bg-teal-400/40" : "bg-blue-400/20"
-                  }`}
-                style={{
-                  width: `${1 + Math.random() * 3}px`,
-                  height: `${1 + Math.random() * 3}px`,
-                  left: `${10 + Math.random() * 80}%`,
-                  top: `${20 + Math.random() * 60}%`,
-                  animationDelay: `${Math.random() * 10}s`,
-                  animationDuration: `${10 + Math.random() * 15}s`,
-                  opacity: 0.4 + Math.random() * 0.4,
-                }}
-              />
-            ))}
-          </div>
-
-        </div>
-
-        {/* Apple-style gradient bridge to next section */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{
-            background: `linear-gradient(to bottom, 
-              transparent 0%, 
-              hsl(var(--background) / 0.8) 70%, 
-              hsl(var(--background)) 100%
-            )`,
-          }}
-        />
-
-        {/* Enhanced Hero Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-          <div
-            className={`max-w-5xl text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-              }`}
-            style={{
-              transform: `translate(${mousePos.x * 0.02}px, ${mousePos.y * 0.02}px)`,
-              transition: "transform 0.8s ease-out",
-            }}
-          >
-            {/* Enhanced title with better animations */}
-            <div className="mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-subtle border border-primary/20 text-sm text-primary font-medium mb-6 animate-scale-in">
-                <Waves className="w-4 h-4" />
-                Welcome to the Microbial Relay
-              </div>
-
-              <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 tracking-tight">
-                <span className="bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent">
-                  Orientation Bay
-                </span>
-              </h1>
-
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground/80 mb-8 font-light leading-relaxed max-w-3xl mx-auto px-4">
-                Discover the hidden world of ocean microbes and make your predictions before we
-                <span className="text-primary font-medium"> dive into the deep</span>.
-              </p>
-            </div>
-
-            {/* Enhanced Status Indicators */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm mb-12">
-              <div className="flex items-center gap-3 px-4 py-2 rounded-full glass-subtle">
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${allChipsRead ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
-                  }`} />
-                <Microscope className="w-4 h-4" />
-                <span className={`font-medium transition-colors ${allChipsRead ? 'text-foreground' : 'text-muted-foreground'}`}>
-                  Learn concepts
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3 px-4 py-2 rounded-full glass-subtle">
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${isPretestComplete ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
-                  }`} />
-                <Play className="w-4 h-4" />
-                <span className={`font-medium transition-colors ${isPretestComplete ? 'text-foreground' : 'text-muted-foreground'}`}>
-                  Make predictions
-                </span>
-              </div>
-            </div>
-
-            {/* Enhanced scroll indicator */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={scrollToContent}
-              className="group flex items-center gap-2 mx-auto text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-105"
-            >
-              <span className="text-sm font-medium">Start learning</span>
-              <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* Apple-Quality Hero Ocean - Now Isolated */}
+      <HeroSection
+        allChipsRead={allChipsRead}
+        isPretestComplete={isPretestComplete}
+        isPulsing={isPulsing}
+        scrollToContent={scrollToContent}
+      />
 
       {/* Apple-Quality Learning Section */}
       <section ref={learningRef} id="learning-section" className="relative py-16 lg:py-32 px-6 sm:px-8">

@@ -34,10 +34,13 @@ export const AbyssalPlainSection = () => {
     return (
         <section className="relative h-screen w-full overflow-hidden bg-[#00050a] flex items-center justify-center">
 
-            {/* Murky Haze Overlay */}
+            {/* Murky Haze Overlay - Optimized for Mobile */}
             <div
-                className="absolute inset-0 pointer-events-none z-10 bg-[#3e2723] mix-blend-overlay transition-opacity duration-1000"
-                style={{ opacity: hazeOpacity }}
+                className={cn(
+                    "absolute inset-0 pointer-events-none z-10 bg-[#3e2723] transition-opacity duration-1000",
+                    isMobile ? "mix-blend-normal" : "mix-blend-overlay"
+                )}
+                style={{ opacity: isMobile ? hazeOpacity * 0.5 : hazeOpacity }}
             />
 
             {/* Main Container */}
@@ -66,7 +69,8 @@ export const AbyssalPlainSection = () => {
                                 style={{
                                     opacity: leftVentOpacity,
                                     zIndex: oxygenLevel[0] >= 50 ? 10 : 0,
-                                    transform: `scale(${oxygenLevel[0] >= 50 ? 1 : 0.9})`
+                                    transform: `scale(${oxygenLevel[0] >= 50 ? 1 : 0.9})`,
+                                    willChange: 'transform, opacity'
                                 }}
                             >
                                 <LeftVent className="w-full max-w-[320px] h-auto drop-shadow-[0_0_25px_rgba(38,198,218,0.4)]" />
@@ -84,7 +88,8 @@ export const AbyssalPlainSection = () => {
                                 style={{
                                     opacity: rightVentOpacity,
                                     zIndex: oxygenLevel[0] < 50 ? 10 : 0,
-                                    transform: `scale(${oxygenLevel[0] < 50 ? 1 : 0.9})`
+                                    transform: `scale(${oxygenLevel[0] < 50 ? 1 : 0.9})`,
+                                    willChange: 'transform, opacity'
                                 }}
                             >
                                 <RightVent className="w-full max-w-[320px] h-auto drop-shadow-[0_0_25px_rgba(255,87,34,0.4)]" />
