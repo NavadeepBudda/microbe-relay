@@ -9,6 +9,7 @@ import Relay from "./pages/Relay";
 import TryIt from "./pages/TryIt";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import { IntroAnimation } from "./components/IntroAnimation";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <IntroAnimation />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Orientation />} />
