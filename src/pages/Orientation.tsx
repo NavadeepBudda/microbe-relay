@@ -7,6 +7,9 @@ import { ChevronRight, Play, ArrowDown, Waves, Microscope, Target } from "lucide
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import oceanHero from "@/assets/ocean-hero.jpg";
+import { EntrySection } from "@/components/EntrySection";
+import { TwilightZoneSection } from "@/components/TwilightZoneSection";
+import { AbyssalPlainSection } from "@/components/AbyssalPlainSection";
 
 const Orientation = () => {
   useDocumentTitle("Microbe Relay | Orientation Bay");
@@ -34,7 +37,7 @@ const Orientation = () => {
 
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
+
       // Show floating CTA when scrolled past hero
       const heroHeight = heroRef.current?.offsetHeight || 0;
       setShowFloatingCTA(window.scrollY > heroHeight * 0.7);
@@ -42,7 +45,7 @@ const Orientation = () => {
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("scroll", handleScroll);
-    
+
     // Trigger entrance animation
     const timer = setTimeout(() => setIsVisible(true), 100);
 
@@ -65,9 +68,9 @@ const Orientation = () => {
     if (allChipsRead && !hasAutoScrolled) {
       setTimeout(() => {
         const element = document.getElementById('prediction-cta');
-        element?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
+        element?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
         });
         setHasAutoScrolled(true);
       }, 800);
@@ -84,17 +87,32 @@ const Orientation = () => {
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
+
+
   return (
     <div className={isHighContrast ? "high-contrast" : ""}>
       <LearningHeader />
+
+      {/* New Entry Section */}
+      <EntrySection />
+
+      {/* Twilight Zone Section */}
+      <TwilightZoneSection />
+
+      {/* Abyssal Plain Section */}
+      <AbyssalPlainSection />
+
 
       {/* Apple-Quality Hero Ocean */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden hero-mobile-landscape pt-16">
         {/* Constrained Ocean Background */}
         <div className="absolute inset-0">
+          {/* Transition Gradient from Abyssal Plain */}
+          <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-[#00050a] via-[#00050a]/80 to-transparent z-20 pointer-events-none" />
+
           {/* Base ocean image with proper constraints */}
           <div className="absolute inset-0 overflow-hidden">
-            <div 
+            <div
               className="absolute w-[120%] h-[120%] -left-[10%] -top-[10%] parallax-mobile-reduce"
               style={{
                 transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px) translateY(${Math.max(scrollY * 0.3, -100)}px)`,
@@ -106,7 +124,7 @@ const Orientation = () => {
                 alt="Deep ocean cross-section"
                 className="w-full h-full object-cover"
               />
-              
+
               {/* Edge fade masks */}
               <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-background/60" />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
@@ -114,9 +132,9 @@ const Orientation = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background/20" />
             </div>
           </div>
-          
+
           {/* Sophisticated gradient overlay system */}
-          <div 
+          <div
             className="absolute inset-0 opacity-80 parallax-mobile-reduce"
             style={{
               background: `
@@ -168,11 +186,10 @@ const Orientation = () => {
             {[...Array(15)].map((_, i) => (
               <div
                 key={i}
-                className={`absolute rounded-full animate-float ${
-                  i % 4 === 0 ? "bg-primary/50" : 
-                  i % 4 === 1 ? "bg-accent/30" : 
-                  i % 4 === 2 ? "bg-teal-400/40" : "bg-blue-400/20"
-                }`}
+                className={`absolute rounded-full animate-float ${i % 4 === 0 ? "bg-primary/50" :
+                  i % 4 === 1 ? "bg-accent/30" :
+                    i % 4 === 2 ? "bg-teal-400/40" : "bg-blue-400/20"
+                  }`}
                 style={{
                   width: `${1 + Math.random() * 3}px`,
                   height: `${1 + Math.random() * 3}px`,
@@ -189,7 +206,7 @@ const Orientation = () => {
         </div>
 
         {/* Apple-style gradient bridge to next section */}
-        <div 
+        <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
           style={{
             background: `linear-gradient(to bottom, 
@@ -202,10 +219,9 @@ const Orientation = () => {
 
         {/* Enhanced Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-          <div 
-            className={`max-w-5xl text-center transition-all duration-1000 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            }`}
+          <div
+            className={`max-w-5xl text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+              }`}
             style={{
               transform: `translate(${mousePos.x * 0.02}px, ${mousePos.y * 0.02}px)`,
               transition: "transform 0.8s ease-out",
@@ -217,15 +233,15 @@ const Orientation = () => {
                 <Waves className="w-4 h-4" />
                 Welcome to the Microbial Relay
               </div>
-              
+
               <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 tracking-tight">
                 <span className="bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent">
                   Orientation Bay
                 </span>
               </h1>
-              
+
               <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground/80 mb-8 font-light leading-relaxed max-w-3xl mx-auto px-4">
-                Discover the hidden world of ocean microbes and make your predictions before we 
+                Discover the hidden world of ocean microbes and make your predictions before we
                 <span className="text-primary font-medium"> dive into the deep</span>.
               </p>
             </div>
@@ -233,19 +249,17 @@ const Orientation = () => {
             {/* Enhanced Status Indicators */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm mb-12">
               <div className="flex items-center gap-3 px-4 py-2 rounded-full glass-subtle">
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${
-                  allChipsRead ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
-                }`} />
+                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${allChipsRead ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
+                  }`} />
                 <Microscope className="w-4 h-4" />
                 <span className={`font-medium transition-colors ${allChipsRead ? 'text-foreground' : 'text-muted-foreground'}`}>
                   Learn concepts
                 </span>
               </div>
-              
+
               <div className="flex items-center gap-3 px-4 py-2 rounded-full glass-subtle">
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${
-                  isPretestComplete ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
-                }`} />
+                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${isPretestComplete ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
+                  }`} />
                 <Play className="w-4 h-4" />
                 <span className={`font-medium transition-colors ${isPretestComplete ? 'text-foreground' : 'text-muted-foreground'}`}>
                   Make predictions
@@ -276,13 +290,13 @@ const Orientation = () => {
               <Microscope className="w-4 h-4" />
               Essential Knowledge
             </div>
-            
+
             <h2 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-tight leading-none">
               <span className="bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
                 Three Core Concepts
               </span>
             </h2>
-            
+
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
               Tap each card to unlock the science behind ocean microbes.<br />
               <span className="text-primary font-medium">Takes just 30 seconds</span>.
@@ -296,7 +310,7 @@ const Orientation = () => {
               { term: "Modular", definition: "Most microbes do only one or two steps of the relay.", icon: "modular" as const, delay: "150ms" },
               { term: "N₂O", definition: "Nitrous oxide: a greenhouse gas sometimes made in the relay.", icon: "n2o" as const, delay: "300ms" },
             ].map((concept, index) => (
-              <div 
+              <div
                 key={concept.term}
                 className="animate-reveal-up"
                 style={{ animationDelay: concept.delay }}
@@ -325,7 +339,7 @@ const Orientation = () => {
                         3/3 ✓
                       </div>
                     </div>
-                    
+
                     <Button
                       onClick={() => setIsDrawerOpen(true)}
                       size="lg"
@@ -368,11 +382,10 @@ const Orientation = () => {
                   <span className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
                       {[...Array(3)].map((_, i) => (
-                        <div 
-                          key={i} 
-                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            i < flippedChips.size ? 'bg-primary scale-110' : 'bg-muted/50'
-                          }`} 
+                        <div
+                          key={i}
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${i < flippedChips.size ? 'bg-primary scale-110' : 'bg-muted/50'
+                            }`}
                         />
                       ))}
                     </div>
