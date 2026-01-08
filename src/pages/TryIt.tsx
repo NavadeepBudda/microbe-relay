@@ -25,7 +25,7 @@ const missions: Mission[] = [
     title: "Scarcity Masters",
     description: "In food-poor waters, which specialists win the competition?",
     goal: "Set food level to LOW and watch Step 1 specialists dominate",
-    successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) => 
+    successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) =>
       foodLevel <= 35 && timeInState >= 3000, // 3 seconds in low food state
     successMessage: "Perfect! Step 1 specialists dominate when food is scarce.",
     icon: "🦠"
@@ -35,7 +35,7 @@ const missions: Mission[] = [
     title: "N₂O Hotspot",
     description: "When do greenhouse gases spike to dangerous levels?",
     goal: "Find the food level that creates peak N₂O emissions",
-    successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) => 
+    successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) =>
       n2oLevel >= 85 && timeInState >= 2000, // High N₂O for 2 seconds
     successMessage: "Excellent! Medium food creates N₂O hotspots as multiple specialists coexist.",
     icon: "⚠️"
@@ -45,7 +45,7 @@ const missions: Mission[] = [
     title: "Complete the Cycle",
     description: "How do we achieve full nitrogen conversion with minimal greenhouse gases?",
     goal: "Activate multi-step specialists to complete the entire pathway",
-    successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) => 
+    successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) =>
       foodLevel >= 70 && timeInState >= 3000, // High food for 3 seconds
     successMessage: "Brilliant! High food enables complete pathways that finish the job safely.",
     icon: "🔄"
@@ -90,7 +90,7 @@ const TryIt = () => {
         setCompletedMissions(prev => [...prev, currentMission]);
         setSuccessMessage(mission.successMessage);
         setShowSuccessMessage(true);
-        
+
         // Auto-advance to next mission after 3 seconds
         setTimeout(() => {
           setShowSuccessMessage(false);
@@ -141,68 +141,53 @@ const TryIt = () => {
 
 
           {/* Main Content - Mobile-First */}
+          {/* Main Content - Mobile-First */}
           <div className="space-y-6 md:space-y-8">
             {/* Mission Cards - Top on Mobile */}
             <div className="space-y-3 md:space-y-4">
-              <h2 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4 flex items-center gap-2">
-                <Target className="w-4 h-4 md:w-5 md:h-5 text-coral-cta" />
+              <h2 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">
                 Missions
               </h2>
-              
+
               {/* Mobile: Horizontal scroll for missions */}
               <div className="md:hidden flex gap-3 overflow-x-auto pb-2 -mx-3 px-3">
                 {missions.map((mission, index) => {
                   const status = getMissionCardStatus(index);
                   const isActive = status === "active";
                   const isCompleted = status === "completed";
-                  
+
                   return (
                     <div
                       key={mission.id}
-                      className={`relative rounded-xl border p-4 transition-all duration-300 min-w-[280px] flex-shrink-0 ${
-                        isActive 
-                          ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]" 
-                          : isCompleted
-                            ? "border-teal-glow/40 bg-teal-glow/10"
-                            : "border-white/10 bg-white/5"
-                      }`}
+                      className={`relative rounded-xl border p-4 transition-all duration-300 min-w-[280px] flex-shrink-0 ${isActive
+                        ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]"
+                        : isCompleted
+                          ? "border-teal-glow/40 bg-teal-glow/10"
+                          : "border-white/10 bg-white/5"
+                        }`}
                     >
-                      <div className="flex items-start gap-3">
-                        <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold flex-shrink-0 ${
-                          isCompleted 
-                            ? "bg-teal-glow/20 text-teal-200" 
-                            : isActive 
-                              ? "bg-coral-cta/20 text-coral-cta" 
-                              : "bg-white/10 text-white/60"
-                        }`}>
-                          {isCompleted ? <CheckCircle className="w-4 h-4" /> : mission.icon}
-                        </div>
-                        
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className={`text-sm font-semibold ${
-                              isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className={`text-sm font-semibold ${isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
                             }`}>
-                              Mission {mission.id}: {mission.title}
-                            </h3>
-                            {isActive && (
-                              <div className="animate-pulse">
-                                <div className="w-1.5 h-1.5 rounded-full bg-coral-cta"></div>
-                              </div>
-                            )}
-                          </div>
-                          
-                          <p className="text-xs text-white/70 mb-2 leading-relaxed">{mission.description}</p>
-                          
-                          <div className={`text-xs font-medium px-2 py-1 rounded-full inline-block ${
-                            isCompleted 
-                              ? "bg-teal-glow/20 text-teal-200" 
-                              : isActive 
-                                ? "bg-coral-cta/20 text-coral-cta" 
-                                : "bg-white/10 text-white/60"
+                            Mission {mission.id}: {mission.title}
+                          </h3>
+                          {isActive && (
+                            <div className="animate-pulse">
+                              <div className="w-1.5 h-1.5 rounded-full bg-coral-cta"></div>
+                            </div>
+                          )}
+                        </div>
+
+                        <p className="text-xs text-white/70 mb-2 leading-relaxed">{mission.description}</p>
+
+                        <div className={`text-xs font-medium px-2 py-1 rounded-full inline-block self-start ${isCompleted
+                          ? "bg-teal-glow/20 text-teal-200"
+                          : isActive
+                            ? "bg-coral-cta/20 text-coral-cta"
+                            : "bg-white/10 text-white/60"
                           }`}>
-                            {mission.goal}
-                          </div>
+                          {mission.goal}
                         </div>
                       </div>
                     </div>
@@ -216,54 +201,39 @@ const TryIt = () => {
                   const status = getMissionCardStatus(index);
                   const isActive = status === "active";
                   const isCompleted = status === "completed";
-                  
+
                   return (
                     <div
                       key={mission.id}
-                      className={`relative rounded-2xl border p-5 md:p-6 transition-all duration-300 ${
-                        isActive 
-                          ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]" 
-                          : isCompleted
-                            ? "border-teal-glow/40 bg-teal-glow/10"
-                            : "border-white/10 bg-white/5"
-                      }`}
+                      className={`relative rounded-2xl border p-5 md:p-6 transition-all duration-300 ${isActive
+                        ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]"
+                        : isCompleted
+                          ? "border-teal-glow/40 bg-teal-glow/10"
+                          : "border-white/10 bg-white/5"
+                        }`}
                     >
-                      <div className="flex items-start gap-3 md:gap-4">
-                        <div className={`flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full text-sm font-semibold ${
-                          isCompleted 
-                            ? "bg-teal-glow/20 text-teal-200" 
-                            : isActive 
-                              ? "bg-coral-cta/20 text-coral-cta" 
-                              : "bg-white/10 text-white/60"
-                        }`}>
-                          {isCompleted ? <CheckCircle className="w-4 h-4 md:w-5 md:h-5" /> : mission.icon}
-                        </div>
-                        
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h3 className={`text-sm md:text-base font-semibold ${
-                              isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-2">
+                          <h3 className={`text-sm md:text-base font-semibold ${isActive ? "text-coral-cta" : isCompleted ? "text-teal-200" : "text-white"
                             }`}>
-                              Mission {mission.id}: {mission.title}
-                            </h3>
-                            {isActive && (
-                              <div className="animate-pulse">
-                                <div className="w-2 h-2 rounded-full bg-coral-cta"></div>
-                              </div>
-                            )}
-                          </div>
-                          
-                          <p className="text-xs md:text-sm text-white/70 mb-3 leading-relaxed">{mission.description}</p>
-                          
-                          <div className={`text-xs font-medium px-2.5 md:px-3 py-1 rounded-full inline-block ${
-                            isCompleted 
-                              ? "bg-teal-glow/20 text-teal-200" 
-                              : isActive 
-                                ? "bg-coral-cta/20 text-coral-cta" 
-                                : "bg-white/10 text-white/60"
+                            Mission {mission.id}: {mission.title}
+                          </h3>
+                          {isActive && (
+                            <div className="animate-pulse">
+                              <div className="w-2 h-2 rounded-full bg-coral-cta"></div>
+                            </div>
+                          )}
+                        </div>
+
+                        <p className="text-xs md:text-sm text-white/70 mb-1 leading-relaxed">{mission.description}</p>
+
+                        <div className={`text-xs font-medium px-2.5 md:px-3 py-1 rounded-full inline-block self-start ${isCompleted
+                          ? "bg-teal-glow/20 text-teal-200"
+                          : isActive
+                            ? "bg-coral-cta/20 text-coral-cta"
+                            : "bg-white/10 text-white/60"
                           }`}>
-                            {mission.goal}
-                          </div>
+                          {mission.goal}
                         </div>
                       </div>
                     </div>
@@ -276,7 +246,7 @@ const TryIt = () => {
             <div className="space-y-4 md:space-y-6">
               {/* Relay Pipeline */}
               <div className="w-full">
-                <InteractiveRelayPipeline 
+                <InteractiveRelayPipeline
                   foodLevel={foodLevel}
                   className="w-full"
                 />
@@ -288,66 +258,15 @@ const TryIt = () => {
                 <InteractiveFoodControl
                   value={foodLevel}
                   onChange={handleFoodLevelChange}
-                  className="h-full min-h-[280px] md:min-h-[320px]"
+                  className="w-full"
                 />
-                
+
                 {/* N2O Gauge */}
                 <InteractiveN2OGauge
                   value={n2oLevel}
                   foodLevel={foodLevel}
-                  className="h-full min-h-[280px] md:min-h-[320px]"
+                  className="w-full"
                 />
-              </div>
-
-              {/* Real-time Feedback */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-                    <Zap className="h-5 w-5 text-coral-cta" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Live Feedback</h3>
-                    <p className="text-xs text-white/60">Real-time system response</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3 text-sm text-white/80">
-                  <div className="flex items-center gap-2">
-                    <span className="text-white/60">Current Food Level:</span>
-                    <span className="font-medium text-white">{Math.round(foodLevel)}%</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      foodLevel < 35 ? "bg-teal-glow/20 text-teal-200" :
-                      foodLevel < 70 ? "bg-omz-violet/20 text-omz-violet" :
-                      "bg-coral-cta/20 text-coral-cta"
-                    }`}>
-                      {foodLevel < 35 ? "Low" : foodLevel < 70 ? "Medium" : "High"}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <span className="text-white/60">N₂O Level:</span>
-                    <span className="font-medium text-white">
-                      {n2oLevel <= 35 ? "Low" : n2oLevel <= 70 ? "Medium" : "High"}
-                    </span>
-                    {n2oLevel > 70 && (
-                      <AlertTriangle className="w-4 h-4 text-coral-cta animate-pulse" />
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <span className="text-white/60">Dominant Steps:</span>
-                    <span className="font-medium text-white">
-                      {relayState.dominantModules.map(module => {
-                        if (module === "Step1") return "1";
-                        if (module === "Step2") return "2"; 
-                        if (module === "Step3") return "3";
-                        if (module === "TwoStepBand") return "Multi-step";
-                        if (module === "ThreeStepBand") return "Complete";
-                        return module;
-                      }).join(", ") || "None"}
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -356,15 +275,11 @@ const TryIt = () => {
           <div className="mt-16 pt-12 border-t border-white/10">
             <div className="text-center space-y-6">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-subtle border border-primary/20 text-sm text-primary font-medium">
-                  <BookOpen className="w-4 h-4" />
-                  Ready for Deep Dive
-                </div>
-                
+
                 <h2 className="text-3xl sm:text-4xl font-bold text-white">
                   Explore Ocean Chemistry
                 </h2>
-                
+
                 <p className="text-lg text-white/80 max-w-2xl mx-auto">
                   Now that you've mastered the relay dynamics, dive deeper into the environmental chemistry that drives these microbial processes.
                 </p>
@@ -377,7 +292,6 @@ const TryIt = () => {
               >
                 <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <span className="relative flex items-center gap-3">
-                  <BookOpen className="h-5 w-5" />
                   <span className="text-lg">Continue to Ocean Chemistry</span>
                   <ArrowRight className="h-5 w-5 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </span>

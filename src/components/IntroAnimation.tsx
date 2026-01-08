@@ -67,9 +67,7 @@ export const IntroAnimation = () => {
 
                     <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto my-6 opacity-50" />
 
-                    <div className="flex flex-col gap-1 text-white/60 font-light text-sm md:text-base italic">
-                        <p>Created by Professor Xin Sun and Navadeep Budda</p>
-                    </div>
+
                 </div>
 
             </div>

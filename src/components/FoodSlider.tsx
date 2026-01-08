@@ -56,7 +56,7 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
   // Animate particles
   useEffect(() => {
     const animate = () => {
-      setParticles(prev => 
+      setParticles(prev =>
         prev.map(particle => ({
           ...particle,
           y: (particle.y + particle.speed) % 110, // Reset to top when reaching bottom
@@ -80,19 +80,19 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
   const handleSliderChange = (values: number[]) => {
     setSliderValue(values);
     setIsInteracting(true);
-    
+
     // Determine closest snap point
     const newValue = values[0];
     let closestLevel: FoodLevel = "low";
-    
+
     if (newValue <= 25) {
       closestLevel = "low";
     } else if (newValue <= 75) {
-      closestLevel = "medium";  
+      closestLevel = "medium";
     } else {
       closestLevel = "high";
     }
-    
+
     if (closestLevel !== value) {
       onChange(closestLevel);
     }
@@ -112,17 +112,9 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
       {/* Header with scenario info */}
       <div className="text-center space-y-2 md:space-y-4">
         <div className="flex items-center justify-center gap-2">
-          <HelpTooltip
-            term="Organic Matter"
-            definition="Carbon-rich particles from dead phytoplankton and marine organisms"
-            context="The primary food source for denitrifying microbes in the ocean"
-            example="After algae blooms, sinking particles create concentrated food patches"
-          >
-            <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold cursor-help border-b border-dotted border-primary/50 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Organic Matter Availability
-            </h3>
-          </HelpTooltip>
-          <TrendingUp className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+          <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-white">
+            Organic Matter Availability
+          </h3>
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-lg mx-auto px-3">
           Adjust the food level to see how microbial communities respond
@@ -132,25 +124,9 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
       {/* Particle visualization background */}
       <div className="relative glass-subtle rounded-xl md:rounded-2xl p-4 md:p-8 overflow-hidden border border-white/10 shadow-lg">
         {/* Animated background particles - hidden during interaction */}
-        <div className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${
-          isInteracting ? "opacity-0" : "opacity-100"
-        }`}>
-          {particles.map(particle => (
-            <div
-              key={particle.id}
-              className="absolute rounded-full animate-pulse"
-              style={{
-                left: `${particle.x}%`,
-                top: `${particle.y}%`,
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                backgroundColor: currentLevel.particleColor,
-                opacity: particle.opacity,
-                transform: "translate(-50%, -50%)",
-                transition: "all 0.3s ease-out"
-              }}
-            />
-          ))}
+        <div className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${isInteracting ? "opacity-0" : "opacity-100"
+          }`}>
+          {/* Particles removed as per user request */}
         </div>
 
         {/* Slider container */}
@@ -183,7 +159,7 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
               className="w-full touch-manipulation"
               aria-label="Food level slider"
             />
-            
+
           </div>
         </div>
       </div>
@@ -193,7 +169,7 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
         <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl transition-all duration-500 transform hover:scale-110">
           {currentLevel.emoji}
         </div>
-        
+
         <div className="space-y-1 md:space-y-3">
           <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
             {currentLevel.label} Food
@@ -202,14 +178,14 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
             {currentLevel.scenario}
           </div>
         </div>
-        
+
         {/* Quick impact indicator */}
-        <div 
+        <div
           className="inline-flex items-center gap-2 md:gap-3 px-3 py-2 md:px-6 md:py-3 rounded-full glass-subtle border transition-all duration-500 hover:scale-105"
           style={{ borderColor: `${currentLevel.particleColor}30` }}
         >
-          <div 
-            className="w-2 h-2 md:w-3 md:h-3 rounded-full animate-pulse"
+          <div
+            className="w-2 h-2 md:w-3 md:h-3 rounded-full"
             style={{ backgroundColor: currentLevel.particleColor }}
           />
           <span className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">

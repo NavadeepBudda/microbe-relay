@@ -26,21 +26,18 @@ const learningPages: LearningPage[] = [
   {
     path: "/meet-the-relay",
     title: "Meet the Relay",
-    subtitle: "Interactive pipeline",
     step: 2,
     backPath: "/",
   },
   {
     path: "/try-it",
     title: "Try It",
-    subtitle: "Test your knowledge",
     step: 3,
     backPath: "/meet-the-relay",
   },
   {
     path: "/relay",
-    title: "Organic Matter & Ocean Chemistry", 
-    subtitle: "Environmental controls",
+    title: "Organic Matter & Ocean Chemistry",
     step: 4,
     backPath: "/try-it",
   },
@@ -73,17 +70,20 @@ export const LearningHeader = ({ onBackClick }: LearningHeaderProps) => {
     }
   };
 
+  if (location.pathname === "/") {
+    return null;
+  }
+
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "backdrop-blur-xl bg-[rgba(6,15,26,0.85)] border-b border-white/15 shadow-[0_4px_20px_rgba(0,0,0,0.15)]" 
-          : "backdrop-blur-md bg-[rgba(6,15,26,0.65)] border-b border-white/10"
-      }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? "backdrop-blur-xl bg-[rgba(6,15,26,0.85)] border-b border-white/15 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
+        : "backdrop-blur-md bg-[rgba(6,15,26,0.65)] border-b border-white/10"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
+
           {/* Left: Back Button */}
           <div className="flex items-center">
             <Button
@@ -116,22 +116,21 @@ export const LearningHeader = ({ onBackClick }: LearningHeaderProps) => {
               {[...Array(totalSteps)].map((_, index) => {
                 const isActive = index + 1 === displayStep;
                 const isCompleted = index + 1 < displayStep;
-                
+
                 return (
                   <div
                     key={index}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      isActive 
-                        ? "bg-white scale-125 shadow-[0_0_8px_rgba(255,255,255,0.6)]" 
-                        : isCompleted
-                          ? "bg-teal-glow scale-110"
-                          : "bg-white/30 scale-100"
-                    }`}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${isActive
+                      ? "bg-white scale-125 shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+                      : isCompleted
+                        ? "bg-teal-400 scale-110"
+                        : "bg-white/30 scale-100"
+                      }`}
                   />
                 );
               })}
             </div>
-            
+
             {/* Step Counter */}
             <div className="text-xs font-medium text-white/70 ml-2 min-w-[2rem] text-center">
               {displayStep}/{totalSteps}

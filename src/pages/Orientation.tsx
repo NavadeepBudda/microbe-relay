@@ -84,10 +84,7 @@ const Orientation = () => {
         <div className="max-w-6xl mx-auto">
           {/* Refined section header */}
           <div className="text-center mb-20 animate-fade-in-delayed">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-subtle border border-primary/20 text-sm text-primary font-semibold mb-8 shadow-lg shadow-primary/5">
-              <Microscope className="w-4 h-4" />
-              Essential Knowledge
-            </div>
+
 
             <h2 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-tight leading-none">
               <span className="bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
@@ -96,8 +93,7 @@ const Orientation = () => {
             </h2>
 
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
-              Tap each card to unlock the science behind ocean microbes.<br />
-              <span className="text-primary font-medium">Takes just 30 seconds</span>.
+              Tap each card to unlock the science behind ocean microbes.
             </p>
           </div>
 
@@ -131,20 +127,15 @@ const Orientation = () => {
                 <div className="glass-intense border border-primary/30 rounded-2xl p-6 shadow-2xl shadow-primary/20 animate-slide-up-smooth">
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 rounded-full bg-primary animate-pulse" />
                       <span className="text-primary font-bold">Ready for predictions!</span>
-                      <div className="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
-                        3/3 ✓
-                      </div>
                     </div>
 
                     <Button
                       onClick={() => setIsDrawerOpen(true)}
                       size="lg"
-                      className="h-12 px-8 font-bold rounded-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-105"
+                      className="h-12 px-8 font-bold rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-105"
                     >
                       <span className="flex items-center gap-2">
-                        <Target className="w-5 h-5" />
                         Make Predictions
                       </span>
                     </Button>
@@ -194,13 +185,12 @@ const Orientation = () => {
                 )}
                 {allChipsRead && !isPretestComplete && (
                   <span className="text-amber-400 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
                     Complete predictions to unlock the lab
                   </span>
                 )}
                 {canEnterLab && (
                   <span className="text-emerald-400 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+
                     Ready to explore the lab
                   </span>
                 )}

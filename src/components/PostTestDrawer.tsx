@@ -27,8 +27,9 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const [session, setSession] = useState<PosttestSessionData | null>(null);
   const [isInitializing, setIsInitializing] = useState(false);
+  const [completionData, setCompletionData] = useState<any>(null);
   const hasCompletedRef = useRef(false);
-  
+
 
   const allLocked = card1Data && card2Data && card3Data;
   const completedCount = [card1Data, card2Data, card3Data].filter(Boolean).length;
@@ -40,24 +41,28 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
   };
 
   // Initialize session when drawer opens
+  const hasAttemptedInit = useRef(false);
+
   useEffect(() => {
     const initializeSession = async () => {
-      if (isOpen && !session && !isInitializing) {
+      // Only run if open, no session, and haven't tried yet
+      if (isOpen && !session && !hasAttemptedInit.current) {
+        hasAttemptedInit.current = true;
         setIsInitializing(true);
         try {
           const existingUserId = getUserId();
           const newSession = await posttestService.initializeSession(existingUserId || undefined);
           setSession(newSession);
-          
+
           // Save user ID to localStorage if it's new
           if (!existingUserId) {
             localStorage.setItem('microberelay_user_id', newSession.userId);
           }
-          
-          
+
           console.log('Posttest session initialized:', newSession);
         } catch (error) {
-          console.error('Failed to initialize posttest session:', error);
+          console.error('Failed to initialize posttest session (OFFLINE MODE):', error);
+          // Fallback handled by submit button
         } finally {
           setIsInitializing(false);
         }
@@ -65,61 +70,11 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
     };
 
     initializeSession();
-  }, [isOpen, session, isInitializing]);
+  }, [isOpen]);
 
-  // Handle saving responses to database
-  const saveResponse = async (questionNumber: number, response: string) => {
-    // Wait for session to be available
-    let attempts = 0;
-    while (!session && attempts < 50) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      attempts++;
-    }
-    
-    if (!session) {
-      console.error('No active session for saving response after waiting');
-      return;
-    }
 
-    try {
-      console.log('Saving posttest response:', { questionNumber, response });
-      await posttestService.saveResponse(questionNumber, response);
-      console.log('Posttest response saved successfully');
-    } catch (error) {
-      console.error('Failed to save posttest response:', error);
-    }
-  };
 
-  useEffect(() => {
-    if (allLocked && !showSuccessAnimation && session && !hasCompletedRef.current) {
-      hasCompletedRef.current = true;
-      setShowSuccessAnimation(true);
-      
-      // Complete the session and create comparison data
-      const completeSession = async () => {
-        try {
-          await posttestService.completeSession();
-          
-          // Create comparison data
-          const comparisonData = await comparisonService.getOrCreateUserComparison(
-            session.userId, 
-            session.sessionId
-          );
-          
-          // Auto-close after animation with comparison data
-          setTimeout(() => {
-            onComplete(comparisonData);
-            onClose();
-          }, 1200);
-        } catch (error) {
-          console.error('Failed to complete session or create comparison:', error);
-          hasCompletedRef.current = false; // Reset on error
-        }
-      };
-      
-      completeSession();
-    }
-  }, [allLocked, showSuccessAnimation, session, onComplete, onClose]);
+
 
   if (!isOpen) return null;
 
@@ -134,25 +89,22 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
       {/* Compact Modal Container */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="w-full max-w-6xl max-h-[80vh] overflow-hidden">
-          
+
           {/* Main Modal */}
           <div className="bg-background/98 backdrop-blur-2xl border border-white/30 rounded-3xl shadow-3xl relative animate-slide-up-smooth">
-            
+
             {/* Compact Header */}
             <div className="relative z-10 p-6 border-b border-white/10">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-primary" />
-                  </div>
                   <div>
-                    <h2 className="font-display font-bold text-2xl tracking-tight">
+                    <h2 className="font-display font-bold text-2xl tracking-tight text-foreground">
                       Test Your Knowledge
                     </h2>
-                    <p className="text-sm text-muted-foreground">Evaluate what you've learned about ocean microbe behavior</p>
+                    <p className="text-sm text-foreground/80">Evaluate what you've learned about ocean microbe behavior</p>
                   </div>
                 </div>
-                
+
                 <Button
                   variant="ghost"
                   size="icon"
@@ -169,111 +121,123 @@ export const PostTestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PostTes
             <div className="relative z-10 p-6 max-h-[50vh] overflow-y-auto">
               {/* Cards Grid - Responsive */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <PostTestCard1
-              onLock={async (data) => {
-                console.log('Card 1 locked with data:', data);
-                const now = new Date();
-                const cardData = {
-                  id: 'n2o-response',
-                  response: JSON.stringify(data),
-                  timestamp: now
-                };
-                setCard1Data(cardData);
-                
-                // Save to database
-                const standardAnswer = posttestService.mapCardResponseToStandardAnswer(1, data);
-                await saveResponse(1, standardAnswer);
-              }}
-              isLocked={!!card1Data}
-              onUnlock={() => setCard1Data(null)}
-            />
-            <PostTestCard2
-              onLock={async (data) => {
-                console.log('Card 2 locked with data:', data);
-                const now = new Date();
-                const cardData = {
-                  id: 'dominant-step',
-                  response: data.dominantStep,
-                  timestamp: now
-                };
-                setCard2Data(cardData);
-                
-                // Save to database
-                const standardAnswer = posttestService.mapCardResponseToStandardAnswer(2, data.dominantStep);
-                await saveResponse(2, standardAnswer);
-              }}
-              isLocked={!!card2Data}
-              onUnlock={() => setCard2Data(null)}
-            />
-            <PostTestCard3
-              onLock={async (data) => {
-                console.log('Card 3 locked with data:', data);
-                const now = new Date();
-                const cardData = {
-                  id: 'pulse-moment',
-                  response: data.pulseGuess,
-                  timestamp: now
-                };
-                setCard3Data(cardData);
-                
-                // Save to database
-                const standardAnswer = posttestService.mapCardResponseToStandardAnswer(3, data.pulseGuess);
-                await saveResponse(3, standardAnswer);
-              }}
-              isLocked={!!card3Data}
-              onUnlock={() => setCard3Data(null)}
-              onPulse={onPulse}
-            />
+                <PostTestCard1
+                  value={card1Data ? JSON.parse(card1Data.response as string).n2oGuess : ""}
+                  onChange={(val) => {
+                    const data = { foodLevel: 50, n2oGuess: val };
+                    const mockData = { id: 'n2o-response', response: JSON.stringify(data), timestamp: new Date() };
+                    setCard1Data(mockData);
+                  }}
+                />
+                <PostTestCard2
+                  value={card2Data ? (card2Data.response as string) : ""}
+                  onChange={(val) => {
+                    const mockData = { id: 'dominant-step', response: val, timestamp: new Date() };
+                    setCard2Data(mockData);
+                  }}
+                />
+                <PostTestCard3
+                  value={card3Data ? (card3Data.response as string) : ""}
+                  onChange={(val) => {
+                    const mockData = { id: 'pulse-moment', response: val, timestamp: new Date() };
+                    setCard3Data(mockData);
+                  }}
+                  onPulse={onPulse}
+                />
               </div>
             </div>
 
             {/* Compact Footer */}
             <div className="relative z-10 p-6 border-t border-white/10 bg-background/50">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                
-                {/* Progress */}
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1.5">
-                    {[...Array(3)].map((_, i) => (
-                      <div 
-                        key={i}
-                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                          i < completedCount 
-                            ? 'bg-primary shadow-sm shadow-primary/50' 
-                            : 'bg-muted/50'
-                        }`} 
-                      />
-                    ))}
+
+                <div className="space-y-1">
+                  <div className="text-sm font-medium">
+                    <span className="text-primary">{completedCount}</span>/3 answered
                   </div>
-                  
-                  <span className="text-sm font-medium">
-                    <span className="text-primary">{completedCount}</span>/3 completed
-                  </span>
+                  <div className="w-32 h-1 bg-muted/30 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary transition-all duration-300"
+                      style={{ width: `${(completedCount / 3) * 100}%` }}
+                    />
+                  </div>
                 </div>
 
-                {/* Status Only - Auto-completion when all locked */}
-                <div className="flex items-center justify-center">
-                  {allLocked ? (
-                    <div className="flex items-center gap-2 text-primary">
-                      <CheckCircle className="w-5 h-5" />
-                      <span className="font-semibold">Knowledge test complete!</span>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">
-                      Complete {3 - completedCount} more question{3 - completedCount > 1 ? 's' : ''}
-                    </p>
-                  )}
-                </div>
+                <Button
+                  onClick={async () => {
+                    if (!allLocked) return;
+                    setIsInitializing(true);
+
+                    try {
+                      // 1. Lazy Init Session
+                      let currentSession = posttestService.getCurrentSession();
+                      if (!currentSession) {
+                        try {
+                          const existingUserId = getUserId();
+                          console.log("Lazy initializing post-test session...");
+                          currentSession = await posttestService.initializeSession(existingUserId || undefined);
+                          setSession(currentSession);
+                        } catch (e) { console.error("Lazy init failed", e); }
+                      }
+
+                      // 2. Save Answers if session exists
+                      if (currentSession) {
+                        const saveSafe = async (q: number, a: string) => {
+                          try { await posttestService.saveResponse(q, a); }
+                          catch (e) { console.error(`Save Q${q} failed`, e); }
+                        };
+
+                        // Save 1
+                        const c1Val = JSON.parse(card1Data!.response as string).n2oGuess;
+                        const std1 = posttestService.mapCardResponseToStandardAnswer(1, { foodLevel: 50, n2oGuess: c1Val });
+                        await saveSafe(1, std1);
+
+                        // Save 2
+                        const c2Val = card2Data!.response as string;
+                        const std2 = posttestService.mapCardResponseToStandardAnswer(2, c2Val);
+                        await saveSafe(2, std2);
+
+                        // Save 3
+                        const c3Val = card3Data!.response as string;
+                        const std3 = posttestService.mapCardResponseToStandardAnswer(3, c3Val);
+                        await saveSafe(3, std3);
+
+                        // 3. Complete & Compare
+                        try {
+                          await posttestService.completeSession();
+                          const data = await comparisonService.getOrCreateUserComparison(currentSession.userId, currentSession.sessionId);
+                          setCompletionData(data);
+                        } catch (e) { console.error("Completion failed", e); }
+
+                      } else {
+                        console.warn("No session, skipping save but allowing proceed.");
+                      }
+
+                      setShowSuccessAnimation(true); // Always show success
+
+                    } catch (e) {
+                      console.error("Submit failed", e);
+                      setShowSuccessAnimation(true);
+                    } finally {
+                      setIsInitializing(false);
+                    }
+                  }}
+                  disabled={!allLocked || isInitializing}
+                  size="lg"
+                  className="rounded-full px-8 text-base font-bold shadow-lg shadow-primary/20 disabled:opacity-50"
+                >
+                  {isInitializing ? "Submitting..." : "Submit Answers"}
+                </Button>
               </div>
             </div>
 
             {/* Enhanced Success Overlay */}
             {showSuccessAnimation && (
-              <div 
+              <div
                 className="absolute inset-0 z-50 bg-background/95 backdrop-blur-xl rounded-3xl flex items-center justify-center cursor-pointer animate-fade-in"
                 onClick={() => {
                   setShowSuccessAnimation(false);
-                  onComplete();
+                  if (onComplete) onComplete(completionData);
                   onClose();
                 }}
               >

@@ -101,23 +101,22 @@ export const ContextModal = ({ isOpen, onClose, foodLevel }: ContextModalProps) 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
-      <div 
-        className={`relative max-w-4xl max-h-[90vh] w-full overflow-hidden rounded-3xl shadow-2xl animate-in zoom-in-95 duration-300 ${
-          isAnimating ? "scale-100" : "scale-95"
-        }`}
+      <div
+        className={`relative max-w-4xl max-h-[90vh] w-full overflow-hidden rounded-3xl shadow-2xl animate-in zoom-in-95 duration-300 ${isAnimating ? "scale-100" : "scale-95"
+          }`}
         style={{
           background: `linear-gradient(135deg, ${scenario.bgGradient}), 
                       linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)`
         }}
       >
         {/* Background pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `radial-gradient(circle at 25% 25%, ${scenario.color}20 0%, transparent 50%),
@@ -130,21 +129,21 @@ export const ContextModal = ({ isOpen, onClose, foodLevel }: ContextModalProps) 
         <div className="relative z-10 p-8 overflow-y-auto max-h-[90vh]">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <div 
+            <div
               className="p-4 rounded-2xl border backdrop-blur-sm"
-              style={{ 
+              style={{
                 backgroundColor: `${scenario.color}20`,
                 borderColor: `${scenario.color}30`
               }}
             >
-              <IconComponent 
+              <IconComponent
                 className="w-8 h-8"
                 style={{ color: scenario.color }}
               />
             </div>
-            
+
             <div>
-              <h2 
+              <h2
                 className="text-3xl font-bold transition-colors duration-500 mb-2"
                 style={{ color: scenario.color }}
               >
@@ -159,8 +158,8 @@ export const ContextModal = ({ isOpen, onClose, foodLevel }: ContextModalProps) 
           {/* Image */}
           <div className="mb-8">
             <div className="relative overflow-hidden rounded-2xl">
-              <img 
-                src={scenario.image} 
+              <img
+                src={scenario.image}
                 alt={scenario.title}
                 className="w-full h-64 object-cover"
               />
@@ -192,7 +191,7 @@ export const ContextModal = ({ isOpen, onClose, foodLevel }: ContextModalProps) 
                 {scenario.timeScale}
               </p>
             </div>
-            
+
             <div className="glass-subtle rounded-xl p-5 border border-white/10">
               <div className="flex items-center gap-3 mb-3">
                 <TrendingUp className="w-5 h-5 text-coral-cta" />
@@ -241,22 +240,9 @@ export const ContextModal = ({ isOpen, onClose, foodLevel }: ContextModalProps) 
             </div>
           </div>
 
-          {/* Visual indicator */}
-          <div className="flex items-center justify-center mt-8 p-4">
-            <div className="flex items-center gap-3">
-              <div 
-                className="w-4 h-4 rounded-full animate-pulse"
-                style={{ backgroundColor: scenario.color }}
-              />
-              <span className="text-muted-foreground">
-                Currently observing: <span style={{ color: scenario.color }} className="font-semibold">
-                  {scenario.title}
-                </span>
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
+
   );
 };

@@ -173,43 +173,20 @@ export const HeroSection = ({
                 >
                     {/* Enhanced title with better animations */}
                     <div className="mb-8">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-subtle border border-primary/20 text-sm text-primary font-medium mb-6 animate-scale-in">
-                            <Waves className="w-4 h-4" />
-                            Welcome to the Microbial Relay
-                        </div>
+
 
                         <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 tracking-tight">
-                            <span className="bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent">
+                            <span className="text-white">
                                 Orientation Bay
                             </span>
                         </h1>
 
-                        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground/80 mb-8 font-light leading-relaxed max-w-3xl mx-auto px-4">
-                            Discover the hidden world of ocean microbes and make your predictions before we
-                            <span className="text-primary font-medium"> dive into the deep</span>.
+                        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-8 font-light leading-relaxed max-w-3xl mx-auto px-4">
+                            Discover the hidden world of ocean microbes and make your predictions before we dive into the deep.
                         </p>
                     </div>
 
-                    {/* Enhanced Status Indicators */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm mb-12">
-                        <div className="flex items-center gap-3 px-4 py-2 rounded-full glass-subtle">
-                            <div className={`w-2 h-2 rounded-full transition-all duration-500 ${allChipsRead ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
-                                }`} />
-                            <Microscope className="w-4 h-4" />
-                            <span className={`font-medium transition-colors ${allChipsRead ? 'text-foreground' : 'text-muted-foreground'}`}>
-                                Learn concepts
-                            </span>
-                        </div>
 
-                        <div className="flex items-center gap-3 px-4 py-2 rounded-full glass-subtle">
-                            <div className={`w-2 h-2 rounded-full transition-all duration-500 ${isPretestComplete ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-muted'
-                                }`} />
-                            <Play className="w-4 h-4" />
-                            <span className={`font-medium transition-colors ${isPretestComplete ? 'text-foreground' : 'text-muted-foreground'}`}>
-                                Make predictions
-                            </span>
-                        </div>
-                    </div>
 
                     {/* Enhanced scroll indicator */}
                     <Button

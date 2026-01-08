@@ -124,7 +124,7 @@ const MeetTheRelay = () => {
   useDocumentTitle("Microbe Relay | Meet the Relay");
   const navigate = useNavigate();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   // Interactive state management
   const [foodLevel, setFoodLevel] = useState(50); // 0-100
   const [hasVisitedLow, setHasVisitedLow] = useState(false);
@@ -148,7 +148,7 @@ const MeetTheRelay = () => {
   // Check if this is the user's first visit and track page open
   useEffect(() => {
     analytics.pageOpen();
-    
+
     const hasVisited = localStorage.getItem('meetTheRelay-visited');
     if (!hasVisited) {
       setShowOnboarding(true);
@@ -161,12 +161,12 @@ const MeetTheRelay = () => {
   // Track food level changes and visit ranges
   const handleFoodLevelChange = useCallback((newLevel: number) => {
     setFoodLevel(newLevel);
-    
+
     // Determine band and track analytics
     const band = newLevel <= 33 ? 'LOW' : newLevel >= 67 ? 'HIGH' : 'MID';
     analytics.foodLevelChange(newLevel, band);
     analytics.sliderInteraction(newLevel);
-    
+
     // Track if user has visited low and high ranges
     if (newLevel <= 33 && !hasVisitedLow) {
       setHasVisitedLow(true);
@@ -176,7 +176,7 @@ const MeetTheRelay = () => {
       setHasVisitedHigh(true);
       analytics.bandEntered('HIGH');
     }
-    
+
     // Show completion toast when both ranges visited
     if (hasVisitedLow && newLevel >= 67 && !hasVisitedHigh) {
       setHasVisitedHigh(true);
@@ -230,10 +230,7 @@ const MeetTheRelay = () => {
           <section className="relative isolate pb-16 pt-16 md:pb-24 md:pt-20 lg:pb-28 lg:pt-28">
             <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-16 px-4 md:px-6">
               <div className="space-y-4 md:space-y-8 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/10 bg-white/5 px-3 md:px-5 py-1.5 md:py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 backdrop-blur-xl md:self-start">
-                  <Zap className="h-3 w-3 md:h-4 md:w-4 text-teal-200" />
-                  Relay intelligence
-                </div>
+
                 <div className="space-y-4 md:space-y-6">
                   <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
                     Meet the Relay
@@ -246,29 +243,20 @@ const MeetTheRelay = () => {
 
               {/* Interactive Pipeline Section - Clean and Centered */}
               <div className="relay-pipeline flex justify-center mb-6 md:mb-10">
-                <InteractiveRelayPipeline 
-                  foodLevel={foodLevel} 
+                <InteractiveRelayPipeline
+                  foodLevel={foodLevel}
                   className="w-full"
                 />
               </div>
 
-              {/* Interactive Controls and Explanation Grid - Mobile responsive */}
-              <div className="grid gap-4 md:gap-7 lg:grid-cols-2 max-w-5xl mx-auto">
-                {/* Food Control */}
-                <div className="food-control-slider">
+              {/* Interactive Controls - Clean and Centered */}
+              <div className="flex justify-center max-w-3xl mx-auto w-full">
+                {/* Food Control - taking up more space now */}
+                <div className="w-full">
                   <InteractiveFoodControl
                     value={foodLevel}
                     onChange={handleFoodLevelChange}
-                    className="h-full min-h-[280px] md:min-h-[310px]"
-                  />
-                </div>
-                
-                {/* Dynamic Explanation */}
-                <div className="explanation-area">
-                  <DynamicExplanation
-                    foodLevel={foodLevel}
-                    className="h-full min-h-[280px] md:min-h-[310px]"
-                    autoUpdate={true}
+                    className="h-full min-h-[240px]"
                   />
                 </div>
               </div>
@@ -278,10 +266,7 @@ const MeetTheRelay = () => {
           <section className="relative border-t border-white/10 bg-white/5 py-16 md:py-24 lg:py-32">
             <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-12 px-4 md:px-6">
               <div className="flex flex-col gap-4 md:gap-6 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 self-center rounded-full border border-white/15 bg-white/5 px-3 md:px-4 py-1.5 md:py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60 md:self-start">
-                  <GaugeCircle className="h-3 w-3 md:h-4 md:w-4" />
-                  Microbe playbook
-                </div>
+
                 <h2 className="text-2xl font-semibold text-white sm:text-3xl md:text-4xl leading-tight">
                   Who wins as food changes
                 </h2>
@@ -291,7 +276,7 @@ const MeetTheRelay = () => {
               </div>
 
               <div className="grid gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:gap-12">
-                {microbeProfiles.map(({ icon: Icon, title, subtitle, description, highlights, accent }) => (
+                {microbeProfiles.map(({ title, subtitle, description, highlights, accent }) => (
                   <div
                     key={title}
                     className="relative flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[rgba(10,22,38,0.65)] p-5 md:p-7 lg:p-9 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
@@ -299,14 +284,9 @@ const MeetTheRelay = () => {
                     <div className={`absolute inset-0 rounded-[1.75rem] bg-gradient-to-br ${accent} opacity-70`} aria-hidden />
                     <div className="relative z-10 flex h-full flex-col gap-5 md:gap-8">
                       <div className="flex flex-col gap-3 md:gap-5">
-                        <div className="flex items-start gap-3 md:gap-4">
-                          <div className="flex h-9 w-9 md:h-11 md:w-11 items-center justify-center rounded-full bg-white/10 text-white flex-shrink-0">
-                            <Icon className="h-4 w-4 md:h-5 md:w-5" />
-                          </div>
-                          <div className="flex flex-col gap-1 md:gap-1.5 min-w-0 flex-1">
-                            <p className="text-[0.65rem] md:text-[0.7rem] uppercase tracking-[0.18em] text-white/60">{subtitle}</p>
-                            <h3 className="text-sm md:text-lg font-semibold leading-snug text-white">{title}</h3>
-                          </div>
+                        <div className="flex flex-col gap-1 md:gap-1.5 min-w-0 flex-1">
+                          <p className="text-[0.65rem] md:text-[0.7rem] uppercase tracking-[0.18em] text-white/60">{subtitle}</p>
+                          <h3 className="text-sm md:text-lg font-semibold leading-snug text-white">{title}</h3>
                         </div>
                         <p className="text-xs md:text-sm leading-relaxed text-white/80">{description}</p>
                       </div>
@@ -328,15 +308,14 @@ const MeetTheRelay = () => {
           </section>
 
 
+
+
           <section className="relative py-24 pb-32 md:py-32">
             <div className="mx-auto w-full max-w-4xl px-6">
               <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[rgba(10,24,44,0.7)] p-12 text-center shadow-[0_40px_120px_-45px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18)_0%,_rgba(10,24,44,0.85)_55%,_rgba(6,15,26,0.95)_100%)] opacity-90" aria-hidden />
                 <div className="relative z-10 space-y-6">
-                  <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.35em] text-white/60">
-                    <Target className="h-4 w-4" />
-                    Mission-Based Learning
-                  </p>
+
                   <h2 className="text-4xl font-semibold text-white sm:text-5xl">
                     Take on interactive missions to master the relay dynamics.
                   </h2>

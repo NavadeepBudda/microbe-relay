@@ -27,27 +27,32 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
   const [session, setSession] = useState<PretestSessionData | null>(null);
   const [isInitializing, setIsInitializing] = useState(false);
   const hasCompletedRef = useRef(false);
-  
+
 
   const allLocked = card1Data && card2Data && card3Data;
   const completedCount = [card1Data, card2Data, card3Data].filter(Boolean).length;
 
   // Initialize session when drawer opens
+  const hasAttemptedInit = useRef(false);
+
   useEffect(() => {
     const initializeSession = async () => {
-      if (isOpen && !session && !isInitializing) {
+      // Only run if open, no session, and haven't tried yet
+      if (isOpen && !session && !hasAttemptedInit.current) {
+        hasAttemptedInit.current = true;
         setIsInitializing(true);
         try {
           const newSession = await pretestService.initializeSession();
           setSession(newSession);
-          
+
           // Save user ID to localStorage for linking with post-test
           localStorage.setItem('microberelay_user_id', newSession.userId);
-          
-          
+
           console.log('Session initialized:', newSession);
         } catch (error) {
-          console.error('Failed to initialize pretest session:', error);
+          console.error('Failed to initialize pretest session (OFFLINE MODE):', error);
+          // We intentionally catch and swallow this so the UI doesn't break. 
+          // user can still interact and 'submit' (which will be a no-op DB wise but show success)
         } finally {
           setIsInitializing(false);
         }
@@ -55,57 +60,11 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
     };
 
     initializeSession();
-  }, [isOpen, session, isInitializing]);
+  }, [isOpen]);
 
-  // Handle saving responses to database
-  const saveResponse = async (questionNumber: number, response: string) => {
-    // Wait for session to be available
-    let attempts = 0;
-    while (!session && attempts < 50) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      attempts++;
-    }
-    
-    if (!session) {
-      console.error('No active session for saving response after waiting');
-      return;
-    }
 
-    try {
-      console.log('Saving response:', { questionNumber, response });
-      await pretestService.saveResponse(questionNumber, response);
-      console.log('Response saved successfully');
-    } catch (error) {
-      console.error('Failed to save response:', error);
-    }
-  };
 
-  useEffect(() => {
-    if (allLocked && !showSuccessAnimation && !hasCompletedRef.current) {
-      hasCompletedRef.current = true;
-      setShowSuccessAnimation(true);
-      
-      // Complete the session in the database
-      const completeSession = async () => {
-        if (session) {
-          try {
-            await pretestService.completeSession();
-          } catch (error) {
-            console.error('Failed to complete session:', error);
-            hasCompletedRef.current = false;
-          }
-        }
-      };
-      
-      completeSession();
-      
-      // Auto-close after animation
-      setTimeout(() => {
-        onComplete();
-        onClose();
-      }, 1200);
-    }
-  }, [allLocked, showSuccessAnimation, onComplete, onClose, session]);
+
 
   if (!isOpen) return null;
 
@@ -120,25 +79,22 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
       {/* Compact Modal Container */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="w-full max-w-6xl max-h-[80vh] overflow-hidden">
-          
+
           {/* Main Modal */}
           <div className="bg-background/98 backdrop-blur-2xl border border-white/30 rounded-3xl shadow-3xl relative animate-slide-up-smooth">
-            
+
             {/* Compact Header */}
             <div className="relative z-10 p-6 border-b border-white/10">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-primary" />
-                  </div>
                   <div>
-                    <h2 className="font-display font-bold text-2xl tracking-tight">
+                    <h2 className="font-display font-bold text-2xl tracking-tight text-foreground">
                       Make Your Predictions
                     </h2>
-                    <p className="text-sm text-muted-foreground">Share your hypotheses about ocean microbe behavior</p>
+                    <p className="text-sm text-foreground/80">Share your hypotheses about ocean microbe behavior</p>
                   </div>
                 </div>
-                
+
                 <Button
                   variant="ghost"
                   size="icon"
@@ -155,107 +111,126 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
             <div className="relative z-10 p-6 max-h-[50vh] overflow-y-auto">
               {/* Cards Grid - Responsive */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <PredictionCard1
-              onLock={async (data) => {
-                console.log('Card 1 locked with data:', data);
-                const now = new Date();
-                const cardData = {
-                  id: 'n2o-response',
-                  response: JSON.stringify(data),
-                  timestamp: now
-                };
-                setCard1Data(cardData);
-                
-                // Save to database
-                const standardAnswer = pretestService.mapCardResponseToStandardAnswer(1, data);
-                await saveResponse(1, standardAnswer);
-              }}
-              isLocked={!!card1Data}
-              onUnlock={() => setCard1Data(null)}
-            />
-            <PredictionCard2
-              onLock={async (data) => {
-                console.log('Card 2 locked with data:', data);
-                const now = new Date();
-                const cardData = {
-                  id: 'dominant-step',
-                  response: data.dominantStep,
-                  timestamp: now
-                };
-                setCard2Data(cardData);
-                
-                // Save to database
-                const standardAnswer = pretestService.mapCardResponseToStandardAnswer(2, data.dominantStep);
-                await saveResponse(2, standardAnswer);
-              }}
-              isLocked={!!card2Data}
-              onUnlock={() => setCard2Data(null)}
-            />
-            <PredictionCard3
-              onLock={async (data) => {
-                console.log('Card 3 locked with data:', data);
-                const now = new Date();
-                const cardData = {
-                  id: 'pulse-moment',
-                  response: data.pulseGuess,
-                  timestamp: now
-                };
-                setCard3Data(cardData);
-                
-                // Save to database
-                const standardAnswer = pretestService.mapCardResponseToStandardAnswer(3, data.pulseGuess);
-                await saveResponse(3, standardAnswer);
-              }}
-              isLocked={!!card3Data}
-              onUnlock={() => setCard3Data(null)}
-              onPulse={onPulse}
-            />
+                <PredictionCard1
+                  value={card1Data ? JSON.parse(card1Data.response as string).n2oGuess : ""}
+                  onChange={(val) => {
+                    const data = { foodLevel: 50, n2oGuess: val }; // Construct the data object Card1 used to produce
+                    const mockData = { id: 'n2o-response', response: JSON.stringify(data), timestamp: new Date() };
+                    setCard1Data(mockData); // Using existing state structure for now to minimize refactor, but treating it as "current value"
+                  }}
+                />
+                <PredictionCard2
+                  value={card2Data ? (card2Data.response as string) : ""}
+                  onChange={(val) => {
+                    const mockData = { id: 'dominant-step', response: val, timestamp: new Date() };
+                    setCard2Data(mockData);
+                  }}
+                />
+                <PredictionCard3
+                  value={card3Data ? (card3Data.response as string) : ""}
+                  onChange={(val) => {
+                    const mockData = { id: 'pulse-moment', response: val, timestamp: new Date() };
+                    setCard3Data(mockData);
+                  }}
+                  onPulse={onPulse}
+                />
               </div>
             </div>
 
             {/* Compact Footer */}
             <div className="relative z-10 p-6 border-t border-white/10 bg-background/50">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                
-                {/* Progress */}
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1.5">
-                    {[...Array(3)].map((_, i) => (
-                      <div 
-                        key={i}
-                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                          i < completedCount 
-                            ? 'bg-primary shadow-sm shadow-primary/50' 
-                            : 'bg-muted/50'
-                        }`} 
-                      />
-                    ))}
+
+                <div className="space-y-1">
+                  <div className="text-sm font-medium">
+                    <span className="text-primary">{completedCount}</span>/3 answered
                   </div>
-                  
-                  <span className="text-sm font-medium">
-                    <span className="text-primary">{completedCount}</span>/3 completed
-                  </span>
+                  <div className="w-32 h-1 bg-muted/30 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary transition-all duration-300"
+                      style={{ width: `${(completedCount / 3) * 100}%` }}
+                    />
+                  </div>
                 </div>
 
-                {/* Status Only - Auto-completion when all locked */}
-                <div className="flex items-center justify-center">
-                  {allLocked ? (
-                    <div className="flex items-center gap-2 text-primary">
-                      <CheckCircle className="w-5 h-5" />
-                      <span className="font-semibold">All predictions complete!</span>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">
-                      Complete {3 - completedCount} more prediction{3 - completedCount > 1 ? 's' : ''}
-                    </p>
-                  )}
-                </div>
+                <Button
+                  onClick={async () => {
+                    if (!allLocked) return;
+
+                    // Submit all
+                    setIsInitializing(true);
+                    try {
+                      // 1. Ensure we have a session (Lazy Init)
+                      let currentSession = pretestService.getCurrentSession();
+                      if (!currentSession) {
+                        try {
+                          console.log("Lazy initializing pretest session...");
+                          currentSession = await pretestService.initializeSession();
+                          setSession(currentSession);
+                        } catch (e) {
+                          console.error("Failed to lazy init session:", e);
+                          // We continue even if init fails, to allow user to proceed
+                        }
+                      }
+
+                      // 2. Save Answers if session exists
+                      if (currentSession) {
+                        const saveSafe = async (qNum: number, answer: string) => {
+                          try {
+                            await pretestService.saveResponse(qNum, answer);
+                          } catch (e) {
+                            console.error(`Failed to save Q${qNum}:`, e);
+                          }
+                        };
+
+                        // Save 1
+                        const c1Val = JSON.parse(card1Data!.response as string).n2oGuess;
+                        const standardAnswer1 = pretestService.mapCardResponseToStandardAnswer(1, { foodLevel: 50, n2oGuess: c1Val });
+                        await saveSafe(1, standardAnswer1);
+
+                        // Save 2
+                        const c2Val = card2Data!.response as string;
+                        const standardAnswer2 = pretestService.mapCardResponseToStandardAnswer(2, c2Val);
+                        await saveSafe(2, standardAnswer2);
+
+                        // Save 3
+                        const c3Val = card3Data!.response as string;
+                        const standardAnswer3 = pretestService.mapCardResponseToStandardAnswer(3, c3Val);
+                        await saveSafe(3, standardAnswer3);
+
+                        // Complete
+                        try {
+                          await pretestService.completeSession();
+                        } catch (e) {
+                          console.error("Failed to complete session:", e);
+                        }
+                      } else {
+                        console.warn("No session available. Skipping DB save, but allowing user to proceed.");
+                      }
+
+                      // 3. Show Success (Always)
+                      setShowSuccessAnimation(true);
+                    } catch (e) {
+                      console.error("Submit flow unexpected error", e);
+                      // Fallback to success
+                      setShowSuccessAnimation(true);
+                    } finally {
+                      setIsInitializing(false);
+                    }
+                  }}
+                  disabled={!allLocked || isInitializing}
+                  size="lg"
+                  className="rounded-full px-8 text-base font-bold shadow-lg shadow-primary/20 disabled:opacity-50"
+                >
+                  {isInitializing ? "Submitting..." : "Submit Predictions"}
+                </Button>
+
               </div>
             </div>
 
             {/* Enhanced Success Overlay */}
             {showSuccessAnimation && (
-              <div 
+              <div
                 className="absolute inset-0 z-50 bg-background/95 backdrop-blur-xl rounded-3xl flex items-center justify-center cursor-pointer animate-fade-in"
                 onClick={() => {
                   setShowSuccessAnimation(false);
