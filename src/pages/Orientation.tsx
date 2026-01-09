@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { LearningHeader } from "@/components/LearningHeader";
+import { OrientationHeader } from "@/components/OrientationHeader";
 import { GlossaryChip } from "@/components/GlossaryChip";
 import { PretestDrawer } from "@/components/PretestDrawer";
 import { ChevronRight, Microscope, Target } from "lucide-react";
@@ -58,9 +58,16 @@ const Orientation = () => {
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const toggleHighContrast = () => {
+    setIsHighContrast(!isHighContrast);
+  };
+
   return (
     <div className={isHighContrast ? "high-contrast" : ""}>
-      <LearningHeader />
+      <OrientationHeader
+        isHighContrast={isHighContrast}
+        onToggleContrast={toggleHighContrast}
+      />
 
       {/* New Entry Section */}
       <EntrySection />

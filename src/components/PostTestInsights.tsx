@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Brain, Trophy, ChevronDown } from "lucide-react";
+import { Trophy, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { UserComparisonData, QuestionComparison } from "@/lib/comparison-service";
 
@@ -106,9 +106,7 @@ export const PostTestInsights = ({ comparisonData }: PostTestInsightsProps) => {
 
       <div className="relative z-10 space-y-8">
         <header className="space-y-3 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-            Knowledge Assessment
-          </div>
+
           <h2 className="text-3xl sm:text-4xl font-bold leading-tight text-foreground">
             Microbe Relay Assessment
           </h2>
@@ -124,7 +122,7 @@ export const PostTestInsights = ({ comparisonData }: PostTestInsightsProps) => {
               <div className="rounded-full bg-gradient-to-r from-primary to-coral-400 px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg">
                 +{Math.round(improvement)} pts
               </div>
-              <Trophy className="h-5 w-5 text-amber-300" />
+
             </div>
           </div>
 
@@ -143,7 +141,7 @@ export const PostTestInsights = ({ comparisonData }: PostTestInsightsProps) => {
             {needsReviewQuestions.length > 0 && activeReview ? (
               <section className="rounded-3xl border border-coral-500/30 bg-coral-500/5 p-6 space-y-5">
                 <div className="flex flex-wrap items-center gap-3">
-                  <AlertTriangle className="h-5 w-5 text-coral-300" />
+
                   <div>
                     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-coral-200">Need another look</p>
                     <p className="text-lg font-semibold text-foreground">{needsReviewQuestions.length} concept{needsReviewQuestions.length > 1 ? "s" : ""} still fuzzy</p>
@@ -192,8 +190,6 @@ export const PostTestInsights = ({ comparisonData }: PostTestInsightsProps) => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-coral-100">
                       <span>Question {parseInt(activeReview.id)}</span>
-                      <span className="text-white/50">•</span>
-                      <span>Need another look</span>
                     </div>
                     <p className="text-base font-semibold text-foreground">{activeReview.prompt}</p>
                   </div>
@@ -235,7 +231,7 @@ export const PostTestInsights = ({ comparisonData }: PostTestInsightsProps) => {
           <aside className="space-y-6">
             <section className="rounded-3xl border border-white/10 bg-white/5 p-6 space-y-4">
               <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-                <Brain className="h-4 w-4 text-primary" />
+
                 <span>Question outcomes</span>
               </div>
               <div className="space-y-3">

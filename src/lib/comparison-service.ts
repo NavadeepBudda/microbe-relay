@@ -1,8 +1,8 @@
 import { supabase } from './supabase'
-import type { 
-  PretestResponse, 
+import type {
+  PretestResponse,
   PosttestResponse,
-  AssessmentComparison 
+  AssessmentComparison
 } from './supabase'
 
 export interface QuestionComparison {
@@ -31,7 +31,7 @@ export interface UserComparisonData {
 }
 
 class ComparisonService {
-  
+
   async findUsersPretestSession(userId: string): Promise<string | null> {
     try {
       const { data, error } = await supabase
@@ -55,8 +55,8 @@ class ComparisonService {
   }
 
   async createAssessmentComparison(
-    userId: string, 
-    pretestSessionId: string, 
+    userId: string,
+    pretestSessionId: string,
     posttestSessionId: string
   ): Promise<void> {
     try {
@@ -119,7 +119,7 @@ class ComparisonService {
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
 
       if (comparisonError || !comparison) {
         console.log('No assessment comparison found for user:', userId)
@@ -164,7 +164,7 @@ class ComparisonService {
       const questionComparisons: QuestionComparison[] = questions.map(question => {
         const preResponse = pretestResponses.find(r => r.question_number === question.question_number)
         const postResponse = posttestResponses.find(r => r.question_number === question.question_number)
-        
+
         // Extract metadata from question's consolidated fields
         const explanation = question.context || 'Great work on this question! You\'re mastering the microbe relay concept.'
         const tip = question.instructions || 'Keep practicing to master this concept.'
@@ -225,11 +225,11 @@ class ComparisonService {
     try {
       // First try to get existing comparison
       let comparison = await this.getUserComparison(userId)
-      
+
       if (!comparison) {
         // Find pretest session for this user
         const pretestSessionId = await this.findUsersPretestSession(userId)
-        
+
         if (!pretestSessionId) {
           console.error('No pretest session found for user to create comparison')
           return null
@@ -237,7 +237,7 @@ class ComparisonService {
 
         // Create the comparison
         await this.createAssessmentComparison(userId, pretestSessionId, posttestSessionId)
-        
+
         // Fetch the newly created comparison
         comparison = await this.getUserComparison(userId)
       }
