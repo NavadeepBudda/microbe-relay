@@ -177,12 +177,12 @@ export const HeroSection = ({
 
                         <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 tracking-tight">
                             <span className="text-white">
-                                Orientation Bay
+                                Before You Dive
                             </span>
                         </h1>
 
                         <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-8 font-light leading-relaxed max-w-3xl mx-auto px-4">
-                            Discover the hidden world of ocean microbes and make your predictions before we dive into the deep.
+                            You've seen the outcome. Now it's time to learn what's actually happening, then predict how the system behaves.
                         </p>
                     </div>
 

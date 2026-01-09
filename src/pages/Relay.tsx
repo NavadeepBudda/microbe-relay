@@ -49,8 +49,7 @@ const Relay = () => {
             </h1>
 
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed px-3">
-              Understand how organic matter availability fundamentally shapes ocean denitrification.
-              Explore the environmental conditions that determine which microbial teams can participate in this critical nitrogen cycle.
+              You've seen how the amount of food changes the relay. Now see where these conditions actually occur.
             </p>
           </div>
 
@@ -68,10 +67,10 @@ const Relay = () => {
                 <div className="space-y-2 md:space-y-4">
 
                   <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white leading-tight">
-                    Control the Environment
+                    Explore the Environments
                   </h2>
                   <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 px-2">
-                    Move the food slider and see how the nitrogen relay changes. Different food levels lead to different teams and different nitrous oxide outcomes.
+                    Each location has different food levels. See how that changes who runs the relay.
                   </p>
                 </div>
 
@@ -133,18 +132,13 @@ const Relay = () => {
               {/* Sparse Food Card */}
               <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-10">
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-sm">
-                      <div className="text-3xl">🪶</div>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl text-white">Sparse Food</h3>
-                    </div>
+                  <div>
+                    <h3 className="text-2xl text-white font-semibold">Sparse Food</h3>
                   </div>
 
                   <div className="space-y-4 text-muted-foreground">
                     <p className="leading-relaxed text-lg">
-                      In food-poor waters like the twilight zone, first-step specialists lead. They turn nitrate (NO₃⁻) into nitrite (NO₂⁻) using few enzymes.
+                      In food-poor waters, first-step specialists lead. They only do step 1, so they need less energy to survive.
                     </p>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
@@ -165,22 +159,17 @@ const Relay = () => {
               {/* Moderate Food Card */}
               <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-10">
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-sm">
-                      <div className="text-3xl">🥄</div>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl text-white">Moderate Food</h3>
-                    </div>
+                  <div>
+                    <h3 className="text-2xl text-white font-semibold">Moderate Food</h3>
                   </div>
 
                   <div className="space-y-4 text-muted-foreground">
                     <p className="leading-relaxed text-lg">
-                      Coastal pulses raise food and let more teams take part. Neighbors share the relay, and handoffs can crowd the middle.
+                      Food pulses let more specialists join in. Multiple steps run at once, and handoffs can bottleneck.
                     </p>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                      <span>Relay focus: Steps 1–2 become active</span>
+                      <span>Relay focus: Steps 1 and 2 are both active</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
@@ -197,18 +186,13 @@ const Relay = () => {
               {/* Abundant Food Card */}
               <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-10">
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-sm">
-                      <div className="text-3xl">🍽️</div>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl text-white">Abundant Food</h3>
-                    </div>
+                  <div>
+                    <h3 className="text-2xl text-white font-semibold">Abundant Food</h3>
                   </div>
 
                   <div className="space-y-4 text-muted-foreground">
                     <p className="leading-relaxed text-lg">
-                      After blooms, rich particles fuel busy communities. Multi-step and complete denitrifiers thrive as nitrogen becomes scarce.
+                      Lots of food lets multi-step microbes take over. They can run the full relay on their own.
                     </p>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
@@ -216,7 +200,7 @@ const Relay = () => {
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                      <span>Constraint: nitrogen becomes the limiter</span>
+                      <span>Constraint: nitrogen runs low, not food</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
@@ -239,11 +223,11 @@ const Relay = () => {
             <div className="text-center space-y-8">
               <div className="space-y-6">
                 <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                  Test Your Understanding
+                  Test Yourself
                 </h2>
 
                 <p className="text-muted-foreground text-xl leading-relaxed max-w-3xl mx-auto font-light">
-                  Apply what you've learned about ocean microbe behavior and greenhouse gas production.
+                  Same questions from earlier. See how you do now.
                 </p>
               </div>
 
@@ -254,9 +238,8 @@ const Relay = () => {
                   className="group relative h-auto rounded-full px-8 py-4 text-base font-semibold text-white shadow-[0_4px_20px_rgba(244,114,87,0.3)] transition-all duration-300 bg-[#F47257] hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(244,114,87,0.5)] hover:bg-[#F47257]/90 border border-white/20"
                 >
                   <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <span className="relative flex items-center gap-3">
+                  <span className="relative flex items-center justify-center gap-3">
                     <span className="text-lg">Take Knowledge Assessment</span>
-                    <ArrowRight className="h-4 w-4 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5" />
                   </span>
                 </Button>
               </div>

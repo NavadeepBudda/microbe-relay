@@ -134,7 +134,7 @@ export const TwilightZoneSection = () => {
                     <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/5 via-transparent to-blue-500/5 pointer-events-none" />
 
                     <p className="font-display text-3xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-b from-white via-white/90 to-white/70 font-medium leading-tight drop-shadow-lg tracking-wide">
-                        But deep down, some remove the nutrients the ocean needs.
+                        One path releases harmless nitrogen. The other path leaks a greenhouse gas that’s 300 times worse than CO₂.
                     </p>
                 </div>
             </div>

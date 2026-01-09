@@ -317,10 +317,10 @@ const MeetTheRelay = () => {
                 <div className="relative z-10 space-y-6">
 
                   <h2 className="text-4xl font-semibold text-white sm:text-5xl">
-                    Take on interactive missions to master the relay dynamics.
+                    Try It Yourself
                   </h2>
-                  <p className="text-lg text-white/70 max-w-2xl mx-auto">
-                    Complete 3 hands-on missions: control food scarcity to dominate Step 1, create N₂O hotspots at medium levels, and activate complete pathways with high food. Each mission tests your understanding with real-time feedback.
+                  <p className="text-xl text-white/80 max-w-xl mx-auto font-light">
+                    Three quick missions to test what you learned.
                   </p>
                   <Button
                     onClick={() => navigate("/try-it")}

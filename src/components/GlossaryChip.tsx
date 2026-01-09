@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Atom, Box, Wind, Sparkles } from "lucide-react";
+import { Route, Utensils, CloudFog, Sparkles } from "lucide-react";
 
 interface GlossaryChipProps {
   term: string;
@@ -9,15 +9,15 @@ interface GlossaryChipProps {
 }
 
 const iconMap = {
-  denit: Atom,
-  modular: Box,
-  n2o: Wind,
+  denit: Route,
+  modular: Utensils,
+  n2o: CloudFog,
 };
 
 const colorMap = {
-  denit: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30",
-  modular: "from-purple-500/20 to-violet-500/20 border-purple-500/30",
-  n2o: "from-blue-500/20 to-cyan-500/20 border-blue-500/30",
+  denit: "from-cyan-500/20 to-blue-500/20 border-cyan-500/30",
+  modular: "from-emerald-500/20 to-lime-500/20 border-emerald-500/30",
+  n2o: "from-rose-500/20 to-orange-500/20 border-rose-500/30",
 };
 
 export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipProps) => {
@@ -46,7 +46,7 @@ export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipPro
         onKeyDown={handleKeyDown}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative h-64 w-full perspective-1000 focus-ring rounded-3xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+        className="relative h-80 w-full perspective-1000 focus-ring rounded-3xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
         aria-expanded={isFlipped}
         aria-label={`${term} - ${isFlipped ? "showing definition" : "tap to learn"}`}
         style={{ perspective: "1000px" }}
@@ -58,7 +58,7 @@ export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipPro
         >
           {/* Front */}
           <div
-            className={`absolute inset-0 glass-subtle rounded-3xl p-8 flex flex-col items-center justify-center text-center gap-6 backface-hidden transition-all duration-300 ${isHovered && !isFlipped ? "glass-intense scale-105" : ""
+            className={`absolute inset-0 glass-subtle rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-6 backface-hidden transition-all duration-300 ${isHovered && !isFlipped ? "glass-intense scale-105" : ""
               } ${isFlipped ? "opacity-0" : "opacity-100"}`}
             style={{ backfaceVisibility: "hidden" }}
           >
@@ -85,13 +85,13 @@ export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipPro
 
           {/* Back */}
           <div
-            className={`absolute inset-0 glass-intense border-2 ${colorMap[icon]} rounded-3xl p-8 flex flex-col items-center justify-center text-center gap-6 [transform:rotateY(180deg)] backface-hidden ${isFlipped ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 glass-intense border-2 ${colorMap[icon]} rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-4 [transform:rotateY(180deg)] backface-hidden ${isFlipped ? "opacity-100" : "opacity-0"
               }`}
             style={{ backfaceVisibility: "hidden" }}
           >
             {/* Definition */}
             <div className="space-y-4">
-              <p className="text-lg leading-relaxed text-foreground font-medium">
+              <p className="text-sm sm:text-base leading-relaxed text-foreground font-medium">
                 {definition}
               </p>
 

@@ -95,9 +95,7 @@ export const InteractiveFoodControl = ({ value, onChange, className }: Interacti
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/8 bg-white/5 px-4 py-3 text-xs leading-relaxed text-white/80">
-            {levelInfo.description}
-          </div>
+
         </div>
       </div>
     </div>

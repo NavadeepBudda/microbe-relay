@@ -24,8 +24,8 @@ export const InteractiveN2OGauge = ({ value, className, foodLevel }: Interactive
         color: "text-blue-300",
         bgColor: "from-blue-500/15",
         borderColor: "border-blue-500/20",
-        message: "Low N₂O—minimal greenhouse gas production",
-        explanation: "Short-step specialists dominate, little downstream activity"
+        message: "",
+        explanation: "Low N₂O. The relay barely gets started, so little N₂O is made in the first place."
       };
     } else if (foodLevel <= 55) {
       // Medium food = High N2O
@@ -34,8 +34,8 @@ export const InteractiveN2OGauge = ({ value, className, foodLevel }: Interactive
         color: "text-red-300",
         bgColor: "from-red-500/15",
         borderColor: "border-red-500/20",
-        message: "High N₂O—peak greenhouse gas production!",
-        explanation: "Multiple specialists create handoff bottlenecks, N₂O hotspot zone"
+        message: "",
+        explanation: "High N₂O. It's being made faster than it's being consumed. This is the danger zone."
       };
     } else if (foodLevel <= 85) {
       // High food = Medium N2O
@@ -44,8 +44,8 @@ export const InteractiveN2OGauge = ({ value, className, foodLevel }: Interactive
         color: "text-amber-300",
         bgColor: "from-amber-500/15",
         borderColor: "border-amber-500/20",
-        message: "Medium N₂O—declining greenhouse gas",
-        explanation: "Multi-step pathways starting to convert N₂O to N₂"
+        message: "",
+        explanation: "Medium N₂O. Multi-step microbes can finish the job and convert most of it to safe nitrogen."
       };
     } else {
       // Very high food = Low N2O
@@ -54,8 +54,8 @@ export const InteractiveN2OGauge = ({ value, className, foodLevel }: Interactive
         color: "text-blue-300",
         bgColor: "from-blue-500/15",
         borderColor: "border-blue-500/20",
-        message: "Low N₂O—minimal greenhouse gas production",
-        explanation: "Complete pathways convert N₂O to harmless N₂"
+        message: "",
+        explanation: "Low N₂O. Complete pathways convert N₂O to harmless N₂."
       };
     }
   };
@@ -130,10 +130,7 @@ export const InteractiveN2OGauge = ({ value, className, foodLevel }: Interactive
 
         {/* Educational Message */}
         <div className="mt-6 text-center">
-          <p className={`text-sm font-medium ${levelInfo.color} mb-2`}>
-            {levelInfo.message}
-          </p>
-          <p className="text-xs text-white/60 leading-relaxed">
+          <p className={`text-sm font-medium leading-relaxed ${levelInfo.color}`}>
             {levelInfo.explanation}
           </p>
         </div>

@@ -88,21 +88,21 @@ const Orientation = () => {
 
             <h2 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-tight leading-none">
               <span className="bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
-                Three Core Concepts
+                Three Ideas You'll Need
               </span>
             </h2>
 
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
-              Tap each card to unlock the science behind ocean microbes.
+              Tap each card. Then you'll make your predictions.
             </p>
           </div>
 
           {/* Enhanced glossary grid with staggered animations */}
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-24">
             {[
-              { term: "Denitrification", definition: "Breathing with nitrogen when oxygen is scarce.", icon: "denit" as const, delay: "0ms" },
-              { term: "Modular", definition: "Most microbes do only one or two steps of the relay.", icon: "modular" as const, delay: "150ms" },
-              { term: "N₂O", definition: "Nitrous oxide: a greenhouse gas sometimes made in the relay.", icon: "n2o" as const, delay: "300ms" },
+              { term: "The Relay", definition: "Microbes in low-oxygen water breathe nitrogen in steps: nitrate, nitrite, nitrous oxide, nitrogen gas. Different specialists run different legs.", icon: "denit" as const, delay: "0ms" },
+              { term: "Food Decides", definition: "Organic matter is the energy source. When food is scarce, only cheap single-step microbes survive. When food is abundant, some microbes can afford to do multiple steps.", icon: "modular" as const, delay: "150ms" },
+              { term: "N₂O Escapes", definition: "A greenhouse gas made at step 2. When food is scarce or moderate, it often escapes. When food is abundant, microbes can finish the job and convert it to safe nitrogen.", icon: "n2o" as const, delay: "300ms" },
             ].map((concept, index) => (
               <div
                 key={concept.term}

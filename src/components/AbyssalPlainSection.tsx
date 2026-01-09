@@ -53,10 +53,10 @@ export const AbyssalPlainSection = () => {
                         {/* 1. Header (Top) */}
                         <div className="text-center z-30 mt-4">
                             <h2 className="text-4xl font-display text-white/95 mb-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-                                The Abyssal Plain
+                                The Deep
                             </h2>
                             <p className="text-white/60 text-lg max-w-xs mx-auto leading-snug">
-                                {oxygenLevel[0] >= 50 ? "Ecosystem is Balanced" : "Ecosystem is Stressed"}
+                                See what escapes when the conditions change.
                             </p>
                         </div>
 
@@ -78,7 +78,7 @@ export const AbyssalPlainSection = () => {
                                 {/* Label - Below Vent */}
                                 <div className="mt-6 p-4 rounded-2xl glass-subtle border border-cyan-500/30 text-center backdrop-blur-xl bg-cyan-950/30">
                                     <h3 className="text-cyan-300 font-bold text-2xl mb-1">Safe Nitrogen</h3>
-                                    <p className="text-cyan-100/80 text-sm">Returns harmlessly to atmosphere</p>
+                                    <p className="text-cyan-100/80 text-sm">Well fed microbes complete the task, and nitrogen exits harmlessly.</p>
                                 </div>
                             </div>
 
@@ -97,7 +97,7 @@ export const AbyssalPlainSection = () => {
                                 {/* Label - Below Vent */}
                                 <div className="mt-6 p-4 rounded-2xl glass-subtle border border-orange-500/30 text-center backdrop-blur-xl bg-orange-950/30">
                                     <h3 className="text-orange-400 font-bold text-2xl mb-1">Nitrous Oxide</h3>
-                                    <p className="text-orange-100/80 text-sm">Potent greenhouse gas released</p>
+                                    <p className="text-orange-100/80 text-sm">Starving microbes only complete half the job, and greenhouse gas escapes.</p>
                                 </div>
                             </div>
 
@@ -107,11 +107,11 @@ export const AbyssalPlainSection = () => {
                         <div className="w-full p-6 rounded-3xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/40 mb-4">
                             <div className="flex justify-between items-center mb-4">
                                 <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
-                                    Stress
+                                    SCARCE
                                 </span>
-                                <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">Oxygen Level</span>
+                                <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">FOOD</span>
                                 <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
-                                    Healthy
+                                    ABUNDANT
                                 </span>
                             </div>
 
@@ -143,7 +143,7 @@ export const AbyssalPlainSection = () => {
                                     oxygenLevel[0] > 50 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                                 )}>
                                     <h3 className="text-cyan-300 font-bold text-lg leading-none mb-1">Safe Nitrogen</h3>
-                                    <p className="text-cyan-100/70 text-xs">Returns to atmosphere</p>
+                                    <p className="text-cyan-100/70 text-xs">Well fed microbes complete the task, and nitrogen exits harmlessly.</p>
                                 </div>
                                 <LeftVent className="w-full h-auto drop-shadow-[0_0_30px_rgba(38,198,218,0.3)]" />
                             </div>
@@ -153,10 +153,10 @@ export const AbyssalPlainSection = () => {
                         <div className="col-span-4 flex flex-col items-center justify-center text-center z-30 order-2">
                             <div className="mb-16">
                                 <h2 className="text-5xl font-display text-white/90 mb-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-                                    The Abyssal Plain
+                                    The Deep
                                 </h2>
                                 <p className="text-white/50 text-base max-w-xs mx-auto leading-relaxed">
-                                    Control the oxygen levels to see how the ecosystem reacts.
+                                    See what escapes when the conditions change.
                                 </p>
                             </div>
 
@@ -164,11 +164,11 @@ export const AbyssalPlainSection = () => {
                             <div className="w-full max-w-sm p-6 rounded-2xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/20">
                                 <div className="flex justify-between items-center mb-4">
                                     <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
-                                        Stress
+                                        SCARCE
                                     </span>
-                                    <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">Oxygen</span>
+                                    <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">FOOD</span>
                                     <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
-                                        Healthy
+                                        ABUNDANT
                                     </span>
                                 </div>
 
@@ -183,8 +183,8 @@ export const AbyssalPlainSection = () => {
 
                                 <p className="text-white/40 text-xs mt-4">
                                     {oxygenLevel[0] > 50
-                                        ? "High oxygen supports complete denitrification."
-                                        : "Low oxygen causes incomplete denitrification and N₂O leaks."}
+                                        ? "Microbes have enough energy to finish the job."
+                                        : "Low food leads to incomplete denitrification."}
                                 </p>
                             </div>
                         </div>
@@ -204,7 +204,7 @@ export const AbyssalPlainSection = () => {
                                     oxygenLevel[0] < 50 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                                 )}>
                                     <h3 className="text-orange-400 font-bold text-lg leading-none mb-1">Nitrous Oxide</h3>
-                                    <p className="text-orange-100/70 text-xs">Potent greenhouse gas</p>
+                                    <p className="text-orange-100/70 text-xs">Starving microbes only complete half the job, and greenhouse gas escapes.</p>
                                 </div>
                                 <RightVent className="w-full h-auto drop-shadow-[0_0_30px_rgba(255,87,34,0.3)]" />
                             </div>

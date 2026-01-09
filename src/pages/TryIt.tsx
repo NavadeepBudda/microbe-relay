@@ -24,7 +24,7 @@ const missions: Mission[] = [
     id: 1,
     title: "Scarcity Masters",
     description: "In food-poor waters, which specialists win the competition?",
-    goal: "Set food level to LOW and watch Step 1 specialists dominate",
+    goal: "Set food to LOW. Which step dominates?",
     successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) =>
       foodLevel <= 35 && timeInState >= 3000, // 3 seconds in low food state
     successMessage: "Perfect! Step 1 specialists dominate when food is scarce.",
@@ -34,7 +34,7 @@ const missions: Mission[] = [
     id: 2,
     title: "N₂O Hotspot",
     description: "When do greenhouse gases spike to dangerous levels?",
-    goal: "Find the food level that creates peak N₂O emissions",
+    goal: "Slide around. Where does N₂O peak?",
     successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) =>
       n2oLevel >= 85 && timeInState >= 2000, // High N₂O for 2 seconds
     successMessage: "Excellent! Medium food creates N₂O hotspots as multiple specialists coexist.",
@@ -44,7 +44,7 @@ const missions: Mission[] = [
     id: 3,
     title: "Complete the Cycle",
     description: "How do we achieve full nitrogen conversion with minimal greenhouse gases?",
-    goal: "Activate multi-step specialists to complete the entire pathway",
+    goal: "Find the setting where N₂O stays lowest.",
     successCriteria: (foodLevel: number, n2oLevel: number, timeInState: number) =>
       foodLevel >= 70 && timeInState >= 3000, // High food for 3 seconds
     successMessage: "Brilliant! High food enables complete pathways that finish the job safely.",
@@ -160,7 +160,7 @@ const TryIt = () => {
                     <div
                       key={mission.id}
                       className={`relative rounded-xl border p-4 transition-all duration-300 min-w-[280px] flex-shrink-0 ${isActive
-                        ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]"
+                        ? "border-coral-cta/80 bg-coral-cta/5"
                         : isCompleted
                           ? "border-teal-glow/40 bg-teal-glow/10"
                           : "border-white/10 bg-white/5"
@@ -206,7 +206,7 @@ const TryIt = () => {
                     <div
                       key={mission.id}
                       className={`relative rounded-2xl border p-5 md:p-6 transition-all duration-300 ${isActive
-                        ? "border-coral-cta/40 bg-coral-cta/10 shadow-[0_0_20px_rgba(245,97,69,0.3)]"
+                        ? "border-coral-cta/80 bg-coral-cta/5"
                         : isCompleted
                           ? "border-teal-glow/40 bg-teal-glow/10"
                           : "border-white/10 bg-white/5"
@@ -277,11 +277,11 @@ const TryIt = () => {
               <div className="space-y-4">
 
                 <h2 className="text-3xl sm:text-4xl font-bold text-white">
-                  Explore Ocean Chemistry
+                  Where Does This Happen?
                 </h2>
 
                 <p className="text-lg text-white/80 max-w-2xl mx-auto">
-                  Now that you've mastered the relay dynamics, dive deeper into the environmental chemistry that drives these microbial processes.
+                  The twilight zone, river mouths, and blooms all have different food levels. Explore how that changes the outcome.
                 </p>
               </div>
 

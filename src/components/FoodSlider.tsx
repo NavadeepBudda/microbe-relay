@@ -133,17 +133,14 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
         <div className="relative z-10 space-y-3 md:space-y-6">
           {/* Scenario indicators */}
           <div className="grid grid-cols-3 gap-2 text-xs md:text-sm">
-            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center md:text-left">
-              <Waves className="w-3 h-3 md:w-4 md:h-4" />
-              <span className="font-medium">Twilight Zone</span>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center">
+              <span className="font-medium">Sparse</span>
             </div>
-            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center md:text-left">
-              <MapPin className="w-3 h-3 md:w-4 md:h-4" />
-              <span className="font-medium">River Mouth</span>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center">
+              <span className="font-medium">Moderate</span>
             </div>
-            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center md:text-left">
-              <TrendingUp className="w-3 h-3 md:w-4 md:h-4" />
-              <span className="font-medium">Bloom Fallout</span>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-muted-foreground/80 transition-colors hover:text-primary text-center">
+              <span className="font-medium">Abundant</span>
             </div>
           </div>
 
@@ -166,9 +163,6 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
 
       {/* Current level display */}
       <div className="text-center space-y-3 md:space-y-6">
-        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl transition-all duration-500 transform hover:scale-110">
-          {currentLevel.emoji}
-        </div>
 
         <div className="space-y-1 md:space-y-3">
           <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
@@ -184,10 +178,6 @@ export const FoodSlider = ({ value, onChange }: FoodSliderProps) => {
           className="inline-flex items-center gap-2 md:gap-3 px-3 py-2 md:px-6 md:py-3 rounded-full glass-subtle border transition-all duration-500 hover:scale-105"
           style={{ borderColor: `${currentLevel.particleColor}30` }}
         >
-          <div
-            className="w-2 h-2 md:w-3 md:h-3 rounded-full"
-            style={{ backgroundColor: currentLevel.particleColor }}
-          />
           <span className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">
             Level {sliderValue[0]}%
           </span>

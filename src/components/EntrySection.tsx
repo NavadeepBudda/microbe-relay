@@ -200,12 +200,14 @@ export const EntrySection = () => {
                     }}
                 >
                     <h1 className="font-display font-bold text-4xl sm:text-7xl md:text-8xl text-white drop-shadow-2xl tracking-tight mb-6 sm:mb-8 leading-tight">
-                        Not all Microbes<br />are created equal.
+                        Deep in the ocean, microbes are making a choice.
                     </h1>
 
-                    <p className="text-lg sm:text-2xl md:text-3xl text-white/95 font-light max-w-2xl mx-auto drop-shadow-lg leading-relaxed">
-                        Some are the <span className="font-semibold text-cyan-50">ocean's lungs</span>, breathing life into the deep.
+                    <p className="text-lg sm:text-2xl md:text-3xl text-white/95 font-light max-w-2xl mx-auto drop-shadow-lg leading-relaxed mb-6">
+                        What they do with nitrogen impacts our climate.
                     </p>
+
+
                 </div>
             </div>
 
