@@ -12,7 +12,7 @@ import { AbyssalPlainSection } from "@/components/AbyssalPlainSection";
 import { HeroSection } from "@/components/HeroSection";
 
 const Orientation = () => {
-  useDocumentTitle("Microbe Relay | Orientation Bay");
+  useDocumentTitle("Microbe Relay | Interactive Nitrogen Cycle Lab");
   const navigate = useNavigate();
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [flippedChips, setFlippedChips] = useState<Set<string>>(new Set());
