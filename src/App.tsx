@@ -10,6 +10,7 @@ import TryIt from "./pages/TryIt";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import { IntroAnimation } from "./components/IntroAnimation";
+import { usePageTracking } from "./hooks/usePageTracking";
 
 const queryClient = new QueryClient();
 
@@ -19,19 +20,29 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <IntroAnimation />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Orientation />} />
-          <Route path="/meet-the-relay" element={<MeetTheRelay />} />
-          <Route path="/relay" element={<Relay />} />
-          <Route path="/try-it" element={<TryIt />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppContent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
+
+const AppContent = () => {
+  usePageTracking();
+  return (
+    <>
+      <IntroAnimation />
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Orientation />} />
+        <Route path="/meet-the-relay" element={<MeetTheRelay />} />
+        <Route path="/relay" element={<Relay />} />
+        <Route path="/try-it" element={<TryIt />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
+
 
 export default App;

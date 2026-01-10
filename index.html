@@ -6,7 +6,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QK4YGELMD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-3QK4YGELMD');
@@ -27,8 +27,35 @@
   <meta property="og:description"
     content="A free interactive lab for students by the University of Pennsylvania. Visualize how denitrification works and learn the link between organic matter and climate change." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.microberelay.com/" />
+  <meta property="og:image" content="https://www.microberelay.com/images/deep-sea.jpg" />
 
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MicrobeRelay | Ocean Microbes & Climate" />
+  <meta name="twitter:description"
+    content="Visualize how denitrification works and learn the link between organic matter and climate change." />
+  <meta name="twitter:image" content="https://www.microberelay.com/images/deep-sea.jpg" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalApplication",
+      "name": "MicrobeRelay",
+      "operatingSystem": "Web",
+      "applicationCategory": "EducationalGame",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free interactive lab for students by the University of Pennsylvania. Visualize how denitrification works and learn the link between organic matter and climate change.",
+      "author": {
+        "@type": "Organization",
+        "name": "University of Pennsylvania"
+      }
+    }
+  </script>
 
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
