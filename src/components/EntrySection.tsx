@@ -7,10 +7,12 @@ import { cn } from '@/lib/utils';
 // Microbe Component that can be any of the 3 types
 const Microbe = ({
     type,
+    molecule,
     className,
     style,
 }: {
     type: 'hug' | 'eat' | 'float',
+    molecule?: 'CO2' | 'N2O' | 'N2',
     className?: string,
     style?: React.CSSProperties,
 }) => {
@@ -26,10 +28,10 @@ const Microbe = ({
         >
             <div className={cn("relative transition-all duration-500", isHovered ? "scale-110 z-50" : "scale-100 z-10")}>
                 {type === 'hug' && (
-                    <GoodGuyHuggingCO2 className="w-24 h-24 sm:w-44 sm:h-44 drop-shadow-[0_0_15px_rgba(100,255,218,0.3)]" />
+                    <GoodGuyHuggingCO2 moleculeType={molecule} className="w-24 h-24 sm:w-44 sm:h-44 drop-shadow-[0_0_15px_rgba(100,255,218,0.3)]" />
                 )}
                 {type === 'eat' && (
-                    <GoodGuyEatingCO2 className="w-24 h-24 sm:w-44 sm:h-44 drop-shadow-[0_0_15px_rgba(100,255,218,0.3)]" />
+                    <GoodGuyEatingCO2 moleculeType={molecule} className="w-24 h-24 sm:w-44 sm:h-44 drop-shadow-[0_0_15px_rgba(100,255,218,0.3)]" />
                 )}
                 {type === 'float' && (
                     <GoodGuy className="w-20 h-20 sm:w-32 sm:h-32 opacity-90" />
@@ -98,9 +100,19 @@ export const EntrySection = () => {
 
         const positions = isMobile ? mobilePositions : desktopPositions;
 
+        // Randomize molecules for hug/eat types
+        // 33% CO2, 33% N2O, 33% N2
+        const getMolecule = () => {
+            const r = Math.random();
+            if (r < 0.33) return 'CO2';
+            if (r < 0.66) return 'N2O';
+            return 'N2';
+        };
+
         return positions.map((pos, i) => ({
             id: i,
             type: pos.type as 'hug' | 'eat' | 'float',
+            molecule: (pos.type === 'hug' || pos.type === 'eat') ? getMolecule() : undefined,
             top: pos.top,
             left: pos.left,
             scale: (isMobile ? 0.55 : 0.75) + Math.random() * 0.3,
@@ -184,7 +196,7 @@ export const EntrySection = () => {
                                 transition: 'transform 0.2s ease-out'
                             }}
                         >
-                            <Microbe type={microbe.type} />
+                            <Microbe type={microbe.type} molecule={microbe.molecule as any} />
                         </div>
                     </div>
                 ))}

@@ -106,12 +106,12 @@ export const AbyssalPlainSection = () => {
                         {/* 3. Controls (Bottom) */}
                         <div className="w-full p-6 rounded-3xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/40 mb-4">
                             <div className="flex justify-between items-center mb-4">
-                                <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
-                                    SCARCE
+                                <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
+                                    Moderate and Dynamic
                                 </span>
                                 <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">FOOD</span>
-                                <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
-                                    ABUNDANT
+                                <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
+                                    Abundant and Constant
                                 </span>
                             </div>
 
@@ -163,12 +163,12 @@ export const AbyssalPlainSection = () => {
                             {/* Control Panel */}
                             <div className="w-full max-w-sm p-6 rounded-2xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/20">
                                 <div className="flex justify-between items-center mb-4">
-                                    <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
-                                        SCARCE
+                                    <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
+                                        Moderate and Dynamic
                                     </span>
                                     <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">FOOD</span>
-                                    <span className={cn("text-xs font-bold transition-colors duration-500 uppercase tracking-wider", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
-                                        ABUNDANT
+                                    <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
+                                        Abundant and Constant
                                     </span>
                                 </div>
 

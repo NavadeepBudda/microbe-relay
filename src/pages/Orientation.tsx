@@ -108,8 +108,8 @@ const Orientation = () => {
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-24">
             {[
               { term: "The Relay", definition: "Microbes in low-oxygen water breathe nitrogen in steps: nitrate, nitrite, nitrous oxide, nitrogen gas. Different specialists run different legs.", icon: "denit" as const, delay: "0ms" },
-              { term: "Food Decides", definition: "Organic matter is the energy source. When food is scarce, only cheap single-step microbes survive. When food is abundant, some microbes can afford to do multiple steps.", icon: "modular" as const, delay: "150ms" },
-              { term: "N₂O Escapes", definition: "A greenhouse gas made at step 2. When food is scarce or moderate, it often escapes. When food is abundant, microbes can finish the job and convert it to safe nitrogen.", icon: "n2o" as const, delay: "300ms" },
+              { term: "Food Decides", definition: "Organic matter is the energy source. When food is moderate and dynamic, only cheap single-step microbes survive. When food is abundant, some microbes can afford to do multiple steps.", icon: "modular" as const, delay: "150ms" },
+              { term: "N₂O Escapes", definition: "A greenhouse gas made at step 2. When the food is moderate and dynamic, it often escapes. When food is abundant and constant, microbes can finish the job and convert it to safe nitrogen.", icon: "n2o" as const, delay: "300ms" },
             ].map((concept, index) => (
               <div
                 key={concept.term}

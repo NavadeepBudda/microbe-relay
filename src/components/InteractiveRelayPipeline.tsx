@@ -56,8 +56,8 @@ const relayStages: RelayStage[] = [
     insight: "Crucial for keeping greenhouse gases in check.",
     icon: "🛡️",
     node: {
-      label: "N",
-      subscript: "₂O",
+      label: "N₂O",
+      subscript: undefined,
       glowColor: "hsl(var(--coral-cta))",
     },
   },
