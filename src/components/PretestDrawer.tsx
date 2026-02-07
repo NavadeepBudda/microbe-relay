@@ -243,7 +243,9 @@ export const PretestDrawer = ({ isOpen, onClose, onComplete, onPulse }: PretestD
                     <CheckCircle className="w-10 h-10 text-primary" />
                   </div>
                   <h3 className="text-xl font-bold text-primary mb-2">Predictions Saved!</h3>
-                  <p className="text-muted-foreground mb-4">Ready to explore the lab</p>
+                  <p className="text-muted-foreground mb-4 max-w-xs mx-auto">
+                    We'll revisit these questions at the end to see how your understanding has changed.
+                  </p>
                   <p className="text-xs text-muted-foreground/70">Tap to continue</p>
                 </div>
               </div>

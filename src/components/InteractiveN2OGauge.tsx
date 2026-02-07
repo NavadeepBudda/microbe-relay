@@ -72,21 +72,21 @@ export const InteractiveN2OGauge = ({ value, className, foodLevel }: Interactive
   };
 
   return (
-    <div className={`relative h-full overflow-hidden rounded-[1.75rem] border ${levelInfo.borderColor} bg-[rgba(8,20,36,0.85)] p-8 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl flex flex-col justify-center ${className || ""}`}>
+    <div className={`relative h-full overflow-hidden rounded-[1.75rem] border ${levelInfo.borderColor} bg-[rgba(8,20,36,0.85)] p-5 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl flex flex-col justify-center ${className || ""}`}>
       {/* Subtle background gradient based on N2O level */}
       <div className={`absolute inset-0 bg-gradient-to-br ${levelInfo.bgColor} via-transparent to-transparent transition-all duration-300`} aria-hidden />
 
-      <div className="relative z-10 flex flex-col gap-6 w-full">
+      <div className="relative z-10 flex flex-col gap-4 w-full">
         <div className="text-center md:text-left">
-          <h3 className="text-lg font-semibold text-white">N₂O Greenhouse Gas</h3>
-          <p className="mt-2 text-sm text-white/70">
+          <h3 className="text-base font-semibold text-white">N₂O Greenhouse Gas</h3>
+          <p className="mt-1 text-xs text-white/70">
             Monitor emissions as you adjust food.
           </p>
         </div>
 
         {/* Clean Gauge Design */}
-        <div className="flex-1 flex items-center justify-center">
-          <div className="relative w-48 h-48">
+        <div className="flex-1 flex items-center justify-center py-2">
+          <div className="relative w-32 h-32">
             {/* Semicircle Gauge */}
             <div className="absolute inset-0">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 200 200">

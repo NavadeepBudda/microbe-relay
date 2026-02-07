@@ -227,11 +227,11 @@ const MeetTheRelay = () => {
         <LearningHeader />
 
         <main className="flex flex-1 flex-col">
-          <section className="relative isolate pb-16 pt-16 md:pb-24 md:pt-20 lg:pb-28 lg:pt-28">
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-16 px-4 md:px-6">
-              <div className="space-y-4 md:space-y-8 text-center md:text-left">
+          <section className="relative isolate pb-12 pt-16 md:pb-16 md:pt-24 lg:pb-20 lg:pt-28">
+            <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-12 px-4 md:px-6">
+              <div className="space-y-3 md:space-y-6 text-center md:text-left">
 
-                <div className="space-y-4 md:space-y-6">
+                <div className="space-y-3 md:space-y-4">
                   <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
                     Meet the Relay
                   </h1>
@@ -241,23 +241,25 @@ const MeetTheRelay = () => {
                 </div>
               </div>
 
-              {/* Interactive Pipeline Section - Clean and Centered */}
-              <div className="relay-pipeline flex justify-center mb-6 md:mb-10">
-                <InteractiveRelayPipeline
-                  foodLevel={foodLevel}
-                  className="w-full"
-                />
-              </div>
-
-              {/* Interactive Controls - Clean and Centered */}
-              <div className="flex justify-center max-w-3xl mx-auto w-full">
-                {/* Food Control - taking up more space now */}
-                <div className="w-full">
-                  <InteractiveFoodControl
-                    value={foodLevel}
-                    onChange={handleFoodLevelChange}
-                    className="h-full min-h-[240px]"
+              {/* Stacked Layout with Tighter Spacing */}
+              <div className="flex flex-col gap-6">
+                {/* Interactive Pipeline Section */}
+                <div className="relay-pipeline flex justify-center w-full">
+                  <InteractiveRelayPipeline
+                    foodLevel={foodLevel}
+                    className="w-full"
                   />
+                </div>
+
+                {/* Interactive Controls - Centered and Close */}
+                <div className="flex justify-center max-w-3xl mx-auto w-full">
+                  <div className="w-full">
+                    <InteractiveFoodControl
+                      value={foodLevel}
+                      onChange={handleFoodLevelChange}
+                      className="h-full min-h-[180px]" // Reduced min-height
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -242,8 +242,8 @@ const TryIt = () => {
               </div>
             </div>
 
-            {/* Interactive Area */}
-            <div className="space-y-4 md:space-y-6">
+            {/* Interactive Area - Compact Stacked Layout */}
+            <div className="space-y-4"> {/* Tight spacing */}
               {/* Relay Pipeline */}
               <div className="w-full">
                 <InteractiveRelayPipeline
@@ -252,21 +252,25 @@ const TryIt = () => {
                 />
               </div>
 
-              {/* Controls Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {/* Controls Grid - Side by Side on Mobile & Desktop for compactness */}
+              <div className="grid grid-cols-2 gap-3 md:gap-4 items-stretch">
                 {/* Food Control */}
-                <InteractiveFoodControl
-                  value={foodLevel}
-                  onChange={handleFoodLevelChange}
-                  className="w-full"
-                />
+                <div className="h-full">
+                  <InteractiveFoodControl
+                    value={foodLevel}
+                    onChange={handleFoodLevelChange}
+                    className="w-full h-full"
+                  />
+                </div>
 
                 {/* N2O Gauge */}
-                <InteractiveN2OGauge
-                  value={n2oLevel}
-                  foodLevel={foodLevel}
-                  className="w-full"
-                />
+                <div className="h-full">
+                  <InteractiveN2OGauge
+                    value={n2oLevel}
+                    foodLevel={foodLevel}
+                    className="w-full h-full"
+                  />
+                </div>
               </div>
             </div>
           </div>

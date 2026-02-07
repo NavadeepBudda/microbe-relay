@@ -170,8 +170,14 @@ const Orientation = () => {
 
 
       {/* Apple-Quality Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 glass-intense border-t border-white/20 backdrop-blur-2xl">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-5">
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-30 backdrop-blur-2xl transition-all duration-500
+          ${canEnterLab
+            ? 'glass-intense border-t border-primary/40 bg-primary/5 py-7 shadow-[0_-4px_20px_rgba(var(--primary-rgb),0.1)]'
+            : 'glass-intense border-t border-white/20 py-5'
+          }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <div className="flex items-center justify-between">
             {/* Progress indicator */}
             <div className="flex items-center gap-4">
@@ -198,8 +204,7 @@ const Orientation = () => {
                   </span>
                 )}
                 {canEnterLab && (
-                  <span className="text-emerald-400 flex items-center gap-2">
-
+                  <span className="text-emerald-400 flex items-center gap-2 font-bold text-lg animate-pulse">
                     Ready to explore the lab
                   </span>
                 )}
@@ -211,11 +216,15 @@ const Orientation = () => {
               <Button
                 disabled={!canEnterLab}
                 onClick={() => navigate("/meet-the-relay")}
-                className="h-12 px-8 font-bold rounded-full bg-gradient-to-r from-coral-cta to-coral-cta/90 hover:from-coral-cta/95 hover:to-coral-cta/85 text-white shadow-lg shadow-coral-cta/25 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 disabled:hover:scale-100 group"
+                className={`font-bold rounded-full text-white shadow-lg transition-all duration-300 group
+                  ${canEnterLab
+                    ? 'h-14 px-10 bg-gradient-to-r from-coral-cta to-coral-cta/90 hover:from-coral-cta/95 hover:to-coral-cta/85 shadow-coral-cta/30 hover:scale-105 text-lg'
+                    : 'h-12 px-8 bg-muted text-muted-foreground opacity-50 cursor-not-allowed'
+                  }`}
               >
                 <span className="flex items-center gap-2">
                   <span>Enter the Lab</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
                 </span>
               </Button>
             </div>

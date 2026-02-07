@@ -56,24 +56,24 @@ export const InteractiveFoodControl = ({ value, onChange, className }: Interacti
       : "border-coral-cta/40 bg-coral-cta/10 text-coral-cta";
 
   return (
-    <div className={`relative h-full overflow-hidden rounded-[1.75rem] border border-white/12 bg-[rgba(8,20,36,0.82)] p-5 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl flex flex-col justify-center ${className || ""}`}>
+    <div className={`relative h-full overflow-hidden rounded-[1.75rem] border border-white/12 bg-[rgba(8,20,36,0.82)] p-4 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.85)] backdrop-blur-2xl flex flex-col justify-center ${className || ""}`}>
       <div className="absolute inset-0 bg-gradient-to-br from-teal-glow/18 via-transparent to-omz-violet/15" aria-hidden />
-      <div className="relative z-10 flex flex-col gap-4 w-full">
+      <div className="relative z-10 flex flex-col gap-3 w-full">
 
         <div className="text-center md:text-left">
-          <h3 className="text-lg font-semibold text-white">Food (Organic Matter)</h3>
-          <p className="mt-2 text-sm text-white/70">
+          <h3 className="text-base font-semibold text-white">Food (Organic Matter)</h3>
+          <p className="mt-1 text-xs text-white/70">
             Slide dial to reshape the relay.
           </p>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between rounded-xl border border-white/12 bg-white/5 px-4 py-3">
-            <div className="flex items-baseline gap-3">
-              <p className="text-[0.65rem] uppercase tracking-[0.22em] text-white/60">Current</p>
-              <p className="text-2xl font-bold text-white tracking-tight">{Math.round(value)}%</p>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between rounded-xl border border-white/12 bg-white/5 px-3 py-2">
+            <div className="flex items-baseline gap-2">
+              <p className="text-[0.6rem] uppercase tracking-[0.2em] text-white/60">Current</p>
+              <p className="text-xl font-bold text-white tracking-tight">{Math.round(value)}%</p>
             </div>
-            <div className={`inline-flex items-center justify-center px-3 py-1.5 rounded-lg text-xs font-bold transition-colors duration-300 ${badgeStyles}`}>
+            <div className={`inline-flex items-center justify-center px-2 py-1 rounded-lg text-[10px] font-bold transition-colors duration-300 ${badgeStyles}`}>
               <span>{levelInfo.label}</span>
             </div>
           </div>
