@@ -80,15 +80,15 @@ export const RightVent = ({ className, style }: { className?: string, style?: Re
                     <animate attributeName="opacity" values="0; 1; 0" dur="2.5s" repeatCount="indefinite" keyTimes="0; 0.1; 1" />
                 </circle>
 
-                <circle cx="110" cy="300" r="8" fill="url(#toxic-bubble-grad)">
-                    <animate attributeName="cy" values="300; 100" dur="3s" repeatCount="indefinite" begin="1s" calcMode="linear" />
-                    <animate attributeName="cx" values="110; 100; 120" dur="3s" repeatCount="indefinite" calcMode="linear" />
+                <circle cx="220" cy="120" r="8" fill="url(#toxic-bubble-grad)">
+                    <animate attributeName="cy" values="120; -80" dur="3s" repeatCount="indefinite" begin="1s" calcMode="linear" />
+                    <animate attributeName="cx" values="220; 210; 230" dur="3s" repeatCount="indefinite" calcMode="linear" />
                     <animate attributeName="opacity" values="0; 1; 0" dur="3s" repeatCount="indefinite" keyTimes="0; 0.1; 1" />
                 </circle>
 
-                <circle cx="290" cy="400" r="9" fill="url(#toxic-bubble-grad)">
-                    <animate attributeName="cy" values="400; 200" dur="2.8s" repeatCount="indefinite" begin="0.2s" calcMode="linear" />
-                    <animate attributeName="cx" values="290; 310; 300" dur="2.8s" repeatCount="indefinite" calcMode="linear" />
+                <circle cx="190" cy="110" r="9" fill="url(#toxic-bubble-grad)">
+                    <animate attributeName="cy" values="110; -90" dur="2.8s" repeatCount="indefinite" begin="0.2s" calcMode="linear" />
+                    <animate attributeName="cx" values="190; 200; 180" dur="2.8s" repeatCount="indefinite" calcMode="linear" />
                     <animate attributeName="opacity" values="0; 1; 0" dur="2.8s" repeatCount="indefinite" keyTimes="0; 0.1; 1" />
                 </circle>
             </g>
@@ -96,13 +96,13 @@ export const RightVent = ({ className, style }: { className?: string, style?: Re
             <g transform="translate(50, 50)">
                 <animateTransform attributeName="transform" type="translate" values="0,0; 1,0; 0,1; 0,0" dur="0.2s" repeatCount="indefinite" />
 
-                <path d="M 40,650 L 20,550 L 70,400 L 110,250 L 150,100 L 250,80 L 320,120 L 360,300 L 330,450 L 370,600 L 340,650 Z"
+                <path d="M 50,650 L 35,550 L 25,450 L 55,350 L 95,200 L 130,100 L 165,85 L 200,70 L 235,85 L 270,100 L 305,200 L 345,350 L 375,450 L 365,550 L 350,650 Z"
                     fill="url(#rock-danger-glow)" stroke="#3e2723" strokeWidth="4" strokeLinejoin="bevel" filter="url(#biolum-bloom)" />
 
                 <g filter="url(#biolum-bloom)" strokeLinecap="square" fill="none" stroke="url(#fissure-glow)" className="crack-flicker">
                     <path d="M200,630 L 180,500 L 220,400 L 160,250 L 190,120" />
                     <path d="M110,300 L 80,350 L 120,450" />
-                    <path d="M320,200 L 290,350 L 330,500" />
+                    <path d="M280,200 L 290,350 L 330,500" />
                 </g>
             </g>
 
@@ -116,7 +116,7 @@ export const RightVent = ({ className, style }: { className?: string, style?: Re
 
                 <circle cx="300" cy="360" r="3" className="microbe-jitter" style={{ animationDelay: '0.1s' }} />
                 <circle cx="330" cy="380" r="2" className="microbe-jitter" style={{ animationDelay: '0.25s' }} />
-                <circle cx="310" cy="220" r="2" className="microbe-jitter" opacity="0.7" />
+                <circle cx="290" cy="220" r="2" className="microbe-jitter" opacity="0.7" />
             </g>
         </svg>
     );

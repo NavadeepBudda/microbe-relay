@@ -127,31 +127,11 @@ export const AbyssalPlainSection = () => {
                     </div>
                 ) : (
                     // --- DESKTOP LAYOUT (3-Column Grid) ---
+                    // --- DESKTOP LAYOUT (3-Column Grid) ---
                     <div className="grid grid-cols-12 gap-4 h-full items-center">
-                        {/* Left Column: Safe Vent */}
-                        <div className="col-span-4 flex flex-col items-center justify-end h-full order-1">
-                            <div
-                                className="relative w-full max-w-[300px] transition-all duration-1000 flex flex-col items-center"
-                                style={{
-                                    opacity: leftVentOpacity,
-                                    filter: `brightness(${leftVentOpacity}) grayscale(${(1 - leftVentOpacity) * 100}%)`
-                                }}
-                            >
-                                {/* Label */}
-                                <div className={cn(
-                                    "mb-4 p-3 rounded-xl glass-subtle border border-cyan-500/30 text-center transition-all duration-500 w-full backdrop-blur-md",
-                                    oxygenLevel[0] > 50 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                                )}>
-                                    <h3 className="text-cyan-300 font-bold text-lg leading-none mb-1">Safe Nitrogen</h3>
-                                    <p className="text-cyan-100/70 text-xs">Well fed microbes complete the task, and nitrogen exits harmlessly.</p>
-                                </div>
-                                <LeftVent className="w-full h-auto drop-shadow-[0_0_30px_rgba(38,198,218,0.3)]" />
-                            </div>
-                        </div>
-
-                        {/* Center Column: Title & Controls */}
-                        <div className="col-span-4 flex flex-col items-center justify-center text-center z-30 order-2">
-                            <div className="mb-16">
+                        {/* Left Column: Title & Description */}
+                        <div className="col-span-4 flex flex-col items-center justify-center text-center z-30 order-1">
+                            <div className="mb-8">
                                 <h2 className="text-5xl font-display text-white/90 mb-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                                     The Deep
                                 </h2>
@@ -159,8 +139,53 @@ export const AbyssalPlainSection = () => {
                                     See what gets released in this low-oxygen environment when the conditions change.
                                 </p>
                             </div>
+                        </div>
 
-                            {/* Control Panel */}
+                        {/* Center Column: Stacked Vents (Single Vent Visualization) */}
+                        <div className="col-span-4 flex flex-col items-center justify-end h-full order-2 relative">
+                            {/* Left Vent (Safe) */}
+                            <div
+                                className="absolute bottom-0 w-full flex flex-col items-center justify-end transition-all duration-1000"
+                                style={{
+                                    opacity: leftVentOpacity,
+                                    filter: `brightness(${leftVentOpacity}) grayscale(${(1 - leftVentOpacity) * 100}%)`,
+                                    zIndex: oxygenLevel[0] >= 50 ? 20 : 10
+                                }}
+                            >
+                                {/* Label */}
+                                <div className={cn(
+                                    "mb-4 p-3 rounded-xl glass-subtle border border-cyan-500/30 text-center transition-all duration-500 w-full max-w-[300px] backdrop-blur-md",
+                                    oxygenLevel[0] > 50 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                                )}>
+                                    <h3 className="text-cyan-300 font-bold text-lg leading-none mb-1">Safe Nitrogen</h3>
+                                    <p className="text-cyan-100/70 text-xs">Well fed microbes complete the task, and nitrogen exits harmlessly.</p>
+                                </div>
+                                <LeftVent className="w-full max-w-[320px] h-auto drop-shadow-[0_0_30px_rgba(38,198,218,0.3)]" />
+                            </div>
+
+                            {/* Right Vent (Danger) */}
+                            <div
+                                className="absolute bottom-0 w-full flex flex-col items-center justify-end transition-all duration-1000"
+                                style={{
+                                    opacity: rightVentOpacity,
+                                    filter: `brightness(${rightVentOpacity}) grayscale(${(1 - rightVentOpacity) * 50}%)`,
+                                    zIndex: oxygenLevel[0] < 50 ? 20 : 10
+                                }}
+                            >
+                                {/* Label */}
+                                <div className={cn(
+                                    "mb-4 p-3 rounded-xl glass-subtle border border-orange-500/30 text-center transition-all duration-500 w-full max-w-[300px] backdrop-blur-md",
+                                    oxygenLevel[0] < 50 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                                )}>
+                                    <h3 className="text-orange-400 font-bold text-lg leading-none mb-1">Nitrous Oxide</h3>
+                                    <p className="text-orange-100/70 text-xs">Starving microbes only complete half the job, and greenhouse gas escapes.</p>
+                                </div>
+                                <RightVent className="w-full max-w-[320px] h-auto drop-shadow-[0_0_30px_rgba(255,87,34,0.3)]" />
+                            </div>
+                        </div>
+
+                        {/* Right Column: Controls */}
+                        <div className="col-span-4 flex flex-col items-center justify-center order-3 z-30">
                             <div className="w-full max-w-sm p-6 rounded-2xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/20">
                                 <h3 className="text-white font-display text-sm tracking-widest uppercase opacity-80 text-center mb-4">FOOD</h3>
                                 <div className="flex justify-between items-center mb-2">
@@ -181,32 +206,11 @@ export const AbyssalPlainSection = () => {
                                     className="py-2 cursor-pointer"
                                 />
 
-                                <p className="text-white/40 text-xs mt-4">
+                                <p className="text-white/40 text-xs mt-4 text-center">
                                     {oxygenLevel[0] > 50
                                         ? "Microbes have enough energy to finish the job."
                                         : "Low food leads to incomplete denitrification."}
                                 </p>
-                            </div>
-                        </div>
-
-                        {/* Right Column: Danger Vent */}
-                        <div className="col-span-4 flex flex-col items-center justify-end h-full order-3">
-                            <div
-                                className="relative w-full max-w-[300px] transition-all duration-1000 flex flex-col items-center"
-                                style={{
-                                    opacity: rightVentOpacity,
-                                    filter: `brightness(${rightVentOpacity}) grayscale(${(1 - rightVentOpacity) * 50}%)`
-                                }}
-                            >
-                                {/* Label */}
-                                <div className={cn(
-                                    "mb-4 p-3 rounded-xl glass-subtle border border-orange-500/30 text-center transition-all duration-500 w-full backdrop-blur-md",
-                                    oxygenLevel[0] < 50 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                                )}>
-                                    <h3 className="text-orange-400 font-bold text-lg leading-none mb-1">Nitrous Oxide</h3>
-                                    <p className="text-orange-100/70 text-xs">Starving microbes only complete half the job, and greenhouse gas escapes.</p>
-                                </div>
-                                <RightVent className="w-full h-auto drop-shadow-[0_0_30px_rgba(255,87,34,0.3)]" />
                             </div>
                         </div>
                     </div>
