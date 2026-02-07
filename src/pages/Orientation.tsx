@@ -10,6 +10,7 @@ import { EntrySection } from "@/components/EntrySection";
 import { TwilightZoneSection } from "@/components/TwilightZoneSection";
 import { AbyssalPlainSection } from "@/components/AbyssalPlainSection";
 import { HeroSection } from "@/components/HeroSection";
+import { CardRelayDiagram } from "@/components/CardRelayDiagram";
 
 const Orientation = () => {
   useDocumentTitle("MicrobeRelay | Ocean Microbes & Climate");
@@ -107,10 +108,10 @@ const Orientation = () => {
           {/* Enhanced glossary grid with staggered animations */}
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-24">
             {[
-              { term: "The Relay", definition: "Microbes in low-oxygen water breathe nitrogen in steps: nitrate, nitrite, nitrous oxide, nitrogen gas. Different specialists run different legs.", icon: "denit" as const, delay: "0ms" },
-              { term: "Food Decides", definition: "Organic matter is the energy source. When food is moderate and dynamic, only cheap single-step microbes survive. When food is abundant, some microbes can afford to do multiple steps.", icon: "modular" as const, delay: "150ms" },
-              { term: "N₂O Escapes", definition: "A greenhouse gas made at step 2. When the food is moderate and dynamic, it often escapes. When food is abundant and constant, microbes can finish the job and convert it to safe nitrogen.", icon: "n2o" as const, delay: "300ms" },
-            ].map((concept, index) => (
+              { term: "The Relay", definition: "Microbes in low-oxygen water breathe nitrogen in steps, like a relay race. Different specialists run different legs.", icon: "denit" as const, delay: "0ms", diagramVariant: "relay" as const },
+              { term: "Food Decides", definition: "Food for the microbes is organic matter. When food is scarce, only cheap single-step microbes survive. When food is abundant, microbes can afford to run multiple steps.", icon: "modular" as const, delay: "150ms", diagramVariant: "food" as const },
+              { term: "N₂O Escapes", definition: "N₂O is a greenhouse gas 300× more potent than CO₂, made at step 2. When food is moderate, it escapes to the atmosphere. When food is abundant, microbes finish the relay and convert it to harmless N₂.", icon: "n2o" as const, delay: "300ms", diagramVariant: "n2o" as const },
+            ].map((concept) => (
               <div
                 key={concept.term}
                 className="animate-reveal-up"
@@ -121,6 +122,7 @@ const Orientation = () => {
                   definition={concept.definition}
                   icon={concept.icon}
                   onFlip={() => handleChipFlip(concept.icon)}
+                  diagram={<CardRelayDiagram variant={concept.diagramVariant} />}
                 />
               </div>
             ))}

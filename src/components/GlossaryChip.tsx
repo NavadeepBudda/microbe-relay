@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { Route, Utensils, CloudFog, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Route, Utensils, CloudFog } from "lucide-react";
 
 interface GlossaryChipProps {
   term: string;
   definition: string;
   icon: "denit" | "modular" | "n2o";
   onFlip: () => void;
+  diagram?: React.ReactNode;
 }
 
 const iconMap = {
@@ -20,7 +21,7 @@ const colorMap = {
   n2o: "from-rose-500/20 to-orange-500/20 border-rose-500/30",
 };
 
-export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipProps) => {
+export const GlossaryChip = ({ term, definition, icon, onFlip, diagram }: GlossaryChipProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const Icon = iconMap[icon];
@@ -46,7 +47,7 @@ export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipPro
         onKeyDown={handleKeyDown}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative h-80 w-full perspective-1000 focus-ring rounded-3xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+        className="relative h-[24rem] w-full perspective-1000 focus-ring rounded-3xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
         aria-expanded={isFlipped}
         aria-label={`${term} - ${isFlipped ? "showing definition" : "tap to learn"}`}
         style={{ perspective: "1000px" }}
@@ -85,23 +86,28 @@ export const GlossaryChip = ({ term, definition, icon, onFlip }: GlossaryChipPro
 
           {/* Back */}
           <div
-            className={`absolute inset-0 glass-intense border-2 ${colorMap[icon]} rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-4 [transform:rotateY(180deg)] backface-hidden ${isFlipped ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 glass-intense border-2 ${colorMap[icon]} rounded-3xl px-5 py-4 flex flex-col items-center justify-center text-center gap-3 [transform:rotateY(180deg)] backface-hidden ${isFlipped ? "opacity-100" : "opacity-0"
               }`}
             style={{ backfaceVisibility: "hidden" }}
           >
-            {/* Definition */}
-            <div className="space-y-4">
-              <p className="text-sm sm:text-base leading-relaxed text-foreground font-medium">
-                {definition}
-              </p>
-
-              {/* Success indicator */}
-              <div className="flex items-center justify-center gap-3 animate-scale-in">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-background font-bold shadow-lg shadow-primary/25">
-                  ✓
-                </div>
-                <span className="text-sm text-primary font-semibold">Concept learned</span>
+            {/* Diagram */}
+            {diagram && (
+              <div className="w-full flex-shrink-0">
+                {diagram}
               </div>
+            )}
+
+            {/* Definition */}
+            <p className="text-sm leading-relaxed text-foreground font-medium">
+              {definition}
+            </p>
+
+            {/* Success indicator */}
+            <div className="flex items-center justify-center gap-2 animate-scale-in flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-background font-bold shadow-lg shadow-primary/25">
+                ✓
+              </div>
+              <span className="text-sm text-primary font-semibold">Concept learned</span>
             </div>
           </div>
         </div>

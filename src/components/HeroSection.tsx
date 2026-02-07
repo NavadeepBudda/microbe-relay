@@ -182,7 +182,7 @@ export const HeroSection = ({
                         </h1>
 
                         <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-8 font-light leading-relaxed max-w-3xl mx-auto px-4">
-                            You've seen the outcome. Now it's time to learn what's actually happening, then predict how the system behaves.
+                            You've seen the possible outcomes: nitrogen gas vs. nitrous oxide. Now it's time to learn what's actually happening, then predict how the system behaves.
                         </p>
                     </div>
 
