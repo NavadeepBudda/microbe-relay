@@ -46,7 +46,7 @@ export const IntroAnimation = () => {
 
                 {/* Background Glow Effect */}
                 <div className={cn(
-                    "absolute inset-0 bg-cyan-500/10 blur-[100px] rounded-full transition-all duration-[2000ms]",
+                    "absolute inset-0 bg-cyan-500/10 blur-[100px] rounded-full transition-all duration-2000",
                     stage === 'text-in' ? "opacity-100 scale-100" : "opacity-0 scale-50"
                 )} />
 

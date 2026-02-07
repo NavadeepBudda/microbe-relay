@@ -101,11 +101,10 @@ export const EntrySection = () => {
         const positions = isMobile ? mobilePositions : desktopPositions;
 
         // Randomize molecules for hug/eat types
-        // 33% CO2, 33% N2O, 33% N2
+        // 50% N2O, 50% N2
         const getMolecule = () => {
             const r = Math.random();
-            if (r < 0.33) return 'CO2';
-            if (r < 0.66) return 'N2O';
+            if (r < 0.5) return 'N2O';
             return 'N2';
         };
 

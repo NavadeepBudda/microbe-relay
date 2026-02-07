@@ -55,8 +55,8 @@ export const AbyssalPlainSection = () => {
                             <h2 className="text-4xl font-display text-white/95 mb-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                                 The Deep
                             </h2>
-                            <p className="text-white/60 text-lg max-w-xs mx-auto leading-snug">
-                                See what escapes when the conditions change.
+                            <p className="text-white/60 text-lg max-w-ws mx-auto leading-snug">
+                                See what gets released in this low-oxygen environment when the conditions change.
                             </p>
                         </div>
 
@@ -105,11 +105,11 @@ export const AbyssalPlainSection = () => {
 
                         {/* 3. Controls (Bottom) */}
                         <div className="w-full p-6 rounded-3xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/40 mb-4">
-                            <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-white font-display text-sm tracking-widest uppercase opacity-80 text-center mb-4">FOOD</h3>
+                            <div className="flex justify-between items-center mb-2">
                                 <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
                                     Moderate and Dynamic
                                 </span>
-                                <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">FOOD</span>
                                 <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
                                     Abundant and Constant
                                 </span>
@@ -155,18 +155,18 @@ export const AbyssalPlainSection = () => {
                                 <h2 className="text-5xl font-display text-white/90 mb-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                                     The Deep
                                 </h2>
-                                <p className="text-white/50 text-base max-w-xs mx-auto leading-relaxed">
-                                    See what escapes when the conditions change.
+                                <p className="text-white/50 text-base max-w-ws mx-auto leading-relaxed">
+                                    See what gets released in this low-oxygen environment when the conditions change.
                                 </p>
                             </div>
 
                             {/* Control Panel */}
                             <div className="w-full max-w-sm p-6 rounded-2xl glass-intense border border-white/10 shadow-2xl backdrop-blur-xl bg-black/20">
-                                <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-white font-display text-sm tracking-widest uppercase opacity-80 text-center mb-4">FOOD</h3>
+                                <div className="flex justify-between items-center mb-2">
                                     <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] < 50 ? "text-orange-400" : "text-white/30")}>
                                         Moderate and Dynamic
                                     </span>
-                                    <span className="text-white font-display text-sm tracking-widest uppercase opacity-80">FOOD</span>
                                     <span className={cn("text-xs font-bold transition-colors duration-500", oxygenLevel[0] > 50 ? "text-cyan-400" : "text-white/30")}>
                                         Abundant and Constant
                                     </span>
