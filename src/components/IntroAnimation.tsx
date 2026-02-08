@@ -57,9 +57,6 @@ export const IntroAnimation = () => {
                         ? "opacity-100 translate-y-0 blur-0"
                         : "opacity-0 translate-y-8 blur-sm"
                 )}>
-                    <p className="text-cyan-400/80 font-mono text-xs md:text-sm tracking-[0.2em] uppercase mb-3">
-                        Developed by
-                    </p>
                     <h1 className="text-white font-display text-4xl md:text-6xl font-bold mb-4 tracking-tight">
                         The Sun Lab
                     </h1>
@@ -69,6 +66,10 @@ export const IntroAnimation = () => {
                     </p>
 
                     <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto my-6 opacity-50" />
+
+                    <p className="text-cyan-400/60 font-mono text-xs tracking-[0.2em] uppercase">
+                        Developed by Navadeep Budda
+                    </p>
 
 
                 </div>
