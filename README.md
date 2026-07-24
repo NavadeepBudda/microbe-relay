@@ -1,180 +1,108 @@
-# Microbe Relay
+<p align="center">
+  <a href="https://www.microberelay.com/">
+    <img src="./public/logo.png" alt="Microbe Relay" width="150" />
+  </a>
+</p>
 
-An interactive educational website that teaches how ocean microbes share denitrification work through specialized biochemical pathways. Users control food and oxygen levels to observe which microbial specialists dominate and when greenhouse gases are produced. Designed for high school students and the general public to understand ocean biogeochemistry and climate connections.
+<h1 align="center">Microbe Relay</h1>
 
-## What You'll Learn
+<p align="center"><strong>An interactive learning experience about ocean microbes, nitrogen cycling, and climate.</strong></p>
 
-This interactive simulation demonstrates how marine microorganisms work together in low-oxygen ocean zones to process nitrogen compounds. Key learning outcomes include:
+<p align="center">
+  <a href="https://www.microberelay.com/">
+    <img src="https://img.shields.io/badge/Open_Microbe_Relay-Live-101D32?style=flat-square" alt="Open the live Microbe Relay app" />
+  </a>
+  <a href="https://sites.google.com/view/xinsun">
+    <img src="https://img.shields.io/badge/University_of_Pennsylvania-Sun_Lab-990000?style=flat-square" alt="University of Pennsylvania Sun Lab" />
+  </a>
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=101D32" alt="React 18" />
+  <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript 5.8" />
+</p>
 
-- How food scarcity versus abundance affects which microbial specialists dominate
-- When and why nitrous oxide (N2O) greenhouse gas production peaks
-- The connection between ocean fertility, microbial competition, and climate
-- Why ocean nitrogen cycling matters for global environmental systems
+## What Microbe Relay does
 
-## Features
+Microbe Relay turns ocean denitrification into a guided, interactive story. Students see how microbes divide a multi-step chemical pathway, then change food and oxygen conditions to discover which specialists thrive and when nitrous oxide can build up.
 
-- Interactive food and oxygen level controls
-- Real-time visualization of microbial pathway dynamics
-- Animated nitrogen compound transformations
-- Educational content progression from basic concepts to complex interactions
-- Pre and post-assessment testing to measure learning gains
-- Responsive design for desktop and mobile devices
+The experience was developed through the University of Pennsylvania's Sun Lab for high school environmental science classrooms and introductory college teaching.
 
-## Quick Start
+## The learning experience
 
-### Prerequisites
+- Begin with low-oxygen ocean environments and the climate stakes
+- Learn the relay from nitrate to nitrite, nitrous oxide, and nitrogen gas
+- Make predictions in a short pre-assessment
+- Adjust food levels and watch microbial specialists hand off each step
+- Complete three timed missions and explore real-ocean scenarios
+- Retake the same questions and see a question-by-question comparison
 
-- Node.js 18 or higher
-- npm or yarn package manager
-- Git for version control
+Teachers can also download the [classroom worksheet](https://www.microberelay.com/files/MicrobeRelay_Worksheet.docx) and [teacher's guide](https://www.microberelay.com/files/MicrobeRelay_TeachersGuide.docx).
 
-### Installation
+## Research context
 
-1. Clone the repository:
+Microbe Relay translates the research behind [*Ecological dynamics explain modular denitrification in the ocean*](https://doi.org/10.1073/pnas.2417421121) into a classroom experience. The central idea is that denitrification is often shared among microbial specialists rather than completed by a single organism.
+
+Food availability changes the outcome:
+
+- **Scarce food:** efficient first-step specialists dominate
+- **Moderate food:** several specialists coexist, creating opportunities for N₂O to accumulate
+- **Abundant food:** longer pathways can complete the relay and convert N₂O to N₂
+
+During its research rollout, Microbe Relay reached 285 users and was used in a Penn course and six AP Environmental Science classes. The assessment system recorded more than 480 question-level responses.
+
+## How the app is built
+
+The front end uses React, TypeScript, Vite, Tailwind CSS, and shadcn/ui. The interactive model in `src/lib/relay-state.ts` maps food levels to active pathway steps and an N₂O response curve. Supabase stores the pre-assessment, post-assessment, and linked learning comparisons across seven tables.
+
+Anonymous browser-generated IDs connect each learner's pre- and post-assessment sessions. No account is required.
+
+## Run it locally
+
+You will need Node.js 18 or newer and a Supabase project with the seven assessment tables.
+
 ```bash
-git clone <repository-url>
-cd glass-ocean-prelude
-```
-
-2. Install dependencies:
-```bash
+git clone https://github.com/NavadeepBudda/microbe-relay.git
+cd microbe-relay
 npm install
 ```
 
-3. Start the development server:
+Create `.env.local`:
+
 ```bash
-npm run dev
-```
-
-4. Open your browser to `http://localhost:5173`
-
-## Tech Stack
-
-### Frontend
-- **React 18** - Component-based user interface
-- **TypeScript** - Type-safe JavaScript development
-- **Vite** - Fast build tool and development server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Shadcn UI** - High-quality component library
-- **React Router** - Client-side routing
-- **Lucide React** - Icon library
-- **Recharts** - Data visualization charts
-
-### Backend & Database
-- **Supabase** - PostgreSQL database and authentication
-- **TanStack Query** - Server state management
-- **React Hook Form** - Form handling and validation
-
-### Development Tools
-- **ESLint** - Code linting and style enforcement
-- **Autoprefixer** - CSS vendor prefixing
-- **PostCSS** - CSS processing
-
-## Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── ui/             # Shadcn UI base components
-│   ├── *Card.tsx       # Educational content cards
-│   ├── *Slider.tsx     # Interactive controls
-│   └── *Animation.tsx  # Visual simulations
-├── pages/              # Route components
-│   ├── Orientation.tsx # Landing and introduction
-│   ├── MeetTheRelay.tsx # Concept introduction
-│   ├── Relay.tsx       # Main simulation
-│   └── TryIt.tsx       # Interactive playground
-├── lib/                # Utility functions and services
-│   ├── supabase.ts     # Database client and types
-│   ├── relay-state.ts  # Simulation state logic
-│   └── analytics.ts    # Usage tracking
-└── hooks/              # Custom React hooks
-    ├── use-mobile.tsx  # Mobile device detection
-    └── useDocumentTitle.ts # Dynamic page titles
-```
-
-## Environment Setup
-
-### Supabase Configuration
-
-The project uses Supabase for data persistence. Environment variables are already configured in `.env.local` and excluded from version control for security.
-
-If you need to set up your own Supabase instance:
-
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Copy your project URL and anonymous key
-3. Update the `.env.local` file with your credentials:
-
-```
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-Note: The `.env.local` file is ignored by git to prevent exposing sensitive credentials.
+Then start the development server:
 
-### Database Schema
-
-The application uses Supabase PostgreSQL with the following key tables:
-- `pretest_questions` - Pre-assessment question bank
-- `pretest_sessions` - User assessment sessions
-- `pretest_responses` - Individual question responses
-- `posttest_questions` - Post-assessment question bank
-- `posttest_sessions` - Post-learning assessment sessions
-- `posttest_responses` - Post-learning responses
-
-## Available Scripts
-
-### Development
 ```bash
-npm run dev          # Start development server with hot reload
-npm run build        # Build for production
-npm run build:dev    # Build for development environment
-npm run preview      # Preview production build locally
-npm run lint         # Run ESLint code analysis
+npm run dev
 ```
 
-### Project Management
-The application includes automated testing and assessment functionality through Supabase integration. User responses are tracked for educational research purposes.
+Open [http://localhost:5173](http://localhost:5173).
 
-## Browser Support
+## Useful commands
 
-Modern browsers supporting ES2020+ features:
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
+```bash
+npm run dev         # Start the development server
+npm run build       # Create a production build
+npm run build:dev   # Create a development-mode build
+npm run lint        # Run ESLint
+npm run preview     # Preview the production build
+```
 
-## Educational Context
+## Project structure
 
-This project teaches ocean biogeochemistry through the lens of microbial ecology. The denitrification process converts nitrate to nitrogen gas through four main steps, each often performed by different microbial specialists. Understanding this process is crucial for:
+```text
+src/pages/                 Guided learning routes and scenarios
+src/components/            Interactive models, assessments, and interface
+src/lib/relay-state.ts     Food-level and N₂O simulation logic
+src/lib/*test-service.ts   Pre- and post-assessment session handling
+src/lib/comparison-service.ts
+                           Linked, question-level learning comparisons
+public/files/              Classroom worksheet and teacher's guide
+```
 
-- Marine ecosystem health assessment
-- Climate change research
-- Ocean dead zone prediction
-- Biogeochemical cycle modeling
+## Project team
 
-## Contributing
+Microbe Relay was developed by [Navadeep Budda](https://github.com/NavadeepBudda) through the [Sun Lab](https://sites.google.com/view/xinsun) at the University of Pennsylvania.
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Make your changes following the existing code style
-4. Test your changes thoroughly
-5. Commit with clear messages: `git commit -m "Add new feature"`
-6. Push to your branch: `git push origin feature/new-feature`
-7. Create a pull request with detailed description
-
-### Code Style Guidelines
-
-- Use TypeScript for all new files
-- Follow existing component structure and naming conventions
-- Ensure responsive design for all new UI components
-- Add appropriate error handling for database operations
-- Include JSDoc comments for complex functions
-
-## License
-
-This educational project is developed for research and teaching purposes. Please contact the development team for usage permissions and collaboration opportunities.
-
-## Support
-
-For technical issues or educational content questions, please create an issue in the repository or contact the development team.
+This repository does not currently include an open-source license. Please contact the project team before reusing or redistributing the code.
